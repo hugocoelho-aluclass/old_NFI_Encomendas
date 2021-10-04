@@ -1,0 +1,15 @@
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\nVidrosEncomendas.WebServer.csproj.App.config
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\nVidrosEncomendas.WebServer.csproj.AssemblyReference.cache
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.InitialCreate.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.addVidrosExtra.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.addVidrosExtraEncomenda.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.replaceFaturasToGuiaRemessa.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.addDataExpedido.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.addDataExpedido1.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.removeEncomendasNumSerie.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.addTiposEncomendaEncomenda_tabela.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.changeArtigoToRefObra.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.upd.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\NVidrosEncomendas.WebServer.Migrations.removeSetorEncomendaString.resources
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\nVidrosEncomendas.WebServer.csproj.GenerateResource.cache
+C:\inetpub\wwwroot\nVidrosEncomendas.WebServer\obj\Release\nVidrosEncomendas.WebServer.csproj.CoreCompileInputs.cache

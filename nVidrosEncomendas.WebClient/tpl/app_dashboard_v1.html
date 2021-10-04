@@ -1,0 +1,139 @@
+﻿<div class="hbox hbox-auto-xs hbox-auto-sm dashboard" ng-if="_utilizador != null" ng-init="
+    app.settings.asideFolded = false;
+    app.Sem.asideDock = false;
+  " ng-controller="DashboardCtrl">
+    <!-- main -->
+    <div class="panel panel-default" style="margin-bottom:0px;">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li style="padding-top:2px;">
+                    <label class="col-md-3 control-label no-padding" style="padding-top:5px;">Desde: </label>
+                    <div class="col-md-4 no-padding-l">
+                        <input type="text" class="form-control" style="width:auto;" datepicker-popup="yyyy-MM-dd" ng-model="dataDesde" is-open="dataDesdeOpen" ng-required="true" ng-if="dataDesde != 'n'"
+                               ng-focus="dataDesdeOpen = true;" close-text="Close" datetimepicker-neutral-timezone />
+                    </div>
+                </li>
+                <li ng-if="_utilizador && _utilizador.comercial === false">
+                    <li>
+                        <a style="padding-left:0; padding-right:0px;" ng-click="atualizaDashboard()"> <i class="glyphicon glyphicon-refresh"></i>&nbsp;&nbsp;</a>
+                    </li>
+                    <li style="border-left: 1px solid #ddd; height:41px;">&nbsp;</li>             
+                    <li><a ui-sref="app.encomendas.edit({serie: 0, num: 0})"><i class="glyphicon glyphicon-plus"></i>Nova encomenda1</a></li>
+                    <li><a ui-sref="app.savs.edit({ serie: 0, num: 0})"><i class="glyphicon glyphicon-plus"></i>Nova SAV1</a></li>
+                </li>
+            </ul>
+            Dashboard (teste)
+        </div>
+    </div>
+    <div class="wrapper-md" style="padding-top: 5px;">
+        <!-- stats -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row row-sm text-center">
+                    <div class="col-xs-3">
+                        <div class="panel padder-v item">
+                            <div class="h1 text-info font-thin h1">{{dados.totalEncomendas}}</div>
+                            <span class="text-muted text-xs">Total Encomendas</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="block panel padder-v bg-primary item">
+                            <span class="text-white font-thin h1 block">{{dados.totalPendentes}}</span>
+                            <span class="text-muted text-xs">Total Pendentes</span>
+
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="block panel padder-v bg-info item">
+                            <span class="text-white font-thin h1 block">{{dados.totalProducao}}</span>
+                            <span class="text-muted text-xs">Total Em Produção</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-3">
+                        <div class="panel padder-v item">
+                            <div class="font-thin h1">{{dados.totalExpedidas}}</div>
+                            <span class="text-muted text-xs">Total Expedidas</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+        <style type="text/css">
+            .dashboard .dashboard-row .col-md-4 .form-group { margin-bottom: 0px; padding-left: 20px; }
+
+            .dashboard-row .col-md-4 .form-group p { margin-bottom: 0px; }
+
+            .dashboard .dashboard-row .col-md-4 .overlay { width: 90%; height: 90%; background-color: white; top: 50px; }
+
+            .dashboard accordion .panel-body { padding: 0; }
+
+            .dashboard .padding-0 td { padding: 0; font-size: 12px; }
+
+            .dashboard .padding-0 thead th { padding: 0; text-align: left; }
+        </style>
+        <div class="row">
+            <accordion close-others="true">
+                <accordion-group collapse="semSemanaEntregaOpen()" is-open="status.semSemanaEntregaOpened">
+                    <accordion-heading>
+                        Encomendas Sem Semana de Entrega  <b class="badge bg-info pull-right">{{dados.totalEncSemSemana}}</b>
+                    </accordion-heading>
+                    <encomendas-dashboard encomendas="encomendasSemSemana" functions="functions"  />
+
+                </accordion-group>
+                <accordion-group collapse="encAtrasadaOpen()" is-open="status.encAtrasadaOpened">
+                    <accordion-heading>
+                        Encomendas Em Atraso  <b class="badge bg-info pull-right">{{dados.totalEncAtrasada}}</b>
+                    </accordion-heading>
+                    <encomendas-dashboard encomendas="encomendasAtrasadas" functions="functions"  />
+                </accordion-group>
+                <accordion-group collapse="encProducaoOpen()" is-open="status.producaoOpened">
+                    <accordion-heading>
+                        Encomendas Em Produção  <b class="badge bg-info pull-right">{{dados.totalProducao}}</b>
+                    </accordion-heading>
+                    <encomendas-dashboard encomendas="encomendasProducao" functions="functions" />
+                </accordion-group>
+                <accordion-group collapse="encEstaSemanaOpen()" is-open="status.encEstaSemanaOpened">
+                    <accordion-heading>
+                        Encomendas para entrega esta semana  <b class="badge bg-info pull-right">{{dados.totalEncEstaSemana}}</b>
+                    </accordion-heading>
+                    <encomendas-dashboard encomendas="encomendasEstaSemana" functions="functions" />
+
+                </accordion-group>
+                <accordion-group collapse="enc1SemanaOpen()" is-open="status.enc1SemanaOpened">
+                    <accordion-heading>
+                        Encomendas para entrega daqui a 1 semana  <b class="badge bg-info pull-right">{{dados.totalEncProxSemana1}}</b>
+                    </accordion-heading>
+                    <encomendas-dashboard encomendas="encomendas1Semana" functions="functions" />
+                </accordion-group>
+                <accordion-group collapse="enc2SemanaOpen()" is-open="status.enc2SemanaOpened">
+                    <accordion-heading>
+                        Encomendas para entrega daqui a 2 semanas  <b class="badge bg-info pull-right">{{dados.totalEncProxSemana2}}</b>
+                    </accordion-heading>
+                    <encomendas-dashboard encomendas="encomendas2Semana" functions="functions" />
+                </accordion-group>
+                <accordion-group collapse="enc3SemanaOpen()" is-open="status.enc3SemanaOpened">
+                    <accordion-heading>
+                        Encomendas para entrega daqui a 3 semanas  <b class="badge bg-info pull-right">{{dados.totalEncProxSemana3}}</b>
+                    </accordion-heading>
+                    <encomendas-dashboard encomendas="encomendas3Semana" functions="functions" />
+
+                </accordion-group>
+                <accordion-group collapse="enc4SemanaOpen()" is-open="status.enc4SemanaOpened">
+                    <accordion-heading>
+                        Encomendas para entrega daqui a 4 semanas ou mais  <b class="badge bg-info pull-right">{{dados.totalEncProxSemana4mais}}</b>
+                    </accordion-heading>
+                    <encomendas-dashboard encomendas="encomendas4Semana" />
+       
+                </accordion-group>
+
+
+            </accordion>
+        </div>
+    </div>
+    <!-- / main -->
+
+</div>
+
+

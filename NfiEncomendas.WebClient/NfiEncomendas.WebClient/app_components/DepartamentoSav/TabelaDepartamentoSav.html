@@ -1,0 +1,27 @@
+﻿
+<div class="" ng-controller="TabelaDepartamentoSavCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li><a ui-sref="app.departamentoSavs.edit({id: 0})"><i class="glyphicon glyphicon-plus"></i>Novo</a></li>
+            </ul>
+            Tabela de DepartamentoSavs
+        </div>
+        <div class="table-responsive">
+            <table ng-table="tableParams" show-filter="true" ng-class-odd="odd" ng-class-even="even" class="table table-striped ">
+                <tr ng-repeat="departamentoSav in $data">
+                    <td data-title="'Num'" sortable="'numDepartamentoSav'" filter="{ 'numDepartamentoSav': 'text' }" width="10%">
+                        {{departamentoSav.numDepartamentoSav}}
+                    </td>
+                    <td data-title="'Nome'" sortable="'nome'" width="75%" filter="{ 'nome': 'text' }">{{departamentoSav.nome}}</td>
+                    <td data-title="'Anulado'" sortable="'anulado'" width="75%" filter="{ 'anulado': 'text' }">
+                        <input type="checkbox" disabled ng-model="departamentoSav.anulado">
+                    </td>
+                    <td data-title="''" width="15%">
+                        <a href="" class="btn m-b-xs btn-xs btn-info btn-addon" ui-sref="app.departamentoSavs.edit({id:  departamentoSav.numDepartamentoSav })">Editar</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

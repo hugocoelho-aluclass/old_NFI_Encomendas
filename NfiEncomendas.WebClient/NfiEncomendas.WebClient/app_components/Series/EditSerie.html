@@ -1,0 +1,56 @@
+﻿
+<div class="" ng-controller="EditSerieCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li><a href="" class="" ui-sref="app.serie.edit({id: 0})"><i class="glyphicon glyphicon-plus"></i>Novo</a></li>
+                <li><a href="" class="" ui-sref="app.serie.edit({id: dados.idAnt})"><i class="fa fa-arrow-left"></i></a></li>
+                <li><a href="" class="" ui-sref="app.serie.edit({id: dados.idProx})"><i class="fa fa-arrow-right"></i></a></li>
+            </ul>
+            Editar serie
+
+        </div>
+        <div class="panel-body">
+            <form name="form" class="form-horizontal form-validation" ng-submit="submit()">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Num serie</label>
+                    <div class="col-lg-4">
+                        <input ng-model="serie.numSerie" type="text" class="form-control" name="numSerie" required ng-blur="atualizaSerie()" ng-pattern="/^[a-zA-Z0-9]*$/">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" required>Nome</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="nome" placeholder="Nome" ng-model="serie.nome">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" required>Ultimo Doc</label>
+                    <div class="col-lg-4">
+                        <input ng-model="serie.ultimoDoc" type="text" class="form-control" name="numSerie" required ng-pattern="/^[0-9]*$/">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="serie.inativa"> Inativa
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="serie.serieDefeito"> Defeito
+                        </label>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-info" ng-disabled="form.$invalid">Guardar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+

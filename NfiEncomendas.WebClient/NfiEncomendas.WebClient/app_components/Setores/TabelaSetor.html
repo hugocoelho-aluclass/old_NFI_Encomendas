@@ -1,0 +1,28 @@
+﻿
+<div class="" ng-controller="setoresTabelaCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li><a ui-sref="app.setores.edit({id: 0})"><i class="glyphicon glyphicon-plus"></i>Novo</a></li>
+
+            </ul>
+            Tabela de Setores
+        </div>
+        <div class="table-responsive">
+            <table ng-table="tableParams" show-filter="true" ng-class-odd="odd" ng-class-even="even" class="table table-striped ">
+                <tr ng-repeat="setor in $data">
+                    <td data-title="'Num'" sortable="'numSetor'" filter="{ 'numSetor': 'text' }" width="10%">
+                        {{setor.numSetor}}
+                    </td>
+                    <td data-title="'Nome'" sortable="'nome'" width="75%" filter="{ 'nome': 'text' }">{{setor.nome}}</td>
+                    <td data-title="'Anulado'" sortable="'anulado'" width="75%" filter="{ 'anulado': 'text' }">
+                        <input type="checkbox" disabled ng-model="setor.anulado">
+                    </td>
+                    <td data-title="''" width="15%">
+                        <a href="" class="btn m-b-xs btn-xs btn-info btn-addon" ui-sref="app.setores.edit({id:  setor.numSetor })">Editar</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

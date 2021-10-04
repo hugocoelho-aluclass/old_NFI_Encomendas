@@ -1,0 +1,990 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CD10EE24-CCA7-4915-A4FA-8FF0105BBD9E}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NfiEncomendas.WebServer</RootNamespace>
+    <AssemblyName>NfiEncomendas.WebServer</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>false</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <TargetFrameworkProfile />
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <WebGreaseLibPath>..\..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
+    <Use64BitIISExpress>false</Use64BitIISExpress>
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="AutoMapper, Version=4.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\AutoMapper.4.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EntityFramework.6.1.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>apps\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.5.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>apps\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="jsreport.Client, Version=0.1.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\jsreport.Client.0.1.2\lib\net45\jsreport.Client.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Core.2.1.0\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.EntityFramework, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.EntityFramework.2.1.0\lib\net45\Microsoft.AspNet.Identity.EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Identity.Owin.2.1.0\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.3.0.0\lib\net45\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Host.SystemWeb.3.0.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.2.1.0\lib\net45\Microsoft.Owin.Security.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Cookies, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Cookies.2.1.0\lib\net45\Microsoft.Owin.Security.Cookies.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Facebook, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Facebook.2.1.0\lib\net45\Microsoft.Owin.Security.Facebook.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.Google, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.Google.2.1.0\lib\net45\Microsoft.Owin.Security.Google.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Owin.Security.OAuth, Version=2.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop, Version=1.0.168.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Simple.OData.Client.Net40, Version=3.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Simple.OData.Client.3.0.2\lib\net40\Simple.OData.Client.Net40.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Net.Http.Extensions, Version=2.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives, Version=4.2.22.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.22\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Cors, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Cors.5.2.2\lib\net45\System.Web.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Cors, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Cors.5.2.2\lib\net45\System.Web.Http.Cors.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.Owin">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Owin.5.2.2\lib\net45\System.Web.Http.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.2\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.0\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.0\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.0\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="WebGrease, Version=1.5.2.14234, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Areas\POS\Controllers\AdminOperadoresController.cs" />
+    <Compile Include="Areas\POS\Controllers\ClientesController.cs" />
+    <Compile Include="Areas\POS\Controllers\ContaController.cs" />
+    <Compile Include="Areas\POS\Controllers\CSVController.cs" />
+    <Compile Include="Areas\POS\Controllers\DashboardController.cs" />
+    <Compile Include="Areas\POS\Controllers\EncomendasController.cs" />
+    <Compile Include="Areas\POS\Controllers\EstadoSavController.cs" />
+    <Compile Include="Areas\POS\Controllers\Pdf2Controller.cs" />
+    <Compile Include="Areas\POS\Controllers\DepartamentosSavController.cs" />
+    <Compile Include="Areas\POS\Controllers\EstadosRecolhaController.cs" />
+    <Compile Include="Areas\POS\Controllers\SavsController.cs" />
+    <Compile Include="Areas\POS\Controllers\SeriesController.cs" />
+    <Compile Include="Areas\POS\Controllers\SetoresEncomendaController.cs" />
+    <Compile Include="Areas\POS\Controllers\TesteController.cs" />
+    <Compile Include="Areas\POS\Controllers\ProdutosSavController.cs" />
+    <Compile Include="Areas\POS\Controllers\AnexosController.cs" />
+    <Compile Include="Areas\POS\Controllers\SetoresController.cs" />
+    <Compile Include="Areas\POS\Controllers\TipoAvariaController.cs" />
+    <Compile Include="Areas\POS\Controllers\TipoEncomendasController.cs" />
+    <Compile Include="Areas\POS\POSAreaRegistration.cs" />
+    <Compile Include="Areas\POS\ViewModels\Clientes\Cliente.cs" />
+    <Compile Include="Areas\POS\ViewModels\Admin\Operadores.cs" />
+    <Compile Include="Areas\POS\ViewModels\Conta\Conta.cs" />
+    <Compile Include="Areas\POS\ViewModels\Dashboard.cs" />
+    <Compile Include="Areas\POS\ViewModels\Encomendas\Encomendas.cs" />
+    <Compile Include="Areas\POS\ViewModels\EstadoSav\EstadoSav.cs" />
+    <Compile Include="Areas\POS\ViewModels\DepartamentoSav.cs" />
+    <Compile Include="Areas\POS\ViewModels\Estatisticas.cs" />
+    <Compile Include="Areas\POS\ViewModels\NumNome.cs" />
+    <Compile Include="Areas\POS\ViewModels\Recolhas\Recolhas.cs" />
+    <Compile Include="Areas\POS\ViewModels\SAVS\Savs.cs" />
+    <Compile Include="Areas\POS\ViewModels\EstadosRecolha.cs" />
+    <Compile Include="Areas\POS\ViewModels\SetoresEncomenda.cs" />
+    <Compile Include="Areas\POS\ViewModels\Setores.cs" />
+    <Compile Include="Areas\POS\ViewModels\TipoAvaria.cs" />
+    <Compile Include="Areas\POS\ViewModels\ProdutoSav.cs" />
+    <Compile Include="BusinessLogic\EstatisticasBL.cs" />
+    <Compile Include="BusinessLogic\PermissoesBL.cs" />
+    <Compile Include="BusinessLogic\RecolhaBL.cs" />
+    <Compile Include="BusinessLogic\EstadoSavBL.cs" />
+    <Compile Include="BusinessLogic\DepartamentoSavsBL.cs" />
+    <Compile Include="BusinessLogic\RelatoriosBL.cs" />
+    <Compile Include="BusinessLogic\SavBL.cs" />
+    <Compile Include="BusinessLogic\AnexosBL.cs" />
+    <Compile Include="BusinessLogic\EstadoRecolhaBL.cs" />
+    <Compile Include="BusinessLogic\SetorEncomendasBL.cs" />
+    <Compile Include="BusinessLogic\SetorBL.cs" />
+    <Compile Include="BusinessLogic\TipoAvariasBL.cs" />
+    <Compile Include="BusinessLogic\ProdutoSavsBL.cs" />
+    <Compile Include="Areas\POS\Controllers\EstatisticasController.cs" />
+    <Compile Include="Controllers\RelatoriosController.cs" />
+    <Compile Include="Migrations\201503171723282_addTabelaRelatorios.cs" />
+    <Compile Include="Migrations\201503171723282_addTabelaRelatorios.Designer.cs">
+      <DependentUpon>201503171723282_addTabelaRelatorios.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511221705051_addSAVS.cs" />
+    <Compile Include="Migrations\201511221705051_addSAVS.Designer.cs">
+      <DependentUpon>201511221705051_addSAVS.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511222002293_AddOperadorSAV.cs" />
+    <Compile Include="Migrations\201511222002293_AddOperadorSAV.Designer.cs">
+      <DependentUpon>201511222002293_AddOperadorSAV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511222309559_AddEstadoSAV.cs" />
+    <Compile Include="Migrations\201511222309559_AddEstadoSAV.Designer.cs">
+      <DependentUpon>201511222309559_AddEstadoSAV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511261850354_UpdEstadoSAV.cs" />
+    <Compile Include="Migrations\201511261850354_UpdEstadoSAV.Designer.cs">
+      <DependentUpon>201511261850354_UpdEstadoSAV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511261933503_AddEstadoAvaria.cs" />
+    <Compile Include="Migrations\201511261933503_AddEstadoAvaria.Designer.cs">
+      <DependentUpon>201511261933503_AddEstadoAvaria.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511262004207_AddProdutoSAV.cs" />
+    <Compile Include="Migrations\201511262004207_AddProdutoSAV.Designer.cs">
+      <DependentUpon>201511262004207_AddProdutoSAV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511262032181_AddDepartamentosSAV.cs" />
+    <Compile Include="Migrations\201511262032181_AddDepartamentosSAV.Designer.cs">
+      <DependentUpon>201511262032181_AddDepartamentosSAV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511262105021_AddSavUpdates.cs" />
+    <Compile Include="Migrations\201511262105021_AddSavUpdates.Designer.cs">
+      <DependentUpon>201511262105021_AddSavUpdates.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511281638362_AddSavsCampos.cs" />
+    <Compile Include="Migrations\201511281638362_AddSavsCampos.Designer.cs">
+      <DependentUpon>201511281638362_AddSavsCampos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511281641226_AddSavsCampos1.cs" />
+    <Compile Include="Migrations\201511281641226_AddSavsCampos1.Designer.cs">
+      <DependentUpon>201511281641226_AddSavsCampos1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511281733549_AddSavsCampos3.cs" />
+    <Compile Include="Migrations\201511281733549_AddSavsCampos3.Designer.cs">
+      <DependentUpon>201511281733549_AddSavsCampos3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511281922483_userDepartamentos.cs" />
+    <Compile Include="Migrations\201511281922483_userDepartamentos.Designer.cs">
+      <DependentUpon>201511281922483_userDepartamentos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511282017303_userDepartamentos3.cs" />
+    <Compile Include="Migrations\201511282017303_userDepartamentos3.Designer.cs">
+      <DependentUpon>201511282017303_userDepartamentos3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511291800061_AddAnexosESavsUpd.cs" />
+    <Compile Include="Migrations\201511291800061_AddAnexosESavsUpd.Designer.cs">
+      <DependentUpon>201511291800061_AddAnexosESavsUpd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511292244111_AddMarcarRespostaClienteSAV.cs" />
+    <Compile Include="Migrations\201511292244111_AddMarcarRespostaClienteSAV.Designer.cs">
+      <DependentUpon>201511292244111_AddMarcarRespostaClienteSAV.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511292305304_AddMarcarRespostaClienteSAV1.cs" />
+    <Compile Include="Migrations\201511292305304_AddMarcarRespostaClienteSAV1.Designer.cs">
+      <DependentUpon>201511292305304_AddMarcarRespostaClienteSAV1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201511300058396_AddNotasResolvida.cs" />
+    <Compile Include="Migrations\201511300058396_AddNotasResolvida.Designer.cs">
+      <DependentUpon>201511300058396_AddNotasResolvida.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601101917120_AddSavsSeries.cs" />
+    <Compile Include="Migrations\201601101917120_AddSavsSeries.Designer.cs">
+      <DependentUpon>201601101917120_AddSavsSeries.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201601101926166_AddSavsSeries2.cs" />
+    <Compile Include="Migrations\201601101926166_AddSavsSeries2.Designer.cs">
+      <DependentUpon>201601101926166_AddSavsSeries2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201609282240142_addSavRef.cs" />
+    <Compile Include="Migrations\201609282240142_addSavRef.Designer.cs">
+      <DependentUpon>201609282240142_addSavRef.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610181252286_addSavSemanaEntrega.cs" />
+    <Compile Include="Migrations\201610181252286_addSavSemanaEntrega.Designer.cs">
+      <DependentUpon>201610181252286_addSavSemanaEntrega.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610181357190_addDashboardDesde.cs" />
+    <Compile Include="Migrations\201610181357190_addDashboardDesde.Designer.cs">
+      <DependentUpon>201610181357190_addDashboardDesde.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612091102096_addEncomendaNumSerie.cs" />
+    <Compile Include="Migrations\201612091102096_addEncomendaNumSerie.Designer.cs">
+      <DependentUpon>201612091102096_addEncomendaNumSerie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701291108204_SavAddInfoExtra.cs" />
+    <Compile Include="Migrations\201701291108204_SavAddInfoExtra.Designer.cs">
+      <DependentUpon>201701291108204_SavAddInfoExtra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201711221206572_AddSavCustos.cs" />
+    <Compile Include="Migrations\201711221206572_AddSavCustos.Designer.cs">
+      <DependentUpon>201711221206572_AddSavCustos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802091148556_addEstadosRecolha.cs" />
+    <Compile Include="Migrations\201802091148556_addEstadosRecolha.Designer.cs">
+      <DependentUpon>201802091148556_addEstadosRecolha.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802091725283_addRecolhasAosSavs.cs" />
+    <Compile Include="Migrations\201802091725283_addRecolhasAosSavs.Designer.cs">
+      <DependentUpon>201802091725283_addRecolhasAosSavs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802141044185_addRecolha.cs" />
+    <Compile Include="Migrations\201802141044185_addRecolha.Designer.cs">
+      <DependentUpon>201802141044185_addRecolha.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201905071027081_addEncomendasDataAprovacao.cs" />
+    <Compile Include="Migrations\201905071027081_addEncomendasDataAprovacao.Designer.cs">
+      <DependentUpon>201905071027081_addEncomendasDataAprovacao.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907020828012_AddTipoEncomendaSetor.cs" />
+    <Compile Include="Migrations\201907020828012_AddTipoEncomendaSetor.Designer.cs">
+      <DependentUpon>201907020828012_AddTipoEncomendaSetor.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907020855181_AddTipoEncomendaSetor2.cs" />
+    <Compile Include="Migrations\201907020855181_AddTipoEncomendaSetor2.Designer.cs">
+      <DependentUpon>201907020855181_AddTipoEncomendaSetor2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907031543577_addSetores.cs" />
+    <Compile Include="Migrations\201907031543577_addSetores.Designer.cs">
+      <DependentUpon>201907031543577_addSetores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907041633204_addSetorToTipoEncomenda.cs" />
+    <Compile Include="Migrations\201907041633204_addSetorToTipoEncomenda.Designer.cs">
+      <DependentUpon>201907041633204_addSetorToTipoEncomenda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201907091442467_addSavsNovosCampos.cs" />
+    <Compile Include="Migrations\201907091442467_addSavsNovosCampos.Designer.cs">
+      <DependentUpon>201907091442467_addSavsNovosCampos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001031447243_addSetorEncomendaToTipoEncomenda.cs" />
+    <Compile Include="Migrations\202001031447243_addSetorEncomendaToTipoEncomenda.Designer.cs">
+      <DependentUpon>202001031447243_addSetorEncomendaToTipoEncomenda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001031511539_addSetorEncomendaToTipoEncomenda2.cs" />
+    <Compile Include="Migrations\202001031511539_addSetorEncomendaToTipoEncomenda2.Designer.cs">
+      <DependentUpon>202001031511539_addSetorEncomendaToTipoEncomenda2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001031513406_addSetorEncomendaToTipoEncomenda21.cs" />
+    <Compile Include="Migrations\202001031513406_addSetorEncomendaToTipoEncomenda21.Designer.cs">
+      <DependentUpon>202001031513406_addSetorEncomendaToTipoEncomenda21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003051018252_addDataExpedicaoSav.cs" />
+    <Compile Include="Migrations\202003051018252_addDataExpedicaoSav.Designer.cs">
+      <DependentUpon>202003051018252_addDataExpedicaoSav.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202011201514013_addUserComercial.cs" />
+    <Compile Include="Migrations\202011201514013_addUserComercial.Designer.cs">
+      <DependentUpon>202011201514013_addUserComercial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Anexos.cs" />
+    <Compile Include="Models\EncomendasCache.cs" />
+    <Compile Include="Models\EstadoSav.cs" />
+    <Compile Include="Models\DepartamentoSav.cs" />
+    <Compile Include="Models\SetorEncomendas.cs" />
+    <Compile Include="Models\Setor.cs" />
+    <Compile Include="Models\Recolhas.cs" />
+    <Compile Include="Models\Savs.cs" />
+    <Compile Include="Models\ProdutoSav.cs" />
+    <Compile Include="Models\TipoAvaria.cs" />
+    <Compile Include="Models\EstadoRecolha.cs" />
+    <Compile Include="Outros\AutoMapper\AutoMapperConfig.cs" />
+    <Compile Include="Outros\AutoMapper\DomainToDomainMappingProfile.cs" />
+    <Compile Include="Outros\AutoMapper\ViewModelToDomainMappingProfile.cs" />
+    <Compile Include="Outros\AutoMapper\DomainToViewModelMappingProfile.cs" />
+    <Compile Include="ViewModels\Relatorio.cs" />
+    <Compile Include="Areas\POS\ViewModels\Series\Serie.cs" />
+    <Compile Include="Areas\POS\ViewModels\TipoEncomendas\TipoEncomenda.cs" />
+    <Compile Include="BusinessLogic\AdminUtilizadoresBL.cs" />
+    <Compile Include="BusinessLogic\EncomendaBL.cs" />
+    <Compile Include="BusinessLogic\SeriesBL.cs" />
+    <Compile Include="BusinessLogic\ClientesBL.cs" />
+    <Compile Include="BusinessLogic\TipoEncomendasBL.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AllowAnonymous.cs" />
+    <Compile Include="Controllers\EncomendasController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\Pdf2Controller.cs" />
+    <Compile Include="Controllers\PdfController.cs" />
+    <Compile Include="Controllers\RefreshTokensController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helper.cs" />
+    <Compile Include="Migrations\201411021705234_Initial.cs" />
+    <Compile Include="Migrations\201411021705234_Initial.Designer.cs">
+      <DependentUpon>201411021705234_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411021726012_AddOperadores.cs" />
+    <Compile Include="Migrations\201411021726012_AddOperadores.Designer.cs">
+      <DependentUpon>201411021726012_AddOperadores.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411100001242_Identity.cs" />
+    <Compile Include="Migrations\201411100001242_Identity.Designer.cs">
+      <DependentUpon>201411100001242_Identity.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411100008426_Identity1.cs" />
+    <Compile Include="Migrations\201411100008426_Identity1.Designer.cs">
+      <DependentUpon>201411100008426_Identity1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411161808223_UtilizadorAnulado.cs" />
+    <Compile Include="Migrations\201411161808223_UtilizadorAnulado.Designer.cs">
+      <DependentUpon>201411161808223_UtilizadorAnulado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411162244127_UtilizadorPassword.cs" />
+    <Compile Include="Migrations\201411162244127_UtilizadorPassword.Designer.cs">
+      <DependentUpon>201411162244127_UtilizadorPassword.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411171821457_Utilizador_ImagemAvatar.cs" />
+    <Compile Include="Migrations\201411171821457_Utilizador_ImagemAvatar.Designer.cs">
+      <DependentUpon>201411171821457_Utilizador_ImagemAvatar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411200052452_AddTabelaClientes.cs" />
+    <Compile Include="Migrations\201411200052452_AddTabelaClientes.Designer.cs">
+      <DependentUpon>201411200052452_AddTabelaClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411221041547_AddClienteAnulado.cs" />
+    <Compile Include="Migrations\201411221041547_AddClienteAnulado.Designer.cs">
+      <DependentUpon>201411221041547_AddClienteAnulado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411221352458_AddTiposEncomenda.cs" />
+    <Compile Include="Migrations\201411221352458_AddTiposEncomenda.Designer.cs">
+      <DependentUpon>201411221352458_AddTiposEncomenda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411221433214_AddSeries.cs" />
+    <Compile Include="Migrations\201411221433214_AddSeries.Designer.cs">
+      <DependentUpon>201411221433214_AddSeries.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411221734209_AddEncomenda.cs" />
+    <Compile Include="Migrations\201411221734209_AddEncomenda.Designer.cs">
+      <DependentUpon>201411221734209_AddEncomenda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411221745455_AddEncomendaAnulada.cs" />
+    <Compile Include="Migrations\201411221745455_AddEncomendaAnulada.Designer.cs">
+      <DependentUpon>201411221745455_AddEncomendaAnulada.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411221831257_AddSeriesUltimoDoc.cs" />
+    <Compile Include="Migrations\201411221831257_AddSeriesUltimoDoc.Designer.cs">
+      <DependentUpon>201411221831257_AddSeriesUltimoDoc.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411221835552_AddSeriesUltimoDoc2.cs" />
+    <Compile Include="Migrations\201411221835552_AddSeriesUltimoDoc2.Designer.cs">
+      <DependentUpon>201411221835552_AddSeriesUltimoDoc2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411231703594_AddEncomendasCampos.cs" />
+    <Compile Include="Migrations\201411231703594_AddEncomendasCampos.Designer.cs">
+      <DependentUpon>201411231703594_AddEncomendasCampos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411231740419_AddEncomendasCampos1.cs" />
+    <Compile Include="Migrations\201411231740419_AddEncomendasCampos1.Designer.cs">
+      <DependentUpon>201411231740419_AddEncomendasCampos1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411232300126_AddAlterarNumIds.cs" />
+    <Compile Include="Migrations\201411232300126_AddAlterarNumIds.Designer.cs">
+      <DependentUpon>201411232300126_AddAlterarNumIds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411232312360_AddAlterarNumIdsTipoEncomenda.cs" />
+    <Compile Include="Migrations\201411232312360_AddAlterarNumIdsTipoEncomenda.Designer.cs">
+      <DependentUpon>201411232312360_AddAlterarNumIdsTipoEncomenda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411232315105_AddAlterarNumIdsClientes.cs" />
+    <Compile Include="Migrations\201411232315105_AddAlterarNumIdsClientes.Designer.cs">
+      <DependentUpon>201411232315105_AddAlterarNumIdsClientes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411232318261_AddNumCliente_TipoEncomenda.cs" />
+    <Compile Include="Migrations\201411232318261_AddNumCliente_TipoEncomenda.Designer.cs">
+      <DependentUpon>201411232318261_AddNumCliente_TipoEncomenda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411232319397_AddEncomendasRefs.cs" />
+    <Compile Include="Migrations\201411232319397_AddEncomendasRefs.Designer.cs">
+      <DependentUpon>201411232319397_AddEncomendasRefs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201411291534363_addNumVaosInt.cs" />
+    <Compile Include="Migrations\201411291534363_addNumVaosInt.Designer.cs">
+      <DependentUpon>201411291534363_addNumVaosInt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412021713476_AddEncomendaCompra.cs" />
+    <Compile Include="Migrations\201412021713476_AddEncomendaCompra.Designer.cs">
+      <DependentUpon>201412021713476_AddEncomendaCompra.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412021727219_AddEncomendaCompra1.cs" />
+    <Compile Include="Migrations\201412021727219_AddEncomendaCompra1.Designer.cs">
+      <DependentUpon>201412021727219_AddEncomendaCompra1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412121041498_AddEncomendasCompras.cs" />
+    <Compile Include="Migrations\201412121041498_AddEncomendasCompras.Designer.cs">
+      <DependentUpon>201412121041498_AddEncomendasCompras.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412121048240_AddEncomendasComprasLista.cs" />
+    <Compile Include="Migrations\201412121048240_AddEncomendasComprasLista.Designer.cs">
+      <DependentUpon>201412121048240_AddEncomendasComprasLista.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412131424082_addEncomendasCompras2.cs" />
+    <Compile Include="Migrations\201412131424082_addEncomendasCompras2.Designer.cs">
+      <DependentUpon>201412131424082_addEncomendasCompras2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412142311089_addEncomendasCompras21.cs" />
+    <Compile Include="Migrations\201412142311089_addEncomendasCompras21.Designer.cs">
+      <DependentUpon>201412142311089_addEncomendasCompras21.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412142333084_addEncomendasCompras4.cs" />
+    <Compile Include="Migrations\201412142333084_addEncomendasCompras4.Designer.cs">
+      <DependentUpon>201412142333084_addEncomendasCompras4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412142339031_addEncomendasCompras5.cs" />
+    <Compile Include="Migrations\201412142339031_addEncomendasCompras5.Designer.cs">
+      <DependentUpon>201412142339031_addEncomendasCompras5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412142344264_addEncomendasCompras6.cs" />
+    <Compile Include="Migrations\201412142344264_addEncomendasCompras6.Designer.cs">
+      <DependentUpon>201412142344264_addEncomendasCompras6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412172344250_EncomendasComprasBugRemove.cs" />
+    <Compile Include="Migrations\201412172344250_EncomendasComprasBugRemove.Designer.cs">
+      <DependentUpon>201412172344250_EncomendasComprasBugRemove.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201412172344573_EncomendasComprasBugAdd.cs" />
+    <Compile Include="Migrations\201412172344573_EncomendasComprasBugAdd.Designer.cs">
+      <DependentUpon>201412172344573_EncomendasComprasBugAdd.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountBindingModels.cs" />
+    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AppDbContext.cs" />
+    <Compile Include="Models\Applications.cs" />
+    <Compile Include="Models\ApplicationTypes.cs" />
+    <Compile Include="Models\AuthContext.cs" />
+    <Compile Include="Models\Client.cs" />
+    <Compile Include="Models\Encomendas.cs" />
+    <Compile Include="Models\Clientes.cs" />
+    <Compile Include="Models\EncomendasCompras.cs" />
+    <Compile Include="Models\Relatorios.cs" />
+    <Compile Include="Models\Series.cs" />
+    <Compile Include="Models\ExternalLoginModels.cs" />
+    <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Memberships.cs" />
+    <Compile Include="Models\Operadores.cs" />
+    <Compile Include="Models\Profiles.cs" />
+    <Compile Include="Models\RefreshToken.cs" />
+    <Compile Include="Models\Roles.cs" />
+    <Compile Include="Models\SessionObject.cs" />
+    <Compile Include="Models\StaticRoles.cs" />
+    <Compile Include="Models\TipoEncomenda.cs" />
+    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\Users.cs" />
+    <Compile Include="Outros\PdfConvert.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\ApplicationOAuthProvider.cs" />
+    <Compile Include="Providers\Roles.cs" />
+    <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\Encomendas.cs" />
+    <Compile Include="ViewModels\UtilizadorAtual.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="apps\itextsharp.dll" />
+    <Content Include="apps\itextsharp.xmlworker.dll" />
+    <Content Include="BD\nfermetures_bd_20141218t.sql" />
+    <Content Include="BD\nfi_clean_query.sql" />
+    <Content Include="Exports\PdfTemplates\EncomendaLista\TabelaRows.html" />
+    <Content Include="Exports\PdfTemplates\EncomendaLista\Tabela.html" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="index.html" />
+    <Content Include="Reports\Encomendas\0Header.html" />
+    <Content Include="Reports\Encomendas\1contentXlsx.html" />
+    <Content Include="Reports\Encomendas\1content.html" />
+    <Content Include="Reports\notfound.html" />
+    <Content Include="Areas\POS\Views\web.config" />
+    <Content Include="CSV\clientes.csv" />
+    <Content Include="CSV\tiposEncomenda.csv" />
+    <Content Include="CSV\encomendas.csv" />
+    <Content Include="CSV\produtosSAV.csv" />
+    <Content Include="CSV\departamentosSav.csv" />
+    <None Include="CSV\tipoAvariaSAV.csv" />
+    <Content Include="packages.config" />
+    <Content Include="libman.json" />
+    <None Include="Properties\PublishProfiles\1.pubxml" />
+    <None Include="Properties\PublishProfiles\homeserver.pubxml" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Pdf2\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Anexos\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Areas\POS\ViewModels\Setores\" />
+    <Folder Include="Areas\POS\Views\AdminOperadores\" />
+    <Folder Include="Areas\POS\Views\EncomendasPdf\" />
+    <Folder Include="Areas\POS\Views\Pdf2\" />
+    <Folder Include="Areas\POS\Views\Shared\" />
+    <Folder Include="Exports\Pdfs\" />
+    <Folder Include="Exports\Relatorios\" />
+    <Folder Include="Views\Encomendas\" />
+    <Folder Include="Views\Main\" />
+    <Folder Include="Views\Relatorios\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Project_Readme.html" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201411021705234_Initial.resx">
+      <DependentUpon>201411021705234_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411021726012_AddOperadores.resx">
+      <DependentUpon>201411021726012_AddOperadores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411100001242_Identity.resx">
+      <DependentUpon>201411100001242_Identity.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411100008426_Identity1.resx">
+      <DependentUpon>201411100008426_Identity1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411161808223_UtilizadorAnulado.resx">
+      <DependentUpon>201411161808223_UtilizadorAnulado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411162244127_UtilizadorPassword.resx">
+      <DependentUpon>201411162244127_UtilizadorPassword.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411171821457_Utilizador_ImagemAvatar.resx">
+      <DependentUpon>201411171821457_Utilizador_ImagemAvatar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411200052452_AddTabelaClientes.resx">
+      <DependentUpon>201411200052452_AddTabelaClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411221041547_AddClienteAnulado.resx">
+      <DependentUpon>201411221041547_AddClienteAnulado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411221352458_AddTiposEncomenda.resx">
+      <DependentUpon>201411221352458_AddTiposEncomenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411221433214_AddSeries.resx">
+      <DependentUpon>201411221433214_AddSeries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411221734209_AddEncomenda.resx">
+      <DependentUpon>201411221734209_AddEncomenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411221745455_AddEncomendaAnulada.resx">
+      <DependentUpon>201411221745455_AddEncomendaAnulada.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411221831257_AddSeriesUltimoDoc.resx">
+      <DependentUpon>201411221831257_AddSeriesUltimoDoc.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411221835552_AddSeriesUltimoDoc2.resx">
+      <DependentUpon>201411221835552_AddSeriesUltimoDoc2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411231703594_AddEncomendasCampos.resx">
+      <DependentUpon>201411231703594_AddEncomendasCampos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411231740419_AddEncomendasCampos1.resx">
+      <DependentUpon>201411231740419_AddEncomendasCampos1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411232300126_AddAlterarNumIds.resx">
+      <DependentUpon>201411232300126_AddAlterarNumIds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411232312360_AddAlterarNumIdsTipoEncomenda.resx">
+      <DependentUpon>201411232312360_AddAlterarNumIdsTipoEncomenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411232315105_AddAlterarNumIdsClientes.resx">
+      <DependentUpon>201411232315105_AddAlterarNumIdsClientes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411232318261_AddNumCliente_TipoEncomenda.resx">
+      <DependentUpon>201411232318261_AddNumCliente_TipoEncomenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411232319397_AddEncomendasRefs.resx">
+      <DependentUpon>201411232319397_AddEncomendasRefs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201411291534363_addNumVaosInt.resx">
+      <DependentUpon>201411291534363_addNumVaosInt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412021713476_AddEncomendaCompra.resx">
+      <DependentUpon>201412021713476_AddEncomendaCompra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412021727219_AddEncomendaCompra1.resx">
+      <DependentUpon>201412021727219_AddEncomendaCompra1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412121041498_AddEncomendasCompras.resx">
+      <DependentUpon>201412121041498_AddEncomendasCompras.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412121048240_AddEncomendasComprasLista.resx">
+      <DependentUpon>201412121048240_AddEncomendasComprasLista.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412131424082_addEncomendasCompras2.resx">
+      <DependentUpon>201412131424082_addEncomendasCompras2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412142311089_addEncomendasCompras21.resx">
+      <DependentUpon>201412142311089_addEncomendasCompras21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412142333084_addEncomendasCompras4.resx">
+      <DependentUpon>201412142333084_addEncomendasCompras4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412142339031_addEncomendasCompras5.resx">
+      <DependentUpon>201412142339031_addEncomendasCompras5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412142344264_addEncomendasCompras6.resx">
+      <DependentUpon>201412142344264_addEncomendasCompras6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412172344250_EncomendasComprasBugRemove.resx">
+      <DependentUpon>201412172344250_EncomendasComprasBugRemove.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201412172344573_EncomendasComprasBugAdd.resx">
+      <DependentUpon>201412172344573_EncomendasComprasBugAdd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201503171723282_addTabelaRelatorios.resx">
+      <DependentUpon>201503171723282_addTabelaRelatorios.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511221705051_addSAVS.resx">
+      <DependentUpon>201511221705051_addSAVS.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511222002293_AddOperadorSAV.resx">
+      <DependentUpon>201511222002293_AddOperadorSAV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511222309559_AddEstadoSAV.resx">
+      <DependentUpon>201511222309559_AddEstadoSAV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511261850354_UpdEstadoSAV.resx">
+      <DependentUpon>201511261850354_UpdEstadoSAV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511261933503_AddEstadoAvaria.resx">
+      <DependentUpon>201511261933503_AddEstadoAvaria.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511262004207_AddProdutoSAV.resx">
+      <DependentUpon>201511262004207_AddProdutoSAV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511262032181_AddDepartamentosSAV.resx">
+      <DependentUpon>201511262032181_AddDepartamentosSAV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511262105021_AddSavUpdates.resx">
+      <DependentUpon>201511262105021_AddSavUpdates.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511281638362_AddSavsCampos.resx">
+      <DependentUpon>201511281638362_AddSavsCampos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511281641226_AddSavsCampos1.resx">
+      <DependentUpon>201511281641226_AddSavsCampos1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511281733549_AddSavsCampos3.resx">
+      <DependentUpon>201511281733549_AddSavsCampos3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511281922483_userDepartamentos.resx">
+      <DependentUpon>201511281922483_userDepartamentos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511282017303_userDepartamentos3.resx">
+      <DependentUpon>201511282017303_userDepartamentos3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511291800061_AddAnexosESavsUpd.resx">
+      <DependentUpon>201511291800061_AddAnexosESavsUpd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511292244111_AddMarcarRespostaClienteSAV.resx">
+      <DependentUpon>201511292244111_AddMarcarRespostaClienteSAV.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511292305304_AddMarcarRespostaClienteSAV1.resx">
+      <DependentUpon>201511292305304_AddMarcarRespostaClienteSAV1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201511300058396_AddNotasResolvida.resx">
+      <DependentUpon>201511300058396_AddNotasResolvida.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601101917120_AddSavsSeries.resx">
+      <DependentUpon>201601101917120_AddSavsSeries.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201601101926166_AddSavsSeries2.resx">
+      <DependentUpon>201601101926166_AddSavsSeries2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201609282240142_addSavRef.resx">
+      <DependentUpon>201609282240142_addSavRef.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610181252286_addSavSemanaEntrega.resx">
+      <DependentUpon>201610181252286_addSavSemanaEntrega.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610181357190_addDashboardDesde.resx">
+      <DependentUpon>201610181357190_addDashboardDesde.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612091102096_addEncomendaNumSerie.resx">
+      <DependentUpon>201612091102096_addEncomendaNumSerie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701291108204_SavAddInfoExtra.resx">
+      <DependentUpon>201701291108204_SavAddInfoExtra.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201711221206572_AddSavCustos.resx">
+      <DependentUpon>201711221206572_AddSavCustos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802091148556_addEstadosRecolha.resx">
+      <DependentUpon>201802091148556_addEstadosRecolha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802091725283_addRecolhasAosSavs.resx">
+      <DependentUpon>201802091725283_addRecolhasAosSavs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802141044185_addRecolha.resx">
+      <DependentUpon>201802141044185_addRecolha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201905071027081_addEncomendasDataAprovacao.resx">
+      <DependentUpon>201905071027081_addEncomendasDataAprovacao.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907020828012_AddTipoEncomendaSetor.resx">
+      <DependentUpon>201907020828012_AddTipoEncomendaSetor.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907020855181_AddTipoEncomendaSetor2.resx">
+      <DependentUpon>201907020855181_AddTipoEncomendaSetor2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907031543577_addSetores.resx">
+      <DependentUpon>201907031543577_addSetores.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907041633204_addSetorToTipoEncomenda.resx">
+      <DependentUpon>201907041633204_addSetorToTipoEncomenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201907091442467_addSavsNovosCampos.resx">
+      <DependentUpon>201907091442467_addSavsNovosCampos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001031447243_addSetorEncomendaToTipoEncomenda.resx">
+      <DependentUpon>202001031447243_addSetorEncomendaToTipoEncomenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001031511539_addSetorEncomendaToTipoEncomenda2.resx">
+      <DependentUpon>202001031511539_addSetorEncomendaToTipoEncomenda2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001031513406_addSetorEncomendaToTipoEncomenda21.resx">
+      <DependentUpon>202001031513406_addSetorEncomendaToTipoEncomenda21.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003051018252_addDataExpedicaoSav.resx">
+      <DependentUpon>202003051018252_addDataExpedicaoSav.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202011201514013_addUserComercial.resx">
+      <DependentUpon>202011201514013_addUserComercial.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>2845</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost/nfi_encomendas/apiserver_app/</IISUrl>
+          <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
+          <IISAppRootUrl>http://localhost/nfi_encomendas/apiserver_app/</IISAppRootUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+  </Target>
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

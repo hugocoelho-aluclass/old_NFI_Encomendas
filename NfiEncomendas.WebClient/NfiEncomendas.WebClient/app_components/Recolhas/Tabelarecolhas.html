@@ -1,0 +1,461 @@
+﻿<div class="" ng-controller="recolhasTabelaCtrl" ng-if="_utilizador != undefined">
+    <div class="">
+        <div class="panel panel-default no-m-v">
+            <div class="panel-heading">
+                <ul class="nav nav-pills pull-right">
+                    <li>
+                        <a ui-sref="app.savs.edit({serie: 0, num: 0})">
+                            <i class="glyphicon glyphicon-plus"></i>Novo</a>
+                    </li>
+                    <!--<li><a href="" ng-click="gerarPdf()"><i class="fa fa-file-pdf-o"></i>PDF</a></li>-->
+                </ul>
+                Tabela de Savs / Recolhas
+            </div>
+            <div class="panel-body">
+                <form role="form" class="form-horizontal" ng-submit="submit()">
+                    <div class="row row-eq-height  s-g s-g-01">
+                        <div class="s-g-name ">
+                            SAVS
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label class="col-sm-3 control-label label-sm text-right">Num Doc</label>
+                                <div class=" col-md-2 no-padding-r ">
+                                    <select name="nomeSerie" class="form-control input-sm " ng-model="paramsPesquisa.serie" ng-options="serie.numSerie  as serie.numSerie  for serie in seriesLista"
+                                        required></select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="input-group">
+                                        <div class="col-sm-3 no-padding-l">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" ng-model="paramsPesquisa.NumDocDesdeBool">Desde
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-3 no-padding-l">
+                                            <input type="number" class="form-control input-sm nopadding" ng-model="paramsPesquisa.NumDocDesdeValue" ng-disabled="!paramsPesquisa.NumDocDesdeBool"
+                                            />
+
+                                        </div>
+                                        <div class="col-sm-3 no-padding-l">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.NumDocAteBool">Até
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-3 no-padding-l">
+                                            <input type="number" class="form-control input-sm nopadding" ng-model="paramsPesquisa.NumDocAteValue" ng-disabled="!paramsPesquisa.NumDocAteBool"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label label-sm text-right">Clientes</label>
+                                <div class="col-sm-8">
+                                    <ui-select multiple ng-model="paramsPesquisa.clientes" theme="bootstrap" ng-disabled="disabled" class="input-sm">
+                                        <ui-select-match placeholder="Cliente(s)">{{$item.nome}}</ui-select-match>
+                                        <ui-select-choices repeat="cliente in clientesLista | propsFilter: {nome: $select.search}">
+                                            <div ng-bind-html="cliente.nome | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="col-sm-3 control-label label-sm text-right">Data Entrada</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group ">
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.dataEntradaDesdeBool">Desde
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.dataEntradaDesdeValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.dataEntradaDesdeBool" is-open="dataEntradaDesdeIsOpened"
+                                                ng-focus="dataEntradaDesdeIsOpened = true; " />
+                                        </div>
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.dataEntradaAteBool">Até
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.dataEntradaAteValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.dataEntradaAteBool" is-open="dataEntradaAteIsOpened"
+                                                ng-focus="dataEntradaAteIsOpened = true; " />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="col-sm-3 control-label label-sm text-right">Data Resolvido</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" ng-model="paramsPesquisa.dataResolvidoDesdeBool">Desde
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.dataResolvidoDesdeValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.dataResolvidoDesdeBool" is-open="dataResolvidoDesdeIsOpened"
+                                                ng-focus="dataResolvidoDesdeIsOpened = true; " />
+
+                                        </div>
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.dataResolvidoAteBool">Até
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.dataResolvidoAteValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.dataResolvidoAteBool" is-open="dataResolvidoAteIsOpened"
+                                                ng-focus="dataResolvidoAteIsOpened = true; " />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="col-sm-3 control-label label-sm text-right">Semana Entrega</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <div class="col-sm-3 no-padding-l">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" ng-model="paramsPesquisa.semanaEntregaDesdeBool">Desde
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-2 no-padding-l">
+                                            <input type="number" class="form-control input-sm nopadding" ng-model="paramsPesquisa.semanaEntregaDesdeValue" ng-disabled="!paramsPesquisa.semanaEntregaDesdeBool"
+                                            />
+
+                                        </div>
+                                        <div class="col-sm-2 no-padding-l">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.semanaEntregaAteBool">Até
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-2 no-padding-l">
+                                            <input type="number" class="form-control input-sm nopadding" ng-model="paramsPesquisa.semanaEntregaAteValue" ng-disabled="!paramsPesquisa.semanaEntregaAteBool"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="col-sm-3 control-label label-sm text-right">N Dias</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group">
+                                        <div class="col-sm-3 no-padding-l">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" ng-model="paramsPesquisa.NDiasDesdeBool">Desde
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-2 no-padding-l">
+                                            <input type="number" class="form-control input-sm nopadding" ng-model="paramsPesquisa.NDiasDesdeValue" ng-disabled="!paramsPesquisa.NDiasDesdeBool"
+                                            />
+
+                                        </div>
+                                        <div class="col-sm-2 no-padding-l">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.NDiasAteBool">Até
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-2 no-padding-l">
+                                            <input type="number" class="form-control input-sm nopadding" ng-model="paramsPesquisa.NDiasAteValue" ng-disabled="!paramsPesquisa.NDiasAteBool"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label label-sm text-right">Tipos de Avaria</label>
+                                <div class="col-sm-8">
+                                    <ui-select multiple ng-model="paramsPesquisa.tipoAvaria" theme="bootstrap" ng-disabled="disabled" class="input-sm">
+                                        <ui-select-match placeholder="Tipo de Avaria(s)">{{$item.nome}}</ui-select-match>
+                                        <ui-select-choices repeat="i in tipoAvariaLista | propsFilter: {nome: $select.search}">
+                                            <div ng-bind-html="i.nome | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label label-sm text-right">Ref</label>
+                                <div class="col-sm-8">
+                                    <input type="text" ng-model="paramsPesquisa.ref" class="form-control input-sm" close-text="Close" />
+                                    <small>inclui as palavras</small>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label label-sm text-right">Departamentos</label>
+                                <div class="col-sm-8">
+                                    <ui-select multiple ng-model="paramsPesquisa.departamentos" theme="bootstrap" ng-disabled="disabled" class="input-sm">
+                                        <ui-select-match placeholder="Departamentos(s)">{{$item.nome}}</ui-select-match>
+                                        <ui-select-choices repeat="i in departamentosLista | propsFilter: {nome: $select.search}">
+                                            <div ng-bind-html="i.nome | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label label-sm text-right">Estados</label>
+                                <div class="col-sm-8">
+                                    <ui-select multiple ng-model="paramsPesquisa.estadoSav" theme="bootstrap" ng-disabled="disabled" class="input-sm">
+                                        <ui-select-match placeholder="Estados(s)">{{$item.nome}}</ui-select-match>
+                                        <ui-select-choices repeat="i in estadoSavLista | propsFilter: {nome: $select.search}">
+                                            <div ng-bind-html="i.nome | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label label-sm text-right">Produtos</label>
+                                <div class="col-sm-8">
+                                    <ui-select multiple ng-model="paramsPesquisa.produtos" theme="bootstrap" ng-disabled="disabled" class="input-sm">
+                                        <ui-select-match placeholder="Produto(s)">{{$item.nome}}</ui-select-match>
+                                        <ui-select-choices repeat="i in produtosLista | propsFilter: {nome: $select.search}">
+                                            <div ng-bind-html="i.nome | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mtb5">
+                    <div class="row row-eq-height  s-g s-g-02">
+                        <div class="s-g-name">
+                            RECOLHA
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label class="col-sm-3 control-label label-sm text-right">Data Pedido Recolha</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group ">
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.recolha.dataPedidoRecolhaDesdeBool">Desde
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.recolha.dataPedidoRecolhaDesdeValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.recolha.dataPedidoRecolhaDesdeBool"
+                                                is-open="dataOpenend[dataPedidoRecolhaDesdeValue]" ng-focus="dataOpenend[dataPedidoRecolhaDesdeValue] = true; "
+                                            />
+                                        </div>
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.recolha.dataPedidoRecolhaAteValue">Até
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.recolha.dataPedidoRecolhaAteValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.recolha.dataPedidoRecolhaAteBool"
+                                                is-open="dataOpenend[dataPedidoRecolhaAteValue]" ng-focus="dataOpenend[dataPedidoRecolhaAteValue] = true; "
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group ">
+                                <label class="col-sm-3 control-label label-sm text-right">Data Recolha</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group ">
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.recolha.dataRecolhaDesdeBool">Desde
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.recolha.dataRecolhaDesdeValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.recolha.dataRecolhaDesdeBool"
+                                                is-open="dataOpenend[dataRecolhaDesdeValue]" ng-focus="dataOpenend[dataRecolhaDesdeValue] = true; "
+                                            />
+                                        </div>
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.recolha.dataRecolhaAteValue">Até
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.recolha.dataRecolhaAteValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.recolha.dataRecolhaAteBool" is-open="dataOpenend[dataRecolhaAteValue]"
+                                                ng-focus="dataOpenend[dataRecolhaAteValue] = true; " />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="form-group ">
+                                <label class="col-sm-3 control-label label-sm text-right">Data Prevista Chegada</label>
+                                <div class="col-sm-8">
+                                    <div class="input-group ">
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.recolha.dataPrevistaChegadaDesdeBool">Desde
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.recolha.dataPrevistaChegadaDesdeValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.recolha.dataPrevistaChegadaDesdeBool"
+                                                is-open="dataOpenend[dataPrevistaChegadaDesdeValue]" ng-focus="dataOpenend[dataPrevistaChegadaDesdeValue] = true; "
+                                            />
+                                        </div>
+                                        <div class="f-l nopadding">
+                                            <label class="checkbox-inline">
+                                                <input type="checkbox" value="true" ng-model="paramsPesquisa.recolha.dataPrevistaChegadaAteValue">Até
+                                            </label>
+                                        </div>
+                                        <div class="col-sm-4 nopadding">
+                                            <input type="text" class="form-control input-sm" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.recolha.dataPrevistaChegadaAteValue"
+                                                close-text="Close" ng-disabled="!paramsPesquisa.recolha.dataPrevistaChegadaAteBool"
+                                                is-open="dataOpenend[dataPrevistaChegadaAteValue]" ng-focus="dataOpenend[dataPrevistaChegadaAteValue] = true; "
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label label-sm text-right">Estado da Recolha</label>
+                                <div class="col-sm-8">
+                                    <ui-select multiple ng-model="paramsPesquisa.estadoRecolha" theme="bootstrap" ng-disabled="disabled" class="input-sm">
+                                        <ui-select-match placeholder="Estado de Recolha(s)">{{$item.nome}}</ui-select-match>
+                                        <ui-select-choices repeat="i in estadoRecolha | propsFilter: {nome: $select.search}">
+                                            <div ng-bind-html="i.nome | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="mtb5" />
+                    <div class="row row-eq-height  s-g ">
+                        <div class="s-g-name">
+                            &nbsp;
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label class="col-sm-3 control-label label-sm text-right">Ordenar</label>
+                            <div class="col-sm-8">
+                                <select class="form-control input-sm" ng-init="paramsPesquisa.ordemPesquisa = 21" ng-model="paramsPesquisa.ordemPesquisa">
+                                    <option value="21">Recolha - Data Pedido Recolha</option>
+                                    <option value="23">Recolha - Data Recolha</option>
+                                    <option value="25">Recolha - Data Prevista Chegada</option>
+                                    <option value="22">Recolha - Data Pedido Recolha (desc)</option>
+                                    <option value="24">Recolha - Data Recolha (desc)</option>
+                                    <option value="26">Recolha - Data Prevista Chegada (desc)</option>
+                                    <option value="0">Data Entrada (Desc)</option>
+                                    <option value="1">Data Entrada (Asc)</option>
+                                    <option value="2">NumSerie/Doc</option>
+                                    <option value="3">NumSerie/Doc (Desc)</option>
+                                    <option value="4">Cliente</option>
+                                    <option value="5">Departamento</option>
+                                    <option value="6">Produto</option>
+                                    <option value="7">Semana Entrega (Asc)</option>
+                                    <option value="8">Semana Entrega (Desc)</option>
+                                    <option value="9">Num Dias (Asc)</option>
+                                    <option value="10">Num Dias (Desc)</option>
+                                    <option value="11">Estado</option>
+                                    <option value="19">Custo (Asc)</option>
+                                    <option value="20">Custo (Desc)</option>
+                                    <option value="12">Cliente (Agrupar)</option>
+                                    <option value="13">Tipo de Avaria (Agrupar)</option>
+                                    <option value="14">Departamento (Agrupar)</option>
+                                    <option value="15">Produto (Agrupar)</option>
+                                    <option value="16">Semana Entrega (Agrupar)</option>
+                                    <option value="17">N Dias (Agrupar)</option>
+                                    <option value="18">Estado (Agrupar)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <div class="col-sm-8">
+                                <button type="submit" class="btn m-b-xs btn-sm btn-primary btn-addon">
+                                    <i class="fa fa-search"></i>Pesquisar</button>
+                                <span ng-if="pesqRes.savs.length != 0">Foram devolvidos {{pesqRes.savs.length}} resultados</span>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+
+                    </div>
+            </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class=" row">
+            <div class="panel panel-default  no-m-v">
+                <div class="panel-heading" ng-if="false">
+                    <ul class="nav nav-pills pull-right">
+                        <li>
+                            <a ng-click="pdfPesquisa()" ng-if="false" class="">
+                                <i class="fa fa-file-pdf-o"></i>PDF</a>
+                        </li>
+                    </ul>
+                    <br />
+                </div>
+                <div class="table-responsive" ng-show="true">
+                    <table class="table b-t b-light padding-0 text-xs" data-filter="#filter" data-page-size="50">
+                        <thead>
+                            <tr >
+                                <th colspan="13" class="text-center th-bg-01">SAV</th>
+                                <th colspan="4" class="text-center th-bg-02">RECOLHA</th>
+                            </tr>
+                            <tr>
+                                <th>Id</th>
+                                <th>Colocado Por</th>
+                                <th ng-if="pesqRes.agruparCliente == false">Cliente</th>
+                                <th ng-if="pesqRes.agruparDepartamento == false">Dep</th>
+                                <th ng-if="pesqRes.agruparProduto == false" style="max-width:130px;">Produto</th>
+                                <th>Ref</th>
+                                <th>Custos</th>
+                                <th ng-if="pesqRes.agruparSemanaEntrega == false">S.E.</th>
+                                <th ng-if="pesqRes.agruparTipoAvaria == false">Tipo Avaria</th>
+                                <th ng-if="pesqRes.agruparEstado == false">Estado</th>
+                                <th style="width:80px;">Dt Entrada</th>
+                                <th ng-if="pesqRes.agruparNumDias == false">NDias</th>
+                                <th>NC</th>
+                                <th class="recolha-bg" style="width:90px;">Dt. Pedido Recolha</th>
+                                <th class="recolha-bg" style="width:90px;">Dt. Recolha</th>
+                                <th class="recolha-bg" style="width:90px;">Dt. Prev. Chegada</th>
+                                <th class="recolha-bg" style="width:90px;">Estado Recolha</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr bindonce bo-class="'estado-' + sav.cssEstado" ng-repeat="sav in pesqRes.savs" ng-click="editSav(sav)">
+                                <td bo-hide="sav.separador==false" colspan="6" bo-html="'<strong>'+sav.separadorTexto + ':</strong>  ' + sav.separadorTexto2"></td>
+                                <td bo-hide="sav.separador==false" colspan="7" bo-text="sav.custos ? sav.custos : '-'"></td>
+                                <td bo-hide="sav.separador==true" bo-text="sav.serieNum" style="font-weight:bold;"></td>
+                                <td bo-hide="sav.separador==true" bo-text="sav.quemColocou"></td>
+                                <td bo-hide="pesqRes.agruparCliente == true || sav.separador==true" bo-text="sav.nomeCliente"></td>
+                                <td bo-hide="pesqRes.agruparDepartamento == true ||sav.separador==true" bo-text="sav.nomeDepartamento"></td>
+                                <td bo-hide="pesqRes.agruparProduto == true ||sav.separador==true" bo-text="sav.nomeProduto"></td>
+                                <td bo-hide="sav.separador==true" bo-text="sav.ref"></td>
+                                <td bo-hide="pesqRes.agruparSemanaEntrega == true || sav.separador==true" bo-text="sav.custos ? sav.custos : '-'"></td>
+                                <td bo-hide="pesqRes.agruparSemanaEntrega == true || sav.separador==true" bo-text="sav.semanaEntrega"></td>
+                                <td bo-hide="pesqRes.agruparTipoAvaria == true ||  sav.separador==true" bo-text="sav.nomeTipoAvaria"></td>
+                                <td bo-hide="pesqRes.agruparEstado == true ||  sav.separador==true" bo-text="sav.nomeEstado"></td>
+                                <td bo-hide="sav.separador==true" bo-text="sav.dataEntrada"></td>
+                                <td bo-hide="pesqRes.agruparNumDias == true ||  sav.separador==true" bo-text="sav.nDias"></td>
+                                <td bo-hide="sav.separador==true">
+                                    <i style="font-size: 18px; color:red; margin-top:2px;" class="fa fa-square-o" bo-if="!sav.direitoNC"></i>
+                                    <i style="font-size: 18px;  margin-top:2px;" class="fa fa-check-square-o" bo-if="sav.direitoNC"></i>
+                                </td>
+                                <td bo-hide="sav.separador==true" class="recolha-bg" bo-text="sav.recolha.dataPedidoRecolha"></td>
+                                <td bo-hide="sav.separador==true" class="recolha-bg" bo-text="sav.recolha.dataRecolha"></td>
+                                <td bo-hide="sav.separador==true" class="recolha-bg" bo-text="sav.recolha.dataChegadaPrevista"></td>
+                                <td bo-hide="sav.separador==true" class="recolha-bg" bo-text="sav.recolha.estadoRecolha || '---'"></td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

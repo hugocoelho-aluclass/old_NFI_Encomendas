@@ -1,0 +1,111 @@
+﻿
+<div class="">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li><a href="" class="" ui-sref="app.admin.gestaoOperadores_edit({id: 0})"><i class="glyphicon glyphicon-plus"></i>Novo</a></li>
+                <li><a href="" class="" ui-sref="app.admin.gestaoOperadores_edit({id: dados.idAnt})"><i class="fa fa-arrow-left"></i></a></li>
+                <li><a href="" class="" ui-sref="app.admin.gestaoOperadores_edit({id: dados.idProx})"><i class="fa fa-arrow-right"></i></a></li>
+            </ul>
+            Editar Utilizador
+
+        </div>
+        <div class="panel-body">
+            <form name="form" class="form-horizontal form-validation" ng-submit="submit()">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Login</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" placeholder="Login" name="nomeLogin" ng-model="operador.nome">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label " required>Nome Completo</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" name="nomeCompleto" placeholder="Nome" ng-model="operador.nomeCompleto">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label " required>Email</label>
+                    <div class="col-lg-10">
+                        <input type="Email" class="form-control" placeholder="Email" ng-model="operador.email">
+                    </div>
+                </div>
+                <div class="form-group" ng-if="operador.idOperador == 0">
+                    <label class="col-lg-2 control-label">Password</label>
+                    <div class="col-lg-5">
+                        <input type="Password" class="form-control" placeholder="Password" name="password" ng-model="operador.passwordForm">
+                    </div>
+                    <div class="col-lg-5">
+                        <input type="Password" class="form-control" placeholder="Confirmar Password" name="confirm_password" required ng-model="operador.password_confirm" ui-validate=" '$value==operador.passwordForm' " ui-validate-watch=" 'password' ">
+                        <span ng-show='form.confirm_password.$error.validator'>Passwords não coincidem</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label"></label>
+                    <div class="col-lg-10">
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="operador.ativo"> Ativo
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="operador.admin"> Administrador
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="operador.sav"> Operador SAV
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="operador.adminSav"> Admin SAV
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="operador.comercial"> Comercial (só leitura)
+                        </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" ng-model="operador.anulado"> Anulado
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label text-right">Departamentos SAV</label>
+                 
+                    <div class="col-lg-10" >
+                        <ui-select multiple ng-model="operador.departamentos" theme="bootstrap" ng-disabled="false">
+                            <ui-select-match placeholder="Departamento(s)">{{$item.nome}}</ui-select-match>
+                            <ui-select-choices repeat="dep in departamentosLista | propsFilter: {nome: $select.search}">
+                                <div ng-bind-html="dep.nome | highlight: $select.search"></div>
+                            </ui-select-choices>
+                        </ui-select>
+
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-info" ng-disabled="form.$invalid">{{operador.idOperador == 0 ? "Registar Novo" : "Atualizar"}}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="" ng-if="operador.idOperador != 0">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <form name="formResetPassword" class="form-horizontal form-validation" ng-submit="AtualizaOperadorPassword()">
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Nova Password</label>
+                    <div class="col-lg-5">
+                        <input type="Password" class="form-control" placeholder="Password" name="password" ng-model="operador.passwordForm">
+                    </div>
+                    <div class="col-lg-5">
+                        <input type="Password" class="form-control" placeholder="Confirmar Password" name="confirm_password" required ng-model="operador.password_confirm" ui-validate=" '$value==operador.passwordForm' " ui-validate-watch=" 'password' ">
+                        <span ng-show='formResetPassword.confirm_password.$error.validator'>Passwords não coincidem</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-offset-2 col-lg-10">
+                        <button type="submit" class="btn btn-sm btn-info" ng-disabled="formResetPassword.$invalid">Nova Password</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

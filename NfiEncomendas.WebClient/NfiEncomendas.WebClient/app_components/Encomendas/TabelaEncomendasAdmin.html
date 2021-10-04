@@ -1,0 +1,288 @@
+﻿<div class="" ng-controller="tabelaEncomendasAdminCtrl" ng-if="_utilizador != undefined">
+    <div class="" ng-if="show">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-pills pull-right">
+                    <li  ng-if="_utilizador.comercial === false"><a ui-sref="app.encomendas.edit({serie: 0, num: 0})"><i class="glyphicon glyphicon-plus"></i>Novo</a></li>
+                    <!--<li><a href="" ng-click="gerarPdf()"><i class="fa fa-file-pdf-o"></i>PDF</a></li>-->
+                </ul>
+                Tabela de Encomendas - Admin
+            </div>
+            <div class="panel-body">
+                <form role="form" class="form-horizontal" ng-submit="submit()">
+                    <div class="col-sm-6">
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label text-right">Num Doc</label>
+                            <div class=" col-md-2 no-padding-r">
+                                <select name="nomeSerie" class="form-control m-b" ng-model="paramsPesquisa.serie"
+                                        ng-options="serie.numSerie  as serie.numSerie  for serie in seriesLista" required></select>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="input-group">
+                                    <div class="col-sm-3 no-padding-l">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" ng-model="paramsPesquisa.NumDocDesdeBool">Desde
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-3 no-padding-l">
+                                        <input type="number" class="form-control nopadding" ng-model="paramsPesquisa.NumDocDesdeValue" ng-disabled="!paramsPesquisa.NumDocDesdeBool" />
+
+                                    </div>
+                                    <div class="col-sm-3 no-padding-l">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" value="true" ng-model="paramsPesquisa.NumDocAteBool">Até
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-3 no-padding-l">
+                                        <input type="number" class="form-control nopadding" ng-model="paramsPesquisa.NumDocAteValue" ng-disabled="!paramsPesquisa.NumDocAteBool" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Clientes</label>
+                            <div class="col-sm-8">
+                                <ui-select multiple ng-model="paramsPesquisa.clientes" theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match placeholder="Cliente(s)">{{$item.nomeCliente}}</ui-select-match>
+                                    <ui-select-choices repeat="cliente in clientesLista | propsFilter: {nomeCliente: $select.search}">
+                                        <div ng-bind-html="cliente.nomeCliente | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label text-right">Data Pedido</label>
+                            <div class="col-sm-8">
+                                <div class="input-group ">
+                                    <div class="col-sm-4 nopadding">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" value="true" ng-model="paramsPesquisa.dataPedidoDesdeBool">Desde
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8 nopadding">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.dataPedidoDesdeValue" close-text="Close" ng-disabled="!paramsPesquisa.dataPedidoDesdeBool" is-open="dataPedidoDesdeIsOpened" ng-focus="dataPedidoDesdeIsOpened = true; " />
+                                    </div>
+                                    <div class="col-sm-4 nopadding">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" value="true" ng-model="paramsPesquisa.dataPedidoAteBool">Até
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8 nopadding">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.dataPedidoAteValue" close-text="Close" ng-disabled="!paramsPesquisa.dataPedidoAteBool" is-open="dataPedidoAteIsOpened" ng-focus="dataPedidoAteIsOpened = true; " />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label text-right">Data Entrega</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <div class="col-sm-4 nopadding">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" ng-model="paramsPesquisa.dataEntregaDesdeBool">Desde
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8 nopadding">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.dataEntregaDesdeValue" close-text="Close" ng-disabled="!paramsPesquisa.dataEntregaDesdeBool" is-open="dataEntregaDesdeIsOpened" ng-focus="dataEntregaDesdeIsOpened = true; " />
+
+                                    </div>
+                                    <div class="col-sm-4 nopadding">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" value="true" ng-model="paramsPesquisa.dataEntregaAteBool">Até
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-8 nopadding">
+                                        <input type="text" class="form-control" datepicker-popup="yyyy-MM-dd" ng-model="paramsPesquisa.dataEntregaAteValue" close-text="Close" ng-disabled="!paramsPesquisa.dataEntregaAteBool" is-open="dataEntregaAteIsOpened" ng-focus="dataEntregaAteIsOpened = true; " />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group ">
+                            <label class="col-sm-3 control-label text-right">Semana Entrega</label>
+                            <div class="col-sm-8">
+                                <div class="input-group">
+                                    <div class="col-sm-3 no-padding-l">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" ng-model="paramsPesquisa.semanaEntregaDesdeBool">Desde
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2 no-padding-l">
+                                        <input type="number" class="form-control nopadding" ng-model="paramsPesquisa.semanaEntregaDesdeValue" ng-disabled="!paramsPesquisa.semanaEntregaDesdeBool" />
+
+                                    </div>
+                                    <div class="col-sm-2 no-padding-l">
+                                        <label class="checkbox-inline">
+                                            <input type="checkbox" value="true" ng-model="paramsPesquisa.semanaEntregaAteBool">Até
+                                        </label>
+                                    </div>
+                                    <div class="col-sm-2 no-padding-l">
+                                        <input type="number" class="form-control nopadding" ng-model="paramsPesquisa.semanaEntregaAteValue" ng-disabled="!paramsPesquisa.semanaEntregaAteBool" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Estados</label>
+                            <div class="col-sm-8">
+                                <ui-select multiple ng-model="paramsPesquisa.estadosEncomenda" theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match placeholder="Estados(s)">{{$item.nome}}</ui-select-match>
+                                    <ui-select-choices group-by="someGroupFn" repeat="estado in estadosLista | propsFilter: { nome: $select.search}">
+                                        <div ng-bind-html="estado.nome | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Setor de Encomenda</label>
+                            <div class="col-sm-5 no-padding-r pl-10 ">
+                                <select name="setorNome" class="form-control" ng-model="paramsPesquisa.setorEncomenda"
+                                        ng-options="setor.setorId  as setor.setorNome  for setor in setoresEncomenda" required></select>
+                            </div>
+                            <div class="col-sm-4">
+                                <button type="button" class="btn m-b-xs btn-sm btn-primary" ng-click="addSetor()">Adicionar Setor</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Tipo Encomenda</label>
+                            <div class="col-sm-8">
+                                <ui-select multiple ng-model="paramsPesquisa.tipoEncomenda" theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match placeholder="Tipo Encomenda">{{$item.nomeTipoEncomenda}}</ui-select-match>
+                                    <ui-select-choices repeat="tipoEncomenda in tiposEncomendaLista | propsFilter: { nomeTipoEncomenda: $select.search}">
+                                        <div ng-bind-html="tipoEncomenda.nomeTipoEncomenda | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Nome Obra</label>
+                            <div class="col-sm-8">
+                                <input type="text" ng-model="paramsPesquisa.nomeObra" class="form-control" close-text="Close" />
+                                <small>inclui as palavras</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Fatura</label>
+                            <div class="col-sm-8">
+                                <label class="checkbox-inline nopadding">
+                                    <input type="radio" name="optFatura" ng-model="paramsPesquisa.mostrarFaturados" value="1">&nbsp;Todos&nbsp;&nbsp;&nbsp;
+                                </label>
+                                <label class="checkbox-inline nopadding">
+                                    <input type="radio" name="optFatura" ng-model="paramsPesquisa.mostrarFaturados" value="2">&nbsp;Só Não facturados&nbsp;&nbsp;&nbsp;
+                                </label>
+                                <label class="checkbox-inline nopadding">
+                                    <input type="radio" name="optFatura" ng-model="paramsPesquisa.mostrarFaturados" value="3">&nbsp;Só Facturados&nbsp;&nbsp;&nbsp;
+                                </label>
+                                <input type="text" ng-model="paramsPesquisa.fatura" class="form-control" ng-disabled="paramsPesquisa.mostrarFaturados != 3 " />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Ordenar</label>
+                            <div class="col-sm-8">
+                                <select class="form-control" ng-model="paramsPesquisa.ordenacao">
+                                    <option value="1">Semana Entrega</option>
+                                    <option value="0">Num Doc</option>
+                                    <option value="2">Cliente</option>
+                                    <option value="3">Cliente (Agrupar)</option>
+                                    <option value="4">Tipo de Obra</option>
+                                    <option value="5">Tipo de Obra (Agrupar)</option>
+                                    <option value="6">Tipo de Obra/Semana Entrega</option>
+                                    <option value="7">Tipo de Obra (grupo)/Semana Entrega</option>
+
+                                </select>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label class="col-sm-3 control-label text-right"></label>
+                                <div class="col-sm-8">
+                                    <button type="submit" class="btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-search"></i>Pesquisar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class=" row">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <ul class="nav nav-pills pull-right">
+                            <li><a ng-click="pdfPesquisa()" class=""><i class="fa fa-file-pdf-o"></i>PDF</a></li>
+                        </ul>
+                        <br />
+                    </div>
+                    <div class="table-responsive" ng-show="true">
+                        <table class="table b-t b-light padding-0" data-filter="#filter" data-page-size="50">
+                            <thead>
+                                <tr ng-if="pesqRes.ordenacao != 5 && pesqRes.ordenacao != 7">
+                                    <th>{{pesqRes.agruparCliente == false ? 'NumDoc' : 'Cliente'}}</th>
+                                    <th>{{pesqRes.agruparCliente == false ? 'Cliente' : 'NumDoc'}}</th>
+                                    <th>Nome Obra</th>
+                                    <th>Tipo Encomenda</th>
+                                    <th style="min-width:100px;">Data Pedido</th>
+                                    <th>Data Aprovação</th>
+                                    <th>Data Entrega</th>
+                                    <th style="width:30px;">NV</th>
+                                    <th style="width:30px;">Cor</th>
+                                    <th style="width:30px;">S.E.</th>
+                                    <th style="max-width:50px;">Fatura</th>
+                                    <th>Estado</th>
+                                    <th style="width:10px;"></th>
+                                </tr>
+                                <tr ng-if="pesqRes.ordenacao == 5 || pesqRes.ordenacao == 7">
+                                    <th></th>
+                                    <th>NumDoc</th>
+                                    <th>Cliente</th>
+                                    <th>Nome Obra</th>
+                                    <th style="min-width:100px;">Data Pedido</th>
+                                    <th>Data Aprovação</th>
+                                    <th>Data Entrega</th>
+                                    <th style="width:30px;">Cor</th>
+                                    <th style="width:30px;">S.E.</th>
+                                    <th style="max-width:50px;">Fatura</th>
+                                    <th>Estado</th>
+                                    <th style="width:10px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr bindonce bo-class="encomenda.classeEstado" ng-repeat="encomenda in pesqRes.encomendas">
+                                    <td bo-hide="(encomenda.separador==false && ((pesqRes.ordenacao == 3 ||  (pesqRes.ordenacao == 5 || pesqRes.ordenacao == 7))) || (pesqRes.ordenacao != 3 &&  pesqRes.ordenacao != 5 && pesqRes.ordenacao != 7))"
+                                        bo-text="(pesqRes.ordenacao == 3 ? encomenda.nomeCliente : ((pesqRes.ordenacao == 5 || pesqRes.ordenacao == 7) ?encomenda.nomeTipoEncomenda : '' ))" colspan="9" style="font-weight:bold;"></td>
+                                    <td bo-hide="encomenda.separador==false && pesqRes.agruparCliente==false"></td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="encomenda.serieNumEncomenda"></td>
+                                    <td bo-hide="pesqRes.agruparCliente==true || pesqRes.ordenacao == 3 || (pesqRes.ordenacao == 5 || pesqRes.ordenacao == 7) " bo-text="encomenda.nomeCliente"></td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="(pesqRes.ordenacao == 5 || pesqRes.ordenacao == 7) ? encomenda.nomeCliente :encomenda.nomeArtigo "> </td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="(pesqRes.ordenacao == 5 || pesqRes.ordenacao == 7) ? encomenda.nomeArtigo :encomenda.nomeTipoEncomenda "></td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="encomenda.dataPedidoString"></td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="encomenda.dataAprovadoString"></td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="encomenda.dataExpedido"></td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="encomenda.numVaos"></td>
+                                    <td style="max-width: 100px" bo-hide="encomenda.separador==true" bo-text="encomenda.cor || ''"></td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="encomenda.semanaEntrega"></td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="encomenda.fatura"></td>
+                                    <td bo-hide="encomenda.separador==true" bo-text="encomenda.estadoDesc"></td>
+                                    <td bo-hide="encomenda.separador==true">
+                                        <a class="btn m-b-xs btn-xs  btn-info " bo-href="'#/app/encomendas/edit/' + encomenda.serieNumEncomenda" target="_blank"><i class="fa fa-edit"></i></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
