@@ -46,7 +46,28 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             return DbContext.Encomendas.Include("SerieDoc").Include("Cliente").Include("TipoEncomenda").Where(x => x.Anulada == false).OrderBy(x => x.SerieDoc.NumSerie).ThenBy(x => x.NumDoc);
         }
 
+        public bool ExisteEncomendaNum(int num, string ano)
+        {
 
+            var sql = "SELECT COUNT(*) FROM dbo.Encomendas WHERE (NumDoc = '" + num + "') AND (SerieDoc_NumSerie = '" + ano + "')";
+            var res = DbContext.Database.SqlQuery<int>(sql).First();
+
+            /*var sql = "SELECT CAST(" +
+                        "CASE WHEN EXISTS(SELECT * FROM dbo.Encomendas WHERE NumDoc = " + num + ") THEN 1" +
+                        "ELSE 0" +
+                        "END" +
+                         "AS BIT)";
+            var res = DbContext.Database.SqlQuery<bool>(sql).First();*/
+
+            if (res == 0)
+            {
+                return false;
+            }
+
+            return true;
+
+            /*return res;*/
+        }
 
         public KeyValuePair<Models.Encomendas, bool> LerEncomenda(int id)
         {
@@ -61,7 +82,7 @@ namespace NfiEncomendas.WebServer.BusinessLogic
                 res.NumDoc = res.SerieDoc.UltimoDoc + 1;
             }
 
-            return new KeyValuePair<Models.Encomendas, bool>(res, nova); ;
+            return new KeyValuePair<Models.Encomendas, bool>(res, nova);
         }
 
         public KeyValuePair<Models.Encomendas, bool> LerEncomenda(string serie, int numDoc)
@@ -81,6 +102,7 @@ namespace NfiEncomendas.WebServer.BusinessLogic
 
         public void AtualizaEncomenda(Encomendas enc)
         {
+
             try
             {
                 Clientes encCl = enc.Cliente;
@@ -155,7 +177,29 @@ namespace NfiEncomendas.WebServer.BusinessLogic
                 {
                     _sr.NumDoc = enc.SerieDoc.UltimoDoc + 1;
                     _sr.SerieDoc.UltimoDoc = _sr.NumDoc;
-                    DbContext.Encomendas.Add(_sr);
+                    // Valida se existe já alguma encomenda com o mesmo número NumDoc
+                    bool valida = false;
+                    // Variavel para evitar que entre num loop infinito
+                    var x = 0;
+                    while (valida == false || x > 10)
+                    {
+                        //Verifica se já existe uma encomenda como mesmo NumDoc
+                        if (ExisteEncomendaNum(_sr.NumDoc, _sr.SerieDoc.NumSerie))
+                        {
+                            // se existir uma encomenda com o mesmo NumDoc, encrementa o número do NumDoc e o numero da ultima encomenda da serie para a próximo ciclo do loop
+                            _sr.NumDoc++;
+                            _sr.SerieDoc.UltimoDoc = _sr.NumDoc;
+                        }
+                        else
+                        {
+                            // se não existir uma encomenda com o mesmo NumDoc, adiciona a encomenda e atualiza na BD
+                            DbContext.Encomendas.Add(_sr);
+                            valida = true;
+                        }
+                        x++;
+                    }
+
+
                 }
                 EncomendasCache.UpdateCache = true;
                 DbContext.SaveChanges();

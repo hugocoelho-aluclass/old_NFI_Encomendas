@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\Users\PC\Desktop\nfi_encomendas\apiserver_app</_PublishTargetUrl>
+    <History>True|2021-10-07T16:24:40.4549322Z;True|2021-10-07T16:06:15.0595020+01:00;True|2021-10-07T14:31:35.1214177+01:00;True|2021-10-07T09:13:16.0558092+01:00;True|2021-10-07T08:54:07.7774858+01:00;True|2021-10-07T08:32:49.7502180+01:00;</History>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="apps/itextsharp.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="apps/itextsharp.xmlworker.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/_ViewStart.cshtml">
+      <publishTime>09/24/2021 17:22:51</publishTime>
+    </File>
+    <File Include="Areas/POS/Views/web.config">
+      <publishTime>09/24/2021 17:22:52</publishTime>
+    </File>
+    <File Include="BD/nfermetures_bd_20141218t.sql">
+      <publishTime>09/24/2021 17:22:52</publishTime>
+    </File>
+    <File Include="BD/nfi_clean_query.sql">
+      <publishTime>09/24/2021 17:22:52</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>02/22/2013 08:43:40</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.pdb">
+      <publishTime>02/22/2013 08:43:40</publishTime>
+    </File>
+    <File Include="bin/AutoMapper.dll">
+      <publishTime>10/26/2015 21:51:50</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>02/25/2014 01:34:42</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>02/25/2014 01:34:42</publishTime>
+    </File>
+    <File Include="bin/itextsharp.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/itextsharp.xmlworker.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/jsreport.Client.dll">
+      <publishTime>01/07/2015 12:14:26</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>06/12/2014 11:28:08</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>06/12/2014 11:28:08</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
+      <publishTime>06/12/2014 11:28:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>08/19/2014 15:42:24</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
+      <publishTime>08/19/2014 15:42:30</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
+      <publishTime>01/13/2014 16:11:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>01/13/2014 16:11:08</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Facebook.dll">
+      <publishTime>01/13/2014 16:11:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Google.dll">
+      <publishTime>01/13/2014 16:11:10</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>01/13/2014 16:11:12</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Threading.Tasks.dll">
+      <publishTime>04/07/2014 13:26:14</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Threading.Tasks.Extensions.Desktop.dll">
+      <publishTime>04/07/2014 13:26:14</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Threading.Tasks.Extensions.dll">
+      <publishTime>04/07/2014 13:26:14</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>07/25/2012 12:48:56</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>08/03/2014 21:33:56</publishTime>
+    </File>
+    <File Include="bin/NfiEncomendas.WebServer.dll">
+      <publishTime>10/07/2021 17:24:39</publishTime>
+    </File>
+    <File Include="bin/NfiEncomendas.WebServer.pdb">
+      <publishTime>10/07/2021 17:24:39</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>11/13/2012 12:19:34</publishTime>
+    </File>
+    <File Include="bin/Simple.OData.Client.Net40.dll">
+      <publishTime>07/15/2014 00:54:06</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Extensions.dll">
+      <publishTime>04/29/2014 15:51:10</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>08/26/2014 05:33:50</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Primitives.dll">
+      <publishTime>04/29/2014 15:51:10</publishTime>
+    </File>
+    <File Include="bin/System.Web.Cors.dll">
+      <publishTime>08/26/2014 05:32:44</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>06/27/2014 03:06:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Cors.dll">
+      <publishTime>08/26/2014 05:34:18</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>08/26/2014 05:34:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Owin.dll">
+      <publishTime>01/01/0001 00:00:00</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>08/26/2014 05:35:36</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>06/27/2014 03:03:40</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>02/11/2014 15:26:04</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>06/27/2014 03:03:58</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>06/27/2014 03:06:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>06/27/2014 03:06:48</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>06/27/2014 03:06:48</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>07/17/2013 18:03:52</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>09/24/2021 17:22:53</publishTime>
+    </File>
+    <File Include="CSV/clientes.csv">
+      <publishTime>09/24/2021 17:22:53</publishTime>
+    </File>
+    <File Include="CSV/departamentosSav.csv">
+      <publishTime>09/24/2021 17:22:53</publishTime>
+    </File>
+    <File Include="CSV/encomendas.csv">
+      <publishTime>09/24/2021 17:22:53</publishTime>
+    </File>
+    <File Include="CSV/produtosSAV.csv">
+      <publishTime>09/24/2021 17:22:53</publishTime>
+    </File>
+    <File Include="CSV/tiposEncomenda.csv">
+      <publishTime>09/24/2021 17:22:53</publishTime>
+    </File>
+    <File Include="Exports/PdfTemplates/EncomendaLista/Tabela.html">
+      <publishTime>09/24/2021 17:22:53</publishTime>
+    </File>
+    <File Include="Exports/PdfTemplates/EncomendaLista/TabelaRows.html">
+      <publishTime>09/24/2021 17:22:53</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>09/24/2021 17:22:51</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>09/24/2021 17:22:51</publishTime>
+    </File>
+    <File Include="index.html">
+      <publishTime>09/24/2021 17:22:51</publishTime>
+    </File>
+    <File Include="libman.json">
+      <publishTime>09/24/2021 17:22:51</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>09/24/2021 17:22:51</publishTime>
+    </File>
+    <File Include="Reports/Encomendas/0Header.html">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Reports/Encomendas/1content.html">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Reports/Encomendas/1contentXlsx.html">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Reports/notfound.html">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Views/Pdf2/Index.cshtml">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>09/24/2021 17:22:59</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>10/06/2021 17:41:43</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

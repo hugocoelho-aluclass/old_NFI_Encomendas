@@ -200,6 +200,7 @@ app.controller('EncomendaEditCtrl', ['$scope', '$rootScope', '$http', '$statePar
             }
             else
             {
+                console.log($scope);
                 $http.post(serviceBase + "api/Encomendas/AtualizaEncomenda/", $scope.encomenda)
                     .success(function (data, status, headers, config) 
                     {

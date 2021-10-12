@@ -164,7 +164,12 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
         }
 
 
-
+        /// <summary>
+        /// requeste para obter previamente tabelas necessárias para a realização do relatorio
+        /// carrega a tabela series, para colocar no select form
+        /// carrega a tabela com os tipo de encomendas para fazer as separação dos tipos de encomenda por setor
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ViewModels.Encomendas.RelatorioDados RelatorioSemanaDados()
         {
@@ -202,20 +207,23 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
         }
 
 
-
+        /// <summary>
+        /// Request para retornar um objecto com as tabelas necessárias para o relatório semanal
+        /// recebe como parametro um objeto com duas variaveis, o ano e a semana
+        /// </summary>
+        /// <param name="pesqParams"></param>
+        /// <returns></returns>
         [HttpPost]
-        public TabelasRelatorioSemanal PesquisaEncomendaTeste(ViewModels.Encomendas.EncomendaPesquisaParamSemana pesqParams)
+        public TabelasRelatorioSemanal PesquisaRelatorioEncomendas(ViewModels.Encomendas.EncomendaPesquisaParamSemana pesqParams)
         {
-
+            //instancia um objeto da class EncomendasBL, para poder usar os metodos da classe
             EncomendasBL ebl = new EncomendasBL();
-
+            // metodo para obter um objeto com o totais das encomendas
             RelatorioEncTotais totais = ebl.TotalEncomendas(pesqParams.semanaEntrega, pesqParams.serie.NumSerie);
-
+            // metodo para obter uma lista dos tipos de encomendas e o total de encomendas por cliente
             List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioEncTipoEncomenda> lista = ebl.TotaisTipoEncomenda(pesqParams.semanaEntrega, pesqParams.serie.NumSerie);
-
+            //juntar as duas variaveis obtidas num único objeto, que é enviado como resposta ao requeste para o front-end
             TabelasRelatorioSemanal tabelas = new TabelasRelatorioSemanal(lista.ToList(), totais);
-
-            
 
             return tabelas;
         }
