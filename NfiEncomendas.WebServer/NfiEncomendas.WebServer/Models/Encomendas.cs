@@ -47,6 +47,9 @@ namespace NfiEncomendas.WebServer.Models
 
         public bool ComprasOK { get; set; }
 
+
+
+
         public Encomendas()
         {
             DataPedido = DateTime.Now;

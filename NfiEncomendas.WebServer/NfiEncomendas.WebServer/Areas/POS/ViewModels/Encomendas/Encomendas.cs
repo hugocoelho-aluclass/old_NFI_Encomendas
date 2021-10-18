@@ -52,6 +52,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
 
         public List<Compras> Compras { get; set; }
 
+
         public Encomendas()
         {
             DataPedido = DateTime.Now.Date;
@@ -346,6 +347,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
         }
     }
 
+    //interface para receber tabelas com os dados para o relatorio semanal web
     public class RelatorioEncTipoEncomenda
     {
         public int NumTipoEncomenda { get; set; }
@@ -366,6 +368,32 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
         }
 
     }
+
+    //interface para receber tabelas com os dados para o relatorio Excel
+    public class RelatorioExcelTipoEncomenda
+    {
+        public int IdTipoEncomenda { get; set; }
+        public int NumTipoEncomenda { get; set; }
+        public string NomeTipoEncomenda { get; set; }
+        public int SetorEncomenda_IdSetorEncomenda { get; set; }
+        public int totalPrix { get; set; }
+        public int totalWis { get; set; }
+        public int totalResto { get; set; }
+        public int totalConcluidoPrix { get; set; }
+        public int totalConcluidoWis { get; set; }
+        public int totalConcluidoResto { get; set; }
+        public int totalProdPrix { get; set; }
+        public int totalProdWis { get; set; }
+        public int totalProdResto { get; set; }
+
+
+        public RelatorioExcelTipoEncomenda()
+        {
+        }
+
+    }
+
+
 
     public class RelatorioEncTotais
     {

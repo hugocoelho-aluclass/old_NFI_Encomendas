@@ -938,6 +938,15 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             return total;
         }
 
+        public List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda> RelatorioExcelTipoEncomenda(int semana, string serie)
+        {
+
+            var sql = "select * from RelatorioExcel(" + semana + ", " + serie + ")";
+
+            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda>(sql).ToList();
+            return total;
+        }
+
         public int TotalEncPrix(int semana)
         {
             var sql = "SELECT COUNT(*) FROM dbo.Encomendas WHERE (Anulada =0) AND (Cliente_IdCliente = '7') AND (semanaEntrega = '" + semana + "')";

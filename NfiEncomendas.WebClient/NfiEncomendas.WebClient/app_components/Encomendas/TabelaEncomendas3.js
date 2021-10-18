@@ -29,6 +29,24 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
         $scope.dados.semana = "";
         $scope.dados.serie = "";
         $scope.dados.uSemana = "";
+        $scope.dados.emProducaoCols = 2;
+
+
+        $scope.entregaTipo = true;
+        $scope.entregaTipoCols = 2;
+        $scope.concluidoTipo = true;
+        $scope.concluidoTipoCols = 2;
+        $scope.produzidoTipo = true;
+        $scope.produzidoTipoCols = 1;
+
+        $scope.entrega = true;
+        $scope.entregaCols = 2;
+        $scope.concluido = true;
+        $scope.concluidoCols = 2;
+        $scope.produzido = true;
+        $scope.produzidoCols = 1;
+
+
 
         //array para guardar o objeto com os parametros de pesquisa, como a semana de entrega e a serie(ano)
         $scope.paramsPesquisa = {};
@@ -100,9 +118,102 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
             
         }
 
+        $scope.downloadExcel = function () {
+            $http.get(serviceBase + "api/NPOI/RelatorioProdSemanal",  { responseType: 'arraybuffer' })
+                .success(function (data, status, headers, config) {
+                    console.log(headers);
+                    console.log(data);
+                    console.log(encodeURI(data));
+                    var file = new Blob([data], { type: 'application/x-www-form-urlencoded' });
+
+                    var fileURL = URL.createObjectURL(file);
+                    /*var a = document.createElement('a');
+                    a.href = fileURL;
+                    a.target = '_blank';
+                    a.download = 'yourfilename.xlsx';
+                    document.body.appendChild(a); //create the link "a"
+                    a.click(); //click the link "a"*/
+
+
+
+                    var hiddenElement = document.createElement('a');
+                    hiddenElement.href = fileURL
+                    hiddenElement.target = '_blank';
+                    hiddenElement.download = 'relatorio.xlsx';
+                    hiddenElement.click();
+                    
+                });
+        }
+
+
+        $scope.expandirEntrega = function () {
+            if ($scope.entrega === true) {
+                $scope.entrega = false;
+                $scope.entrega = false;
+                $scope.entregaCols = 5;
+            } else if ($scope.entrega === false) {
+                $scope.entrega = true;
+                $scope.entregaCols = 2
+            }     
+        }
+
+        $scope.expandirConcluido = function () {
+            if ($scope.concluido === true) {
+                $scope.concluido = false;
+                $scope.concluidoCols = 5;
+            } else if ($scope.concluido === false) {
+                $scope.concluido = true;
+                $scope.concluidoCols = 2;
+            }
+        }
+
+        $scope.expandirProduzido = function () {
+            if ($scope.produzido === true) {
+                $scope.produzido = false;
+                $scope.produzidoCols = 4;
+            } else if ($scope.produzido === false) {
+                $scope.produzido = true;
+                $scope.produzidoCols = 1;
+            }
+        }
+
+        $scope.expandirEntregaTipo = function () {
+            if ($scope.entregaTipo === true) {
+                $scope.entregaTipo = false;
+                $scope.entregaTipoCols = 5;
+            } else if ($scope.entregaTipo === false) {
+                $scope.entregaTipo = true;
+                $scope.entregaTipoCols = 2
+            }
+        }
+
+        $scope.expandirConcluidoTipo = function () {
+            if ($scope.concluidoTipo === true) {
+                $scope.concluidoTipo = false;
+                $scope.concluidoTipoCols = 5;
+            } else if ($scope.concluidoTipo === false) {
+                $scope.concluidoTipo = true;
+                $scope.concluidoTipoCols = 2;
+            }
+        }
+
+        $scope.expandirProduzidoTipo = function () {
+            if ($scope.produzidoTipo === true) {
+                $scope.produzidoTipo = false;
+                $scope.produzidoTipoCols = 4;
+            } else if ($scope.produzidoTipo === false) {
+                $scope.produzidoTipo = true;
+                $scope.produzidoTipoCols = 1;
+            }
+        }
+
+
+
+
         //sempre que se seleciona uma serie/ano diferente ele verifica qual a última semana do ano, para definir um limite na form do ano
         $scope.change = function () {
             $scope.dados.uSemana = $scope.maxSemana(parseInt($scope.paramsPesquisa.serie.numSerie));
+
         }
         
         $scope.show = true;

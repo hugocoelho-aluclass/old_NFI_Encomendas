@@ -3,10 +3,7 @@
         <div class="panel panel-default">
             <div class="panel-heading">
                 <ul class="nav nav-pills pull-right">
-                    <li ng-if="_utilizador.comercial === false">
-                        <a ui-sref="app.encomendas.edit({serie: 0, num: 0})"><i class="glyphicon glyphicon-plus"></i>Novo</a>
-                    </li>
-                    <!--<li><a href="" ng-click="gerarPdf()"><i class="fa fa-file-pdf-o"></i>PDF</a></li>-->
+                    <li><a href="" ng-click="downloadExcel()"><i class="fa fa-download m-r-xs" aria-hidden="true"></i> Relatório Produção Semanal</a></li>
                 </ul>
                 Relatório de Encomendas Semanal
             </div>
@@ -49,8 +46,9 @@
                                     <thead>
                                         <tr>
                                             <th colspan="3"></th>
-                                            <th colspan="5" class="text-center" style="background-color: lightyellow">PARA ENTREGA</th>
-                                            <th colspan="4" class="text-center" style="background-color: lightgreen">PRODUZIDO</th>
+                                            <th colspan="{{entregaTipoCols}}" class="text-center" style="background-color: lightyellow">ENTREGA<a href="" ng-click="expandirEntregaTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!entregaTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="entregaTipo"></i></a></th>
+                                            <th colspan="{{concluidoTipoCols}}" class="text-center" style="background-color: lightgreen">CONLUÍDO<a href="" ng-click="expandirConcluidoTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!concluidoTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="concluidoTipo"></i></a></th>
+                                            <th colspan="{{produzidoTipoCols}}" class="text-center" style="background-color: aliceblue">PRODUZIDO<a href="" ng-click="expandirProduzidoTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!produzidoTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="produzidoTipo"></i></a></th>
                                         </tr>
                                     </thead>
                                     <thead>
@@ -58,14 +56,19 @@
                                             <th></th>
                                             <th>Num.</th>
                                             <th>Tipo Encomenda</th>
-                                            <th>Priximbattable</th>
-                                            <th>Wis Mar NFI</th>
-                                            <th>Restantes Clientes</th>
+                                            <th ng-hide="entregaTipo">Priximbattable</th>
+                                            <th ng-hide="entregaTipo">Wis Mar NFI</th>
+                                            <th ng-hide="entregaTipo">Restantes Clientes</th>
                                             <th>Total</th>
                                             <th></th>
-                                            <th>Priximbattable</th>
-                                            <th>Wis Mar NFI</th>
-                                            <th>Restantes Clientes</th>
+                                            <th ng-hide="concluidoTipo">Priximbattable</th>
+                                            <th ng-hide="concluidoTipo">Wis Mar NFI</th>
+                                            <th ng-hide="concluidoTipo">Restantes Clientes</th>
+                                            <th>Total</th>
+                                            <th></th>
+                                            <th ng-hide="produzidoTipo">Priximbattable</th>
+                                            <th ng-hide="produzidoTipo">Wis Mar NFI</th>
+                                            <th ng-hide="produzidoTipo">Restantes Clientes</th>
                                             <th>Total</th>
                                         </tr>
                                     </thead>
@@ -74,15 +77,20 @@
                                             <td></td>
                                             <td bo-text="tipoEncEntrega.numTipoEncomenda"></td>
                                             <td bo-text="tipoEncEntrega.nomeTipoEncomenda"></td>
-                                            <td bo-text="tipoEncEntrega.totalPrix"></td>
-                                            <td bo-text="tipoEncEntrega.totalWis"></td>
-                                            <td bo-text="tipoEncEntrega.totalResto"></td>
+                                            <td bo-text="tipoEncEntrega.totalPrix" ng-hide="entregaTipo"></td>
+                                            <td bo-text="tipoEncEntrega.totalWis" ng-hide="entregaTipo"></td>
+                                            <td bo-text="tipoEncEntrega.totalResto" ng-hide="entregaTipo"></td>
                                             <td bo-text="tipoEncEntrega.total"></td>
                                             <td></td>
-                                            <td bo-text="tipoEncEntrega.totalPrixProd"></td>
-                                            <td bo-text="tipoEncEntrega.totalWisProd"></td>
-                                            <td bo-text="tipoEncEntrega.totalRestoProd"></td>
+                                            <td bo-text="tipoEncEntrega.totalPrixProd" ng-hide="concluidoTipo"></td>
+                                            <td bo-text="tipoEncEntrega.totalWisProd" ng-hide="concluidoTipo"></td>
+                                            <td bo-text="tipoEncEntrega.totalRestoProd" ng-hide="concluidoTipo"></td>
                                             <td bo-text="tipoEncEntrega.totalProd"></td>
+                                            <td></td>
+                                            <td ng-hide="produzidoTipo"></td>
+                                            <td ng-hide="produzidoTipo"></td>
+                                            <td ng-hide="produzidoTipo"></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                     <tbody>
@@ -90,15 +98,20 @@
                                             <td></td>
                                             <td></td>
                                             <td>Total</td>
-                                            <td>{{setor.totalPrix}}</td>
-                                            <td>{{setor.totalWis}}</td>
-                                            <td>{{setor.totalResto}}</td>
+                                            <td ng-hide="entregaTipo">{{setor.totalPrix}}</td>
+                                            <td ng-hide="entregaTipo">{{setor.totalWis}}</td>
+                                            <td ng-hide="entregaTipo">{{setor.totalResto}}</td>
                                             <td>{{setor.total}}</td>
                                             <td></td>
-                                            <td>{{setor.totalPrixProd}}</td>
-                                            <td>{{setor.totalWisProd}}</td>
-                                            <td>{{setor.totalRestoProd}}</td>
+                                            <td ng-hide="concluidoTipo">{{setor.totalPrixProd}}</td>
+                                            <td ng-hide="concluidoTipo">{{setor.totalWisProd}}</td>
+                                            <td ng-hide="concluidoTipo">{{setor.totalRestoProd}}</td>
                                             <td>{{setor.totalProd}}</td>
+                                            <td></td>
+                                            <td ng-hide="produzidoTipo">0</td>
+                                            <td ng-hide="produzidoTipo">0</td>
+                                            <td ng-hide="produzidoTipo">0</td>
+                                            <td>0</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -110,8 +123,9 @@
                                     <thead>
                                         <tr>
                                             <th colspan="3"></th>
-                                            <th colspan="5" class="text-center" style="background-color: lightyellow">PARA ENTREGA</th>
-                                            <th colspan="4" class="text-center" style="background-color: lightgreen">PRODUZIDO</th>
+                                            <th colspan="{{entregaCols}}" class="text-center" style="background-color: lightyellow">ENTREGA<a href="" ng-click="expandirEntrega()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!entrega"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="entrega"></i></a></th>
+                                            <th colspan="{{concluidoCols}}" class="text-center" style="background-color: lightgreen">CONLUÍDO<a href="" ng-click="expandirConcluido()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!concluido"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="concluido"></i></a></th>
+                                            <th colspan="{{produzidoCols}}" class="text-center" style="background-color: aliceblue">PRODUZIDO<a href="" ng-click="expandirProduzido()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!produzido"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="produzido"></i></a></th>
                                         </tr>
                                     </thead>
                                     <thead>
@@ -119,14 +133,19 @@
                                             <th></th>
                                             <th>Num.</th>
                                             <th>Tipo Encomenda</th>
-                                            <th>Priximbattable</th>
-                                            <th>Wis Mar NFI</th>
-                                            <th>Restantes Clientes</th>
+                                            <th ng-hide="entrega">Priximbattable</th>
+                                            <th ng-hide="entrega">Wis Mar NFI</th>
+                                            <th ng-hide="entrega">Restantes Clientes</th>
                                             <th>Total</th>
                                             <th></th>
-                                            <th>Priximbattable</th>
-                                            <th>Wis Mar NFI</th>
-                                            <th>Restantes Clientes</th>
+                                            <th ng-hide="concluido">Priximbattable</th>
+                                            <th ng-hide="concluido">Wis Mar NFI</th>
+                                            <th ng-hide="concluido">Restantes Clientes</th>
+                                            <th>Total</th>
+                                            <th></th>
+                                            <th ng-hide="produzido">Priximbattable</th>
+                                            <th ng-hide="produzido">Wis Mar NFI</th>
+                                            <th ng-hide="produzido">Restantes Clientes</th>
                                             <th>Total</th>
                                         </tr>
                                     </thead>
@@ -135,15 +154,20 @@
                                             <td></td>
                                             <td bo-text="tipoEncEntrega.numTipoEncomenda"></td>
                                             <td bo-text="tipoEncEntrega.nomeTipoEncomenda"></td>
-                                            <td bo-text="tipoEncEntrega.totalPrix"></td>
-                                            <td bo-text="tipoEncEntrega.totalWis"></td>
-                                            <td bo-text="tipoEncEntrega.totalResto"></td>
+                                            <td bo-text="tipoEncEntrega.totalPrix" ng-hide="entrega"></td>
+                                            <td bo-text="tipoEncEntrega.totalWis" ng-hide="entrega"></td>
+                                            <td bo-text="tipoEncEntrega.totalResto" ng-hide="entrega"></td>
                                             <td bo-text="tipoEncEntrega.total"></td>
                                             <td></td>
-                                            <td bo-text="tipoEncEntrega.totalPrixProd"></td>
-                                            <td bo-text="tipoEncEntrega.totalWisProd"></td>
-                                            <td bo-text="tipoEncEntrega.totalRestoProd"></td>
+                                            <td bo-text="tipoEncEntrega.totalPrixProd" ng-hide="concluido"></td>
+                                            <td bo-text="tipoEncEntrega.totalWisProd" ng-hide="concluido"></td>
+                                            <td bo-text="tipoEncEntrega.totalRestoProd" ng-hide="concluido"></td>
                                             <td bo-text="tipoEncEntrega.totalProd"></td>
+                                            <td></td>
+                                            <td ng-hide="produzido"></td>
+                                            <td ng-hide="produzido"></td>
+                                            <td ng-hide="produzido"></td>
+                                            <td ></td>
                                         </tr>
                                     </tbody>
                                     <tbody>
@@ -151,15 +175,20 @@
                                             <td></td>
                                             <td></td>
                                             <td>Total</td>
-                                            <td>{{tabelas.totalEncomendas.totalPrix}}</td>
-                                            <td>{{tabelas.totalEncomendas.totalWis}}</td>
-                                            <td>{{tabelas.totalEncomendas.totalResto}}</td>
+                                            <td ng-hide="entrega">{{tabelas.totalEncomendas.totalPrix}}</td>
+                                            <td ng-hide="entrega">{{tabelas.totalEncomendas.totalWis}}</td>
+                                            <td ng-hide="entrega">{{tabelas.totalEncomendas.totalResto}}</td>
                                             <td>{{tabelas.totalEncomendas.total}}</td>
                                             <td></td>
-                                            <td>{{tabelas.totalEncomendas.totalPrixProd}}</td>
-                                            <td>{{tabelas.totalEncomendas.totalWisProd}}</td>
-                                            <td>{{tabelas.totalEncomendas.totalRestoProd}}</td>
+                                            <td ng-hide="concluido">{{tabelas.totalEncomendas.totalPrixProd}}</td>
+                                            <td ng-hide="concluido">{{tabelas.totalEncomendas.totalWisProd}}</td>
+                                            <td ng-hide="concluido">{{tabelas.totalEncomendas.totalRestoProd}}</td>
                                             <td>{{tabelas.totalEncomendas.totalProd}}</td>
+                                            <td></td>
+                                            <td ng-hide="produzido">0</td>
+                                            <td ng-hide="produzido">0</td>
+                                            <td ng-hide="produzido">0</td>
+                                            <td>0</td>
                                         </tr>
                                     </tbody>
                                 </table>
