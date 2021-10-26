@@ -1,0 +1,32 @@
+﻿<div class="" ng-controller="estadoRecolhaTabelaCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li><a ui-sref="app.estadosRecolha.edit({id: 0})"><i class="glyphicon glyphicon-plus"></i>Novo</a></li>
+            </ul>
+            Tabela de Estado Recolha
+        </div>
+        <div class="table-responsive">
+            <table ng-table="tableParams" show-filter="true" ng-class-odd="odd" ng-class-even="even" class="table table-striped ">
+                <tr ng-repeat="estadoRecolha in $data">
+                    <td data-title="'Num'" sortable="'id'" filter="{ 'id': 'text' }" width="10%" >
+                        {{estadoRecolha.id}}
+                    </td>                    
+                    
+                    <td data-title="'Nome'" sortable="'nomeEstado'" width="50" filter="{ 'nomeEstado': 'text' }">
+                    <span style="background-color: {{estadoRecolha.cor}}; width:30px; height: 1em; display: inline-block; "></span>
+                    {{estadoRecolha.nomeEstado}}</td>
+                    <td data-title="'Fecha Recolha'" sortable="'estadoFechaRecolha'" width="15%">
+                        <input type="checkbox" disabled ng-model="estadoRecolha.estadoFechaRecolha">
+                    </td>
+                    <td data-title="'Anulado'" sortable="'anulado'" width="50">
+                        <input type="checkbox" disabled ng-model="estadoRecolha.anulado">
+                    </td>
+                    <td data-title="''" width="15%">
+                        <a class="btn m-b-xs btn-xs btn-info btn-addon" ui-sref="app.estadosRecolha.edit({id:  estadoRecolha.id })">Editar</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

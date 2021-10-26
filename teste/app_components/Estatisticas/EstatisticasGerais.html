@@ -1,0 +1,176 @@
+﻿<div class="" ng-controller="EstatisticasGeraisCtrl" ng-if="_utilizador != undefined">
+    <div class="">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-pills pull-right" ng-if="pesq != undefined">
+                    <li style="padding-top:2px;">
+                        <label class="col-md-3 control-label no-padding" style="padding-top:5px;">Desde: </label>
+                        <div class="col-md-4 no-padding-l">
+                            <input type="text" class="form-control" style="width:auto;" datepicker-popup="yyyy-MM-dd" ng-model="pesq.dataDesde" is-open="dataDesdeOpen" id="estatisticasDataApos"
+                                   ng-required="true" ng-if="dataDesde != 'n'"
+                                   ng-focus="dataDesdeOpen = true;" close-text="X" datetimepicker-neutral-timezone />
+                        </div>
+                    </li>
+                    <li style="padding-top:2px;">
+                        <label class="col control-label no-padding" style="float:left;padding-top:5px;">Até (inclusivé): </label>
+                        <div class="col-md-7 no-padding-l" style="padding-right: 100px">
+                            <input type="text" class="form-control" style="width:auto;" datepicker-popup="yyyy-MM-dd" ng-model="pesq.dataAte" is-open="dataAteOpen" ng-required="true" ng-if="pesq.dataAte" id="estatisticasDataAte"
+                                   datepicker-popup-placement="bottom-right"
+                                   ng-focus="dataAteOpen = true;" close-text="X" datetimepicker-neutral-timezone />
+                        </div>
+                    </li>
+                    <li>
+                        <button type="submit" class="btn btn-info" ng-click="atualizaDashboard()" style="margin-top:3px;"><i class="glyphicon glyphicon-refresh"></i> Atualizar Dados</button>
+                    </li>
+                </ul>
+                Estatísticas Gerais
+            </div>
+        </div>
+        <div class="wrapper-md" style="padding-top: 0px;">
+            <div class="row">
+                <tabset class="tab-container">
+                    <tab>
+                        <tab-heading>
+                            Encomendas <span class="badge badge-sm m-l-xs">{{pesqRes.encomendasTotal}}</span>
+                        </tab-heading>
+                        <accordion close-others="true">
+                            <accordion-group>
+                                <accordion-heading>
+                                    Encomendas Por Setor
+                                </accordion-heading>
+                                <accordion close-others="true">
+                                    <accordion-group ng-repeat="e in pesqRes.encomendasSetor">
+                                        <accordion-heading>
+                                            {{e.nome + ": " + e.total}}
+                                        </accordion-heading>
+                                        <accordion close-others="true">
+                                            <accordion-group ng-repeat="j in e.totais">
+                                                <accordion-heading>
+                                                    {{j.nome}}
+                                                </accordion-heading>
+                                                <div class="" ng-repeat="o in j.totais">
+                                                    <p>{{o.nome + ": " + o.total}}</p>
+                                                </div>
+                                            </accordion-group>
+                                        </accordion>
+                                        <!--<div class="" ng-repeat="e in pesqRes.encomendasSetor">
+                                            <p>{{e.nome + ": " + e.total}}</p>
+                                        </div>-->
+                                    </accordion-group>
+                                </accordion>
+                            </accordion-group>
+                            <accordion-group>
+                                <accordion-heading>
+                                    Encomendas Por Cliente
+                                </accordion-heading>
+                                <accordion close-others="true">
+                                    <accordion-group ng-repeat="e in pesqRes.encomendasCliente">
+                                        <accordion-heading>
+                                            {{e.nome + ": " + e.total}}
+                                        </accordion-heading>
+                                        <accordion close-others="true">
+                                            <accordion-group ng-repeat="j in e.totais">
+                                                <accordion-heading>
+                                                    {{j.nome}}
+                                                </accordion-heading>
+                                                <div class="" ng-repeat="o in j.totais">
+                                                    <p>{{o.nome + ": " + o.total}}</p>
+                                                </div>
+                                            </accordion-group>
+                                        </accordion>
+                                    </accordion-group>
+                                </accordion>
+                                <!--<div class="" ng-repeat="e in pesqRes.encomendasCliente">
+                                    <p>{{e.nome + ": " + e.total}}</p>
+                                </div>-->
+                            </accordion-group>
+                            <accordion-group>
+                                <accordion-heading>
+                                    Encomendas Por Estado
+                                </accordion-heading>
+                                <div class="" ng-repeat="e in pesqRes.encomendasEstado">
+                                    <p>{{e.nome + ": " + e.total}}</p>
+                                </div>
+                            </accordion-group>
+                            <accordion-group>
+                                <accordion-heading>
+                                    Encomendas Por Tipo de Encomenda
+                                </accordion-heading>
+                                <accordion close-others="true">
+                                    <accordion-group ng-repeat="e in pesqRes.encomendasTipoEncomenda">
+                                        <accordion-heading>
+                                            {{e.nome + ": " + e.total}}
+                                        </accordion-heading>
+                                        <accordion close-others="true">
+                                            <accordion-group ng-repeat="j in e.totais">
+                                                <accordion-heading>
+                                                    {{j.nome}}
+                                                </accordion-heading>
+                                                <div class="" ng-repeat="o in j.totais">
+                                                    <p>{{o.nome + ": " + o.total}}</p>
+                                                </div>
+                                            </accordion-group>
+                                        </accordion>
+          
+                                    </accordion-group>
+                                </accordion>
+                                <!--<div class="" ng-repeat="e in pesqRes.encomendasTipoEncomenda">
+                                    <p>{{e.nome + ": " + e.total}}</p>
+                                </div>-->
+                            </accordion-group>
+                        </accordion>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            Savs <span class="badge badge-sm m-l-xs">{{pesqRes.savsTotal}}</span>
+                        </tab-heading>
+                        <accordion close-others="true">
+                            <accordion-group>
+                                <accordion-heading>
+                                    Savs Por Cliente
+                                </accordion-heading>
+                                <div ng-repeat="e in pesqRes.savsCliente">
+                                    <p>{{e.nome + ": " + e.total}}</p>
+                                </div>
+                            </accordion-group>
+                            <accordion-group>
+                                <accordion-heading>
+                                    Savs Por Produto
+                                </accordion-heading>
+                                <div ng-repeat="e in pesqRes.savsProduto">
+                                    <p>{{e.nome + ": " + e.total}}</p>
+                                </div>
+                            </accordion-group>
+                            <accordion-group>
+                                <accordion-heading>
+                                    Savs Por Tipo de Avaria
+                                </accordion-heading>
+                                <div ng-repeat="e in pesqRes.savsTipoAvaria">
+                                    <p>{{e.nome + ": " + e.total}}</p>
+                                </div>
+                            </accordion-group>
+                            <accordion-group>
+                                <accordion-heading>
+                                    Savs Por Departamento
+                                </accordion-heading>
+                                <div ng-repeat="e in pesqRes.savsDepartamento">
+                                    <p>{{e.nome + ": " + e.total}}</p>
+                                </div>
+                            </accordion-group>
+                            <accordion-group>
+                                <accordion-heading>
+                                    Savs Por Setor
+                                </accordion-heading>
+                                <div ng-repeat="e in pesqRes.savsSetor">
+                                    <p>{{e.nome + ": " + e.total}}</p>
+                                </div>
+                            </accordion-group>
+                        </accordion>
+                    </tab>
+                </tabset>
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--</div>-->

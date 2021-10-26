@@ -47,6 +47,10 @@ namespace NfiEncomendas.WebServer.Models
 
         public bool ComprasOK { get; set; }
 
+        public int? AnoEntrega { get; set; }
+
+        public DateTime? DataProduzido { get; set; }
+
 
 
 

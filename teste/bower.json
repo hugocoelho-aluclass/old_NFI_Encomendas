@@ -1,0 +1,32 @@
+{
+  "name": "MIEW",
+  "version": "0.0.1",
+  "description": "miew website",
+  "main": "index.html",
+  "keywords": [
+    "miew",
+    "creative",
+    "studio"
+  ],
+  "authors": [
+    "miew"
+  ],
+  "private": true,
+  "license": "MIEW",
+  "homepage": "index.html",
+  "dependencies": {
+    "jquery": "2.*",
+    "angular": "latest",
+    "angular-local-storage": "latest",
+    "angular-route": "latest",
+    "angular-sanitize": "latest",
+    "bootstrap": "latest",
+    "bower-skrollr": "latest",
+    "flexslider": "latest",
+    "lightbox": "latest",
+    "pixeden-stroke-7-icon": "latest"
+  },
+  "resolutions": {
+    "jquery": ">2"
+  }
+}

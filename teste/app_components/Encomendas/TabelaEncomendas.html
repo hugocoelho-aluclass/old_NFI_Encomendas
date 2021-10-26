@@ -1,0 +1,53 @@
+﻿
+<div class="" ng-controller="tabelaEncomendasCtrl" ng-if="_utilizador != undefined">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li style="padding-top:2px;">
+                    <label class="col-md-3 control-label no-padding" style="padding-top:5px;">Desde: </label>
+                    <div class="col-md-4 no-padding-l">
+                        <input type="text" class="form-control" style="width:auto;" datepicker-popup="yyyy-MM-dd" datepicker-format="yyyy-MM-dd" ng-model="pesq.dataDesde" is-open="dataDesdeOpen" ng-required="true" ng-if="pesq.dataDesde != 'n' && pesq.dataDesde != undefined"
+                               ng-focus="dataDesdeOpen = true;" close-text="Close" datetimepicker-neutral-timezone  />
+                    </div>
+                </li>
+                <li><a style="padding-left:0; padding-right:0px;" ng-click="atualizaTabela()"> <i class="glyphicon glyphicon-refresh"></i>&nbsp;&nbsp;</a></li>
+                <li><a style="min-width: 100px; display:inline-block"></a></li>
+                <li ng-if="_utilizador.comercial === false">
+                    <a ui-sref="app.encomendas.edit({serie: 0, num: 0})"><i class="glyphicon glyphicon-plus"></i>Novo</a>
+                </li>
+                <!--<li><a href="" ng-click="gerarPdf()"><i class="fa fa-file-pdf-o"></i>PDF</a></li>-->
+
+            </ul>
+            Tabela de Encomendas 
+        </div>
+        <style>
+        </style>
+        <div class="table-responsive">
+            <table ng-table="tableParams" show-filter="true" class="table padding-0 " id="tableEncomendas" style="background-color:white">
+                <tr ng-repeat="encomendas in $data" ng-class="classeEstado(encomendas)">
+                    <td data-title="'NumDoc'" sortable="'serieNumEncomenda'" filter="{ 'serieNumEncomenda': 'text' }" width="90">
+                        {{encomendas.serieNumEncomenda}}
+                    </td>
+                    <td data-title="'Cliente'" sortable="'nomeCliente'" filter="{ 'nomeCliente': 'text' }">{{encomendas.nomeCliente}}</td>
+                    <td data-title="'Nome'" sortable="'nomeArtigo'" filter="{ 'nomeArtigo': 'text' }">{{encomendas.nomeArtigo}}</td>
+                    <td data-title="'Tipo Encomenda'" sortable="'nomeTipoEncomenda'" filter="{ 'nomeTipoEncomenda': 'text' }" width="140">{{encomendas.nomeTipoEncomenda}}</td>
+                    <td data-title="'Data Pedido'" sortable="'dataPedidoString'" filter="{ 'dataPedidoString': 'text' }" width="80"> {{encomendas.dataPedidoString}}</td>
+                    <td data-title="'V'" sortable="'numVaos'" filter="{ 'numVaos': 'text' }" width="30">{{encomendas.numVaos}}</td>
+                    <td data-title="'Cor'" sortable="'cor'" filter="{ 'cor': 'text' }" width="120">{{encomendas.cor}}</td>
+                    <td data-title="'Num. Serie'" sortable="'numSerie'" filter="{ 'numSerie': 'text' }" width="30">{{encomendas.numSerie}}</td>
+                    <td data-title="'S.E.'" sortable="'semanaEntrega'" filter="{ 'semanaEntrega': 'text' }" width="20">{{encomendas.semanaEntrega}}</td>
+                    <td data-title="'Estado'" sortable="'estadoDesc'" filter="{ 'estadoDesc': 'text' }" width="110">{{encomendas.estadoDesc}}</td>
+                    <td data-title="''">
+                        &nbsp;
+                        <i style="font-size: 18px; color:red; margin-top:2px;" class="fa fa-square-o" ng-if="!encomendas.comprasOK"></i>
+                        <i style="font-size: 18px;  margin-top:2px;" class="fa fa-check-square-o" ng-if="encomendas.comprasOK"></i>
+                        &nbsp;
+                    </td>
+                    <td data-title="''" class="">
+                        <a href="" class="btn m-b-xs btn-xs  btn-info " ui-sref="app.encomendas.edit({serie: encomendas.nomeSerie, num:encomendas.numDoc  })"><i class="fa fa-edit"></i></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

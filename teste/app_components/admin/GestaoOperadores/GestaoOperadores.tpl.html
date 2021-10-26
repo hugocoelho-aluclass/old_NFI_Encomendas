@@ -1,0 +1,31 @@
+﻿
+<div class="" ng-controller="adminGestaoOperadores">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li><a href="" class="" ui-sref="app.admin.gestaoOperadores_edit({id: 0})"><i class="glyphicon glyphicon-plus"></i>Novo</a></li>
+
+            </ul>
+            Gestão de Utilizadores
+
+        </div>
+
+
+        <div class="table-responsive">
+            <table ng-table="tableParams" show-filter="true" ng-class-odd="odd" ng-class-even="even" class="table table-striped ">
+                <tr ng-repeat="operador in $data">
+                    <td data-title="'Login'" sortable="'nome'" filter="{ 'nome': 'text' }">
+                        {{operador.nome}}
+                    </td>
+                    <td data-title="'Nome Completo'" sortable="'nomeCompleto'" width="50%" filter="{ 'nomeCompleto': 'text' }">{{operador.nomeCompleto}}</td>
+                    <td data-title="'Admin'" width="30" sortable="'admin'" style="text-align:center">  <input type="checkbox" disabled ng-model="operador.admin"></td>
+                    <td data-title="'Ativo'" width="30" sortable="'ativo'" style="text-align:center"><input type="checkbox" disabled ng-model="operador.ativo"></td>
+                    <td data-title="'SAV'" width="30" sortable="'sav'" style="text-align:center"><input type="checkbox" disabled ng-model="operador.sav"></td>
+                    <td data-title="''" width="45">
+                        <a href="" class="btn m-b-xs btn-xs btn-info btn-addon" ui-sref="app.admin.gestaoOperadores_edit({id:  operador.idOperador })">Editar</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+﻿<html>
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+    <title>Encomendas</title>
+    <link rel='stylesheet' href=' http://encomendas.nfermetures.com/css/bootstrap.css' type='text/css' />
+    <script src="https://playground.jsreport.net/lib/jquery.js"></script>
+    <style>
+        .padding-0 > tbody > tr > td { padding-top: 0px; padding-bottom: 0px; }
+
+
+        .bg { background-color: #dedede !important; }
+
+
+
+
+        tr.estado-4 td, tr.estado-blue td { background-color: cyan !important; }
+
+        tr.estado-3 td { background-color: yellow !important; }
+
+        tr.estado-2 td { background-color: lightgreen !important; }
+
+        .printTable { table-layout: fixed; }
+
+            .printTable tbody tr td, .printTable tbody tr { /*height: 20px;
+            overflow: hidden;*/ }
+
+            .printTable tr div { max-height: 23px; /*max-width: 100px;*/ overflow: hidden; }
+
+        h2, .h2 { margin: 0; }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            data.Encomendas.forEach(function (e) {
+                e.NomeCliente = "TESE";
+                }
+            }
+            )();
+
+    </script>
+</head>
+<body>
+    <table width="100%">
+        <thead>
+            <tr>
+                <th>
+                    <div style="height: 1px; display:fixed"></div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <table class="printTable table  b-t b-light padding-0">
+                        <thead class="head">
+                            <tr class="head">
+                                <th colspan="5">
+                                    Lista de Encomendas
+                                </th>
+                                <th colspan="4" style="text-align:right"><span>{{:DataRelatorio}}</span></th>
+                            </tr>
+                            <tr class="head">
+                                {{if Ordenacao == 3}}
+                                <th><div>Cliente</div></th>
+                                <th><div>NumDoc </div></th>
+                                <th><div>Nome Obra</div></th>
+                                <th><div>Tipo Encomenda</div></th>
+                                {{else  Ordenacao == 5}}
+                                <th><div></div></th>
+
+                                <th><div>NumDoc </div></th>
+                                <th><div>Nome Obra</div></th>
+                                <th><div>Tipo Encomenda</div></th>
+                                {{else}}
+                                <th><div>NumDoc </div></th>
+                                <th><div>Cliente</div></th>
+                                <th><div>Tipo Encomenda</div></th>
+                                {{/if}}
+                                <th><div>Data Pedido</div></th>
+                                <th><div>Data Entrega</div></th>
+                                <th><div>S.E.</div></th>
+                                <th><div>Fatura</div></th>
+                                <th><div>Estado</div></th>
+
+                            </tr>
+                        </thead>
+                        <tbody style=" display: table-row-group;">
+                            {{for Encomendas  ~agrCliente=AgruparCliente ~orden2=Ordenacao}}
+                            {{if Separador && ~orden2 == 3  ~agrCliente2=~agrCliente ~orden3=~orden2}}
+                            <tr>
+                                <td colspan="9" style="font-weight: bolder;">{{:NomeCliente}}</td>
+                            </tr>
+                            {{else  Separador && ~orden2 == 5  ~agrCliente2=~agrCliente ~orden3=~orden2}}
+                            <tr>
+                                <td colspan="9" style="font-weight: bolder;">{{:NomeTipoEncomenda}}</td>
+                            </tr>
+                            {{else ~agrCliente2=~agrCliente ~orden3=~orden2 }}
+                            <tr class="{{:ClasseEstado}}">
+                                {{if ~orden3 == 3}}
+                                <td><div></div></td>
+                                <td><div>{{:SerieNumEncomenda}} </div></td>
+                                <td><div>{{:NomeArtigo}}</div></td>
+                                <td><div>{{:NomeTipoEncomenda}}</div></td>
+                                {{else ~orden3 == 5 }}
+                                <td><div></div></td>
+                                <td><div>{{:SerieNumEncomenda}} </div></td>
+                                <td><div>{{:NomeCliente}}</div></td>
+                                <td><div>{{:NomeArtigo}}</div></td>
+
+                                {{else}}
+                                <td><div>{{:SerieNumEncomenda}} </div></td>
+                                <td><div>{{:NomeCliente}}</div></td>
+                                <td><div>{{:NomeArtigo}}</div></td>
+                                <td><div>{{:NomeTipoEncomenda}}</div></td>
+                                {{/if}}
+                                <td><div>{{:DataPedidoString}}</div></td>
+                                <td><div>{{:DataExpedido}}</div></td>
+                                <td><div>{{:SemanaEntrega}}</div></td>
+                                <td><div>{{:Fatura}}</div></td>
+                                <td><div>{{:EstadoDesc}}</div></td>
+                            </tr>
+                            {{/if}}
+                            {{/for}}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

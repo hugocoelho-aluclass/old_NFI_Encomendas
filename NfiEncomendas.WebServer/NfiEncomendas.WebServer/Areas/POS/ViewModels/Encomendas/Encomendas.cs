@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 
 namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
 {
@@ -51,6 +52,10 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
         public int EstadoRow { get; set; }
 
         public List<Compras> Compras { get; set; }
+
+        public int? AnoEntrega { get; set; }
+
+        public DateTime? DataProduzido { get; set; }
 
 
         public Encomendas()
@@ -112,9 +117,10 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
                 });
 
             }
-
+            
             this.NumSerie = enc.NumSerieEncomenda;
             this.NovaEncomenda = false;
+            this.AnoEntrega = enc.AnoEntrega;
 
         }
 
@@ -159,6 +165,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
             res.NumVaos = this.NumVaos;
             res.Estado = this.Estado;
             res.NumSerieEncomenda = this.NumSerie;
+         
 
             for (int i = 0; i < this.Compras.Count(); i++)
             {
@@ -180,7 +187,42 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
                                          Material = c.Material
                                      }).ToList();
 
+            var tempWeek = GetIso8601WeekOfYear(this.DataPedido);
+
+            if (tempWeek < this.SemanaEntrega)
+            {
+                res.AnoEntrega = this.DataPedido.Year;
+            }
+            else
+            {
+                res.AnoEntrega = this.DataPedido.Year + 1;
+            }
+
             return res;
+        }
+
+        public static int GetIso8601WeekOfYear(DateTime time)
+        {
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
+        public static DateTime FirstDateOfWeek(int year, int weekOfYear, System.Globalization.CultureInfo ci)
+        {
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = (int)ci.DateTimeFormat.FirstDayOfWeek - (int)jan1.DayOfWeek;
+            DateTime firstWeekDay = jan1.AddDays(daysOffset);
+            int firstWeek = ci.Calendar.GetWeekOfYear(jan1, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek);
+            if ((firstWeek <= 1 || firstWeek >= 52) && daysOffset >= -3)
+            {
+                weekOfYear -= 1;
+            }
+            return firstWeekDay.AddDays(weekOfYear * 7);
         }
     }
 
@@ -393,7 +435,24 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
 
     }
 
+    public class RelatorioExcelTotais
+    {
+        public int totalPrix { get; set; }
+        public int totalWis { get; set; }
+        public int totalResto { get; set; }
+        public int totalConcluidoPrix { get; set; }
+        public int totalConcluidoWis { get; set; }
+        public int totalConcluidoResto { get; set; }
+        public int totalProdPrix { get; set; }
+        public int totalProdWis { get; set; }
+        public int totalProdResto { get; set; }
 
+
+        public RelatorioExcelTotais()
+        {
+        }
+
+    }
 
     public class RelatorioEncTotais
     {
@@ -413,24 +472,24 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
 
     }
 
+
     public class TabelasRelatorioSemanal
     {
 
-        public List<RelatorioEncTipoEncomenda> listaProduzir { get; set; }
+        public List<RelatorioExcelTipoEncomenda> tabelaTipoEncomenda { get; set; }
 
-        public RelatorioEncTotais totalProduzido { get; set; }
+        public RelatorioExcelTotais totaisTabela { get; set; }
 
         public TabelasRelatorioSemanal()
         {
         }
 
-        public TabelasRelatorioSemanal(List<RelatorioEncTipoEncomenda> l, RelatorioEncTotais t)
+        public TabelasRelatorioSemanal(List<RelatorioExcelTipoEncomenda> l, RelatorioExcelTotais t)
         {
-            listaProduzir = l;
-            totalProduzido = t;
+            tabelaTipoEncomenda = l;
+            totaisTabela = t;
         }
     }
-
     public class EncomendasLinhaBase
     {
         public int Id { get; set; }

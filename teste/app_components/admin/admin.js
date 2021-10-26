@@ -1,0 +1,1 @@
+﻿angular.module('admin', ['admin-gestaoOperadores','admin-gestaoOperadores-Edit', 'adminOperadores-Factory']);

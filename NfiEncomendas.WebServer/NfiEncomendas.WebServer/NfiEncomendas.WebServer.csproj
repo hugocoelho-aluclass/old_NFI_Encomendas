@@ -471,6 +471,10 @@
     <Compile Include="Migrations\202011201514013_addUserComercial.Designer.cs">
       <DependentUpon>202011201514013_addUserComercial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110181455482_addAnoEDataProduzido.cs" />
+    <Compile Include="Migrations\202110181455482_addAnoEDataProduzido.Designer.cs">
+      <DependentUpon>202110181455482_addAnoEDataProduzido.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Anexos.cs" />
     <Compile Include="Models\EncomendasCache.cs" />
     <Compile Include="Models\EstadoSav.cs" />
@@ -959,6 +963,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202011201514013_addUserComercial.resx">
       <DependentUpon>202011201514013_addUserComercial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110181455482_addAnoEDataProduzido.resx">
+      <DependentUpon>202110181455482_addAnoEDataProduzido.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

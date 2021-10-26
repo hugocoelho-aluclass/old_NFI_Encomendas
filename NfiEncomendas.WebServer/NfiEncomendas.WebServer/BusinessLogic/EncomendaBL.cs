@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
+using System.Globalization;
 
 namespace NfiEncomendas.WebServer.BusinessLogic
 {
@@ -52,21 +53,25 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             var sql = "SELECT COUNT(*) FROM dbo.Encomendas WHERE (NumDoc = '" + num + "') AND (SerieDoc_NumSerie = '" + ano + "')";
             var res = DbContext.Database.SqlQuery<int>(sql).First();
 
-            /*var sql = "SELECT CAST(" +
-                        "CASE WHEN EXISTS(SELECT * FROM dbo.Encomendas WHERE NumDoc = " + num + ") THEN 1" +
-                        "ELSE 0" +
-                        "END" +
-                         "AS BIT)";
-            var res = DbContext.Database.SqlQuery<bool>(sql).First();*/
-
             if (res == 0)
             {
                 return false;
             }
 
             return true;
+        }
 
-            /*return res;*/
+        public bool VerificaConcluido(int id)
+        {
+            var sql = "SELECT * FROM dbo.Encomendas WHERE (IdEncomenda = '" + id + "')";
+            var res = DbContext.Database.SqlQuery<Encomendas>(sql).First();
+
+            if (res != null && (res.Estado != 2 && res.Estado != 4))
+            {
+                return false;
+            }
+            
+            return true;
         }
 
         public KeyValuePair<Models.Encomendas, bool> LerEncomenda(int id)
@@ -141,6 +146,18 @@ namespace NfiEncomendas.WebServer.BusinessLogic
                 _sr.NumVaos = enc.NumVaos;
                 _sr.Estado = enc.Estado;
                 _sr.NumSerieEncomenda = enc.NumSerieEncomenda;
+                _sr.AnoEntrega = enc.AnoEntrega;
+
+
+                //caso a encomenda não seja nova e foi alterado o estado para pronto/entregue, devemos gravar a data da sua conclusão
+                if(!novo && (_sr.Estado==4 || _sr.Estado == 2))
+                {
+                    if (!VerificaConcluido(_sr.IdEncomenda))
+                    {
+                        _sr.DataProduzido = DateTime.Now;
+                    }
+                }
+
 
                 bool novaCompra = false;
                 bool comprasOK = true;
@@ -922,26 +939,45 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             return res;
         }
 
-        public NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioEncTotais TotalEncomendas(int semana, string serie)
+        public NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTotais TotalEncomendas(int semana, string serie)
         {
-            var sql = "select * from tabelasemanaTotais(" + semana + ", " + serie + ")";
-            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioEncTotais>(sql).First();
+           
+            int ano = 0;
+            Int32.TryParse(serie, out ano);
+
+            DateTime idata = FirstDateOfWeek(ano, semana);
+            DateTime fdata = idata.AddDays(6).AddHours(23).AddMinutes(59);
+
+            var i = idata.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            var f = fdata.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            var sql = "select * from RelatorioExcelTotais(" + semana + ", " + serie + ", '" + i + "', '" + f + "')";
+
+            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTotais>(sql).First();
             return total;
         }
 
-        public List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioEncTipoEncomenda> TotaisTipoEncomenda(int semana, string serie)
+        public List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda> TotaisTipoEncomenda(int semana, string serie)
         {
-  
-            var sql = "select * from tabelasemana(" + semana + ", " + serie + ")";
 
-            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioEncTipoEncomenda>(sql).ToList();
+            int ano = 0;
+            Int32.TryParse(serie, out ano);
+
+            DateTime idata = FirstDateOfWeek(ano, semana);
+            DateTime fdata = idata.AddDays(6).AddHours(23).AddMinutes(59);
+
+            var i = idata.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            var f = fdata.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            var sql = "select * from RelatorioExcel(" + semana + ", " + serie + ", '" + i + "', '" + f + "')";
+
+            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda>(sql).ToList();
             return total;
         }
 
-        public List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda> RelatorioExcelTipoEncomenda(int semana, string serie)
+        public List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda> RelatorioExcelTipoEncomenda(int semana, int serie, DateTime idata, DateTime fdata)
         {
-
-            var sql = "select * from RelatorioExcel(" + semana + ", " + serie + ")";
+            var i = idata.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            var f = fdata.ToString("yyyy-MM-dd HH:mm:ss.fff");
+            var sql = "select * from RelatorioExcel(" + semana + ", " + serie + ", '" + i + "', '" + f + "')";
 
             var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda>(sql).ToList();
             return total;
@@ -968,7 +1004,32 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             return total;
         }
 
-     
+        public static int GetIso8601WeekOfYear(DateTime time)
+        {
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+        }
+
+        public static DateTime FirstDateOfWeek(int year, int weekOfYear)
+        {
+            CultureInfo ci = new CultureInfo("pt-PT");
+            DateTime jan1 = new DateTime(year, 1, 1);
+            int daysOffset = (int)ci.DateTimeFormat.FirstDayOfWeek - (int)jan1.DayOfWeek;
+            DateTime firstWeekDay = jan1.AddDays(daysOffset);
+            int firstWeek = ci.Calendar.GetWeekOfYear(jan1, ci.DateTimeFormat.CalendarWeekRule, ci.DateTimeFormat.FirstDayOfWeek);
+            if ((firstWeek <= 1 || firstWeek >= 52) && daysOffset >= -3)
+            {
+                weekOfYear -= 1;
+            }
+            return firstWeekDay.AddDays(weekOfYear * 7);
+        }
+
+
 
 
     }

@@ -162,7 +162,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
 
             return res;
         }
-
+        
 
         /// <summary>
         /// requeste para obter previamente tabelas necessárias para a realização do relatorio
@@ -219,9 +219,9 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
             //instancia um objeto da class EncomendasBL, para poder usar os metodos da classe
             EncomendasBL ebl = new EncomendasBL();
             // metodo para obter um objeto com o totais das encomendas
-            RelatorioEncTotais totais = ebl.TotalEncomendas(pesqParams.semanaEntrega, pesqParams.serie.NumSerie);
+            RelatorioExcelTotais totais = ebl.TotalEncomendas(pesqParams.semanaEntrega, pesqParams.serie.NumSerie);
             // metodo para obter uma lista dos tipos de encomendas e o total de encomendas por cliente
-            List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioEncTipoEncomenda> lista = ebl.TotaisTipoEncomenda(pesqParams.semanaEntrega, pesqParams.serie.NumSerie);
+            List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda> lista = ebl.TotaisTipoEncomenda(pesqParams.semanaEntrega, pesqParams.serie.NumSerie);
             //juntar as duas variaveis obtidas num único objeto, que é enviado como resposta ao requeste para o front-end
             TabelasRelatorioSemanal tabelas = new TabelasRelatorioSemanal(lista.ToList(), totais);
 
