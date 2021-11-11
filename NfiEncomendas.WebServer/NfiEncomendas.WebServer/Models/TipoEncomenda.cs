@@ -17,5 +17,16 @@ namespace NfiEncomendas.WebServer.Models
 
         public bool Anulado { get; set; }
 
+        public int? CapacidadePrix { get; set; }
+
+        public int? CapacidadeWis { get; set; }
+
+        public int? CapacidadeResto { get; set; }
+
+        public TipoEncomendas()
+        {
+
+        }
+
     }
 }

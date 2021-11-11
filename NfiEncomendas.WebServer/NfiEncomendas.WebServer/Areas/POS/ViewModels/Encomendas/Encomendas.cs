@@ -189,7 +189,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
 
             var tempWeek = GetIso8601WeekOfYear(this.DataPedido);
 
-            if (tempWeek < this.SemanaEntrega)
+            if (tempWeek <= this.SemanaEntrega)
             {
                 res.AnoEntrega = this.DataPedido.Year;
             }
@@ -255,6 +255,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
         public string NomeTipoEncomenda { get; set; }
         public int SetorId { get; set; }
         public string SetorNome { get; set; }
+        
     }
 
     public class SetorEncomenda
@@ -381,6 +382,10 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
 
         public Serie serie { get; set; }
 
+        public bool semanaEntregaAteBool { get; set; }
+
+        public int ateSemanaEntrega { get; set; }
+
         public string TipoRetorno { get; set; }
 
         public EncomendaPesquisaParamSemana()
@@ -435,6 +440,38 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
 
     }
 
+
+    //interface para receber tabelas com os dados para o relatorio Web
+    public class RelatorioTipoEncomenda
+    {
+        public int IdTipoEncomenda { get; set; }
+        public int NumTipoEncomenda { get; set; }
+        public string NomeTipoEncomenda { get; set; }
+        public int SetorEncomenda_IdSetorEncomenda { get; set; }
+        public int capacidadePrix { get; set; }
+        public int capacidadeWis { get; set; }
+        public int capacidadeResto { get; set; }
+        public int totalPrix { get; set; }
+        public int totalWis { get; set; }
+        public int totalResto { get; set; }
+        public int totalConcluidoPrix { get; set; }
+        public int totalConcluidoWis { get; set; }
+        public int totalConcluidoResto { get; set; }
+        public int totalProdPrix { get; set; }
+        public int totalProdWis { get; set; }
+        public int totalProdResto { get; set; }
+        public int totalAtrasadoPrix { get; set; }
+        public int totalAtrasadoWis { get; set; }
+        public int totalAtrasadoResto { get; set; }
+
+
+
+        public RelatorioTipoEncomenda()
+        {
+        }
+
+    }
+
     public class RelatorioExcelTotais
     {
         public int totalPrix { get; set; }
@@ -449,6 +486,30 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
 
 
         public RelatorioExcelTotais()
+        {
+        }
+
+    }
+
+
+    public class RelatorioTotais
+    {
+        public int totalPrix { get; set; }
+        public int totalWis { get; set; }
+        public int totalResto { get; set; }
+        public int totalConcluidoPrix { get; set; }
+        public int totalConcluidoWis { get; set; }
+        public int totalConcluidoResto { get; set; }
+        public int totalProdPrix { get; set; }
+        public int totalProdWis { get; set; }
+        public int totalProdResto { get; set; }
+
+        public int totalAtrasadoPrix { get; set; }
+        public int totalAtrasadoWis { get; set; }
+        public int totalAtrasadoResto { get; set; }
+
+
+        public RelatorioTotais()
         {
         }
 
@@ -476,20 +537,50 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas
     public class TabelasRelatorioSemanal
     {
 
-        public List<RelatorioExcelTipoEncomenda> tabelaTipoEncomenda { get; set; }
+        public List<RelatorioTipoEncomenda> tabelaTipoEncomenda { get; set; }
 
-        public RelatorioExcelTotais totaisTabela { get; set; }
+        public RelatorioTotais totaisTabela { get; set; }
+
+        public int? ano { get; set; }
+
+        public int? semana { get; set; }
 
         public TabelasRelatorioSemanal()
         {
         }
 
-        public TabelasRelatorioSemanal(List<RelatorioExcelTipoEncomenda> l, RelatorioExcelTotais t)
+        public TabelasRelatorioSemanal(List<RelatorioTipoEncomenda> l, RelatorioTotais t)
         {
             tabelaTipoEncomenda = l;
             totaisTabela = t;
         }
+
+        public TabelasRelatorioSemanal(List<RelatorioTipoEncomenda> l, RelatorioTotais t, int a, int s)
+        {
+           
+            tabelaTipoEncomenda = l;
+            totaisTabela = t;
+            ano = a;
+            semana = s;
+        }
     }
+
+
+    public class ListaTabelasRelatorioSemanal
+    {
+
+        public List<TabelasRelatorioSemanal> listaTabelasRelatorio { get; set; }
+
+        public ListaTabelasRelatorioSemanal()
+        {
+        }
+
+        public ListaTabelasRelatorioSemanal(List<TabelasRelatorioSemanal> l)
+        {
+            listaTabelasRelatorio = l;
+        }
+    }
+
     public class EncomendasLinhaBase
     {
         public int Id { get; set; }

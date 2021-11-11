@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label">Num TipoEncomenda</label>
                     <div class="col-lg-4">
-                        <input ng-model="tipoEncomenda.numTipoEncomenda" ui-jq="TouchSpin" type="text" class="form-control" name="numTipoEncomenda" ng-model="tipoEncomenda.numTipoEncomenda" data-min='0' data-verticalbuttons="true" data-verticalupclass="fa fa-caret-up" data-verticaldownclass="fa fa-caret-down">
+                        <input ng-model="tipoEncomenda.numTipoEncomenda" ui-jq="TouchSpin" type="text" class="form-control" name="numTipoEncomenda" data-min='0' data-max='200' data-verticalbuttons="true" data-verticalupclass="fa fa-caret-up" data-verticaldownclass="fa fa-caret-down">
                     </div>
                 </div>
                 <div class="form-group">
@@ -23,9 +23,9 @@
                     <div class="col-lg-10">
                         <input type="text" class="form-control" name="nome" placeholder="Nome" ng-model="tipoEncomenda.nome">
                     </div>
-                </div>      
+                </div>
                 <div class="form-group">
-                    <label class="col-lg-2 control-label">Setor</label>           
+                    <label class="col-lg-2 control-label">Setor</label>
                     <div class="col-md-6 col-md-offset-0">
                         <ui-select ng-model="select.setorId" theme="select2" ng-disabled="disabled" style="min-width: 300px;">
                             <ui-select-match placeholder="Lista de Setores">{{$select.selected.nome}}</ui-select-match>
@@ -33,6 +33,19 @@
                                 <div ng-bind-html="te.nome | highlight: $select.search"></div>
                             </ui-select-choices>
                         </ui-select>
+                    </div>
+                </div>
+
+                <div class="form-group" style="margin-top: 15px; margin-bottom: 10px">
+                    <label class="col-lg-2 control-label">Capacidade<br />semanal</label>
+                    <div class="col-lg-1">
+                        Priximbattible<input ng-model="tipoEncomenda.capacidadePrix" ui-jq="TouchSpin" type="text" class="form-control" name="capacidadePrix" data-min='0' data-max='10000' data-verticalbuttons="true" data-verticalupclass="fa fa-caret-up" data-verticaldownclass="fa fa-caret-down">
+                    </div>
+                    <div class="col-lg-1">
+                        Wis Mar NFI<input ng-model="tipoEncomenda.capacidadeWis" ui-jq="TouchSpin" type="text" class="form-control" name="capacidadeWis" data-min='0' data-max='10000' data-verticalbuttons="true" data-verticalupclass="fa fa-caret-up" data-verticaldownclass="fa fa-caret-down">
+                    </div>
+                    <div class="col-lg-1">
+                        Restantes Clientes<input ng-model="tipoEncomenda.capacidadeResto" ui-jq="TouchSpin" type="text" class="form-control" name="capacidadeResto" data-min='0' data-max='10000' data-verticalbuttons="true" data-verticalupclass="fa fa-caret-up" data-verticaldownclass="fa fa-caret-down">
                     </div>
                 </div>
 

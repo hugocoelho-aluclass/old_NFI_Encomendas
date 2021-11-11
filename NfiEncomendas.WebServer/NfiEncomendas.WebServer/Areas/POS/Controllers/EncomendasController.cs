@@ -216,18 +216,75 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
         [HttpPost]
         public TabelasRelatorioSemanal PesquisaRelatorioEncomendas(ViewModels.Encomendas.EncomendaPesquisaParamSemana pesqParams)
         {
+            int ano = 0;
+            Int32.TryParse(pesqParams.serie.NumSerie, out ano);
             //instancia um objeto da class EncomendasBL, para poder usar os metodos da classe
             EncomendasBL ebl = new EncomendasBL();
             // metodo para obter um objeto com o totais das encomendas
-            RelatorioExcelTotais totais = ebl.TotalEncomendas(pesqParams.semanaEntrega, pesqParams.serie.NumSerie);
+            RelatorioTotais totais = ebl.TotalEncomendas(pesqParams.semanaEntrega, ano);
             // metodo para obter uma lista dos tipos de encomendas e o total de encomendas por cliente
-            List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda> lista = ebl.TotaisTipoEncomenda(pesqParams.semanaEntrega, pesqParams.serie.NumSerie);
+            List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioTipoEncomenda> lista = ebl.TotaisTipoEncomenda(pesqParams.semanaEntrega, ano);
             //juntar as duas variaveis obtidas num único objeto, que é enviado como resposta ao requeste para o front-end
             TabelasRelatorioSemanal tabelas = new TabelasRelatorioSemanal(lista.ToList(), totais);
 
             return tabelas;
         }
 
+
+        /// <summary>
+        /// Request para retornar um objecto com as tabelas necessárias para o relatório de várias semanas
+        /// recebe como parametro um objeto com 3 variaveis, o ano e um intervalo de semanas
+        /// </summary>
+        /// <param name="pesqParams"></param>
+        /// <returns>Retorna as tabelas com todos os totais das semanas escolhidas</returns>
+        [HttpPost]
+        public ListaTabelasRelatorioSemanal PesquisaRelatorioEncomendasAte(ViewModels.Encomendas.EncomendaPesquisaParamSemana pesqParams)
+        {
+            int it;
+            //verifica a diferença de semanas e se tem alguma transição de ano
+            if (pesqParams.ateSemanaEntrega > pesqParams.semanaEntrega)
+            {
+                it = pesqParams.ateSemanaEntrega - pesqParams.semanaEntrega;
+            } else {
+                it = 52 - pesqParams.semanaEntrega;
+                it = it + pesqParams.ateSemanaEntrega;
+            }
+            
+            //variaveis com ano e semana
+            int semana = pesqParams.semanaEntrega;
+            int ano = 0;
+            Int32.TryParse(pesqParams.serie.NumSerie, out ano);
+
+            //instancia objeto para usar as funções da classe
+            EncomendasBL ebl = new EncomendasBL();
+            
+            // lista com as semanas todas
+            List<TabelasRelatorioSemanal> l = new List<TabelasRelatorioSemanal>();
+
+
+            //percorre todas as semanas, para obter as as quantidades totais de cada semana
+            for (int i = 0; i <= it; i++)
+            {
+                //assim que ultrapassa a ultima semana do ano, inicia as semanas e incrementa para o próximo ano
+                if(semana > 52){
+                    semana = 1;
+                    ano++;
+                }
+
+                // Obtem  os totais da semana e ano enviados
+                RelatorioTotais totais = ebl.TotalEncomendas(semana, ano);
+                // os dados para as tabelas do relatório
+                List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioTipoEncomenda> lista = ebl.TotaisTipoEncomenda(semana, ano);
+                // passa os dados obtidos acima para um único objeto
+                TabelasRelatorioSemanal tabelas = new TabelasRelatorioSemanal(lista.ToList(), totais, ano, semana);
+                // e adiciona a uma lista com todas as semanas
+                l.Add(tabelas);
+                semana++;
+            }
+
+            ListaTabelasRelatorioSemanal listaTabelas = new ListaTabelasRelatorioSemanal(l);
+            return listaTabelas;
+        }
 
 
 

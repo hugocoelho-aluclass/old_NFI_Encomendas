@@ -475,6 +475,10 @@
     <Compile Include="Migrations\202110181455482_addAnoEDataProduzido.Designer.cs">
       <DependentUpon>202110181455482_addAnoEDataProduzido.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202110270744588_addCapacidadeTipoEncomenda.cs" />
+    <Compile Include="Migrations\202110270744588_addCapacidadeTipoEncomenda.Designer.cs">
+      <DependentUpon>202110270744588_addCapacidadeTipoEncomenda.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Anexos.cs" />
     <Compile Include="Models\EncomendasCache.cs" />
     <Compile Include="Models\EstadoSav.cs" />
@@ -966,6 +970,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202110181455482_addAnoEDataProduzido.resx">
       <DependentUpon>202110181455482_addAnoEDataProduzido.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202110270744588_addCapacidadeTipoEncomenda.resx">
+      <DependentUpon>202110270744588_addCapacidadeTipoEncomenda.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

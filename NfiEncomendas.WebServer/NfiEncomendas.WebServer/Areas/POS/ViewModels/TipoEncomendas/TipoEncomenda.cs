@@ -9,6 +9,14 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.TipoEncomendas
         public string Setor { get; set; }
         public bool Anulado { get; set; }
         public int SetorId { get; set; }
+
+        public int? CapacidadePrix { get; set; }
+
+        public int? CapacidadeWis { get; set; }
+
+        public int? CapacidadeResto { get; set; }
+
+
         public TipoEncomenda()
         {
         }
@@ -47,6 +55,9 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.TipoEncomendas
             res.Anulado = this.Anulado;
             res.NumTipoEncomenda = this.NumTipoEncomenda;
             res.SetorEncomenda = (new NfiEncomendas.WebServer.BusinessLogic.SetorEncomendasBL(db)).LerSetor(this.SetorId);
+            res.CapacidadePrix = this.CapacidadePrix;
+            res.CapacidadeWis= this.CapacidadeWis;
+            res.CapacidadeResto = this.CapacidadeResto;
             //res = this.InfoExtra;
             return res;
         }
@@ -73,6 +84,9 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.TipoEncomendas
             TipoEncomenda.Anulado = item.Anulado;
             TipoEncomenda.Setor = item.SetorEncomenda != null ? item.SetorEncomenda.Nome : "";
             TipoEncomenda.SetorId = item.SetorEncomenda != null ? item.SetorEncomenda.IdSetorEncomenda : -1;
+            TipoEncomenda.CapacidadePrix = item.CapacidadePrix;
+            TipoEncomenda.CapacidadeWis = item.CapacidadeWis;
+            TipoEncomenda.CapacidadeResto = item.CapacidadeResto;
         }
     }
 }

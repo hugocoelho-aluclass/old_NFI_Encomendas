@@ -14,6 +14,7 @@ app.controller('TipoEncomendaEditCtrl', ['$scope', '$http', '$stateParams', '$st
             .success(function (data, status, headers, config) {          
                 $scope.dadosExtra.setoresEncomenda = data;
                 setSetorEncomendaId();
+                console.log($scope);
             });
 
 

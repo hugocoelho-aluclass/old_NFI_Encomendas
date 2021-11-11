@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>C:\Users\PC\Desktop\nfi_encomendas\apiserver_app</_PublishTargetUrl>
-    <History>True|2021-10-25T14:58:44.1289236Z;True|2021-10-20T17:31:17.2207181+01:00;True|2021-10-20T16:52:33.0070695+01:00;True|2021-10-20T16:49:54.6145397+01:00;True|2021-10-20T09:59:45.2690058+01:00;True|2021-10-07T17:24:40.4549322+01:00;True|2021-10-07T16:06:15.0595020+01:00;True|2021-10-07T14:31:35.1214177+01:00;True|2021-10-07T09:13:16.0558092+01:00;True|2021-10-07T08:54:07.7774858+01:00;True|2021-10-07T08:32:49.7502180+01:00;</History>
+    <History>True|2021-11-09T17:41:41.2927866Z;True|2021-11-09T16:39:17.6056838+00:00;True|2021-11-09T15:29:43.9972799+00:00;True|2021-11-09T12:40:41.5504009+00:00;True|2021-11-09T12:31:01.9012539+00:00;True|2021-11-09T12:30:52.8536055+00:00;True|2021-10-25T15:58:44.1289236+01:00;True|2021-10-20T17:31:17.2207181+01:00;True|2021-10-20T16:52:33.0070695+01:00;True|2021-10-20T16:49:54.6145397+01:00;True|2021-10-20T09:59:45.2690058+01:00;True|2021-10-07T17:24:40.4549322+01:00;True|2021-10-07T16:06:15.0595020+01:00;True|2021-10-07T14:31:35.1214177+01:00;True|2021-10-07T09:13:16.0558092+01:00;True|2021-10-07T08:54:07.7774858+01:00;True|2021-10-07T08:32:49.7502180+01:00;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="apps/itextsharp.dll">
@@ -105,10 +105,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>08/03/2014 21:33:56</publishTime>
     </File>
     <File Include="bin/NfiEncomendas.WebServer.dll">
-      <publishTime>10/25/2021 15:58:43</publishTime>
+      <publishTime>11/09/2021 17:16:16</publishTime>
     </File>
     <File Include="bin/NfiEncomendas.WebServer.pdb">
-      <publishTime>10/25/2021 15:58:43</publishTime>
+      <publishTime>11/09/2021 17:16:16</publishTime>
     </File>
     <File Include="bin/NPOI.dll">
       <publishTime>07/29/2021 23:13:42</publishTime>
@@ -249,7 +249,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>09/24/2021 17:22:59</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>10/25/2021 15:58:43</publishTime>
+      <publishTime>11/09/2021 17:41:41</publishTime>
     </File>
   </ItemGroup>
 </Project>

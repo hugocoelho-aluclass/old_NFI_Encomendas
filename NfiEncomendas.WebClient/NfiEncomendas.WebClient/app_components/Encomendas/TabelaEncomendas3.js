@@ -34,24 +34,45 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
         /**
          * Iniciar variaveis para esconder e dimensionara tabelas
          * */
+        $scope.capacidadeTipo = true;
+        $scope.capacidadeTipoCols = 2;
         $scope.entregaTipo = true;
         $scope.entregaTipoCols = 2;
         $scope.concluidoTipo = true;
         $scope.concluidoTipoCols = 2;
+        $scope.porConcluirTipo = true;
+        $scope.porConcluirTipoCols = 2;
         $scope.produzidoTipo = true;
-        $scope.produzidoTipoCols = 1;
+        $scope.produzidoTipoCols = 2;
+        $scope.atrasadoTipo = true;
+        $scope.atrasadoTipoCols = 1;
 
+        $scope.capacidade = true;
+        $scope.capacidadeCols = 2;
         $scope.entrega = true;
         $scope.entregaCols = 2;
         $scope.concluido = true;
         $scope.concluidoCols = 2;
+        $scope.porConcluir = true;
+        $scope.porConcluirCols = 2;
         $scope.produzido = true;
-        $scope.produzidoCols = 1;
+        $scope.produzidoCols = 2;
+        $scope.atrasado = true;
+        $scope.atrasadoCols = 1;
+
+
+        //padrão de cores para as células
+        $scope.corVermelho = 'rgba(255, 99, 71, 0.2)';
+        $scope.corAmarelo = 'rgba(255, 220, 0, 0.4)';
+        $scope.corAzul = 'rgba(0, 100, 255, 0.2)';
+        $scope.corVerde = 'rgba(60, 179, 113, 0.2)';
 
 
         //array para guardar o objeto com os parametros de pesquisa, como a semana de entrega e a serie(ano)
         $scope.paramsPesquisa = {};
         $scope.paramsPesquisa.semanaEntrega = new Date().getWeekNumber();
+        $scope.paramsPesquisa.ateSemanaEntrega = $scope.paramsPesquisa.semanaEntrega + 1;
+        $scope.paramsPesquisa.semanaEntregaAteBool = false;
         $scope.paramsPesquisa.serie = "";
 
         //arrais para guardar os objetos obtidos da base de dados
@@ -72,7 +93,12 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
                 $scope.setoresEncomenda = data.setoresEncomenda;
                 $scope.series = data.series;
                 //atribui ao select o último valor do array series
-                $scope.paramsPesquisa.serie = $scope.series[$scope.series.length - 1];
+                $scope.series.forEach(function (s) {
+                    if (s.serieDefeito) {
+                        $scope.paramsPesquisa.serie = s;
+                    }
+                });
+
                 //define o máximo possível para a escolha da semana, apartir do ano
                 $scope.dados.uSemana = $scope.maxSemana(parseInt($scope.paramsPesquisa.serie.numSerie));
                 
@@ -80,48 +106,61 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
 
         //submit da pesquisa, pela semana e serie(ano), para obter dados para o relatório
         $scope.submit = function () {
-            $http.post(serviceBase + "api/Encomendas/PesquisaRelatorioEncomendas/?pesqParam=", $scope.paramsPesquisa)
-                .success(function (data, status, headers, config) {
-                    //guardar tabelas da query nas variaveis da scope
-                    $scope.tabelas.tipoEncEntregas = data.tabelaTipoEncomenda;
-                    $scope.tabelas.totalEncomendas = data.totaisTabela;
+            //caso seja selecionado um intervalo de tempo
+            if ($scope.paramsPesquisa.semanaEntregaAteBool) {
+                $http.post(serviceBase + "api/Encomendas/PesquisaRelatorioEncomendasAte/?pesqParam=", $scope.paramsPesquisa)
+                    .success(function (data, status, headers, config) {
+                        $scope.tabelas.tipoEncEntregas = null;
+                        $scope.listaSemanas = [];
 
-                    for (let i = 0; i < $scope.setoresEncomenda.length; i++) {
-                        //em cada setor criar as variaveis para gravar os totais de encomendas para entrega e já produzidas.
-                        $scope.setoresEncomenda[i].totalPrix = 0;
-                        $scope.setoresEncomenda[i].totalWis = 0;
-                        $scope.setoresEncomenda[i].totalResto = 0;
-                        $scope.setoresEncomenda[i].total = 0;
-                        $scope.setoresEncomenda[i].totalConcluidoPrix = 0;
-                        $scope.setoresEncomenda[i].totalConcluidoWis = 0;
-                        $scope.setoresEncomenda[i].totalConcluidoResto = 0;
-                        $scope.setoresEncomenda[i].totalConcluido = 0;
-                        $scope.setoresEncomenda[i].totalProdPrix = 0;
-                        $scope.setoresEncomenda[i].totalProdWis = 0;
-                        $scope.setoresEncomenda[i].totalProdResto = 0;
-                        $scope.setoresEncomenda[i].totalProd = 0;
-                        for (let x = 0; x < $scope.tabelas.tipoEncEntregas.length; x++) {
-                            if ($scope.setoresEncomenda[i].setorId == $scope.tabelas.tipoEncEntregas[x].setorEncomenda_IdSetorEncomenda) {
-                                //calcula e preenche as variaveis criadas
-                                $scope.setoresEncomenda[i].totalPrix += $scope.tabelas.tipoEncEntregas[x].totalPrix;
-                                $scope.setoresEncomenda[i].totalWis += $scope.tabelas.tipoEncEntregas[x].totalWis;
-                                $scope.setoresEncomenda[i].totalResto += $scope.tabelas.tipoEncEntregas[x].totalResto;
-                                $scope.setoresEncomenda[i].totalConcluidoPrix += $scope.tabelas.tipoEncEntregas[x].totalConcluidoPrix;
-                                $scope.setoresEncomenda[i].totalConcluidoWis += $scope.tabelas.tipoEncEntregas[x].totalConcluidoWis;
-                                $scope.setoresEncomenda[i].totalConcluidoResto += $scope.tabelas.tipoEncEntregas[x].totalConcluidoResto;
-                                $scope.setoresEncomenda[i].totalProdPrix += $scope.tabelas.tipoEncEntregas[x].totalProdPrix;
-                                $scope.setoresEncomenda[i].totalProdWis += $scope.tabelas.tipoEncEntregas[x].totalProdWis;
-                                $scope.setoresEncomenda[i].totalProdResto += $scope.tabelas.tipoEncEntregas[x].totalProdResto;
+                        // percorre todas as semanas, para preencher o array local e criar novos campos   
+                        for (let i = 0; i < data.listaTabelasRelatorio.length; i++) {
+                            $scope.listaSemanas.push(new Object());
+                            $scope.listaSemanas[i].tipoEncEntregas = data.listaTabelasRelatorio[i].tabelaTipoEncomenda;
+                            $scope.listaSemanas[i].totaisTabela = data.listaTabelasRelatorio[i].totaisTabela;
+                            $scope.listaSemanas[i].ano = data.listaTabelasRelatorio[i].ano;
+                            $scope.listaSemanas[i].semana = data.listaTabelasRelatorio[i].semana;
+                            //variavel para esconder e mostrar os dados detalhados da semana
+                            $scope.listaSemanas[i].show = false;
+                            $scope.listaSemanas[i].setoresEncomenda = [];
 
+                            // percorre os setores para adicionar os totais de todas as semanas
+                            for (let it = 0; it < $scope.setoresEncomenda.length; it++) {
+                                $scope.listaSemanas[i].setoresEncomenda.push(new Object());
+                                $scope.listaSemanas[i].setoresEncomenda[it].setorId = $scope.setoresEncomenda[it].setorId;
+                                $scope.listaSemanas[i].setoresEncomenda[it].setorNome = $scope.setoresEncomenda[it].setorNome;
+                                $scope.listaSemanas[i].setoresEncomenda[it].TiposEncomenda = $scope.setoresEncomenda[it].TiposEncomenda;
                             }
+
                         }
-                        // calcula total
-                        $scope.setoresEncomenda[i].total = $scope.setoresEncomenda[i].totalPrix + $scope.setoresEncomenda[i].totalWis + $scope.setoresEncomenda[i].totalResto;
-                        $scope.setoresEncomenda[i].totalConcluido = $scope.setoresEncomenda[i].totalConcluidoPrix + $scope.setoresEncomenda[i].totalConcluidoWis + $scope.setoresEncomenda[i].totalConcluidoResto;
-                        $scope.setoresEncomenda[i].totalProd = $scope.setoresEncomenda[i].totalProdPrix + $scope.setoresEncomenda[i].totalProdWis + $scope.setoresEncomenda[i].totalProdResto;
-                    }
-                    console.log($scope);
-                });
+
+                        //percorre a lista das semanas e adicionar cores as celulas
+                        for (let i = 0; i < $scope.listaSemanas.length; i++) {
+                            $scope.adicionarCor($scope.listaSemanas[i]);
+                            $scope.criarTotais($scope.listaSemanas[i].setoresEncomenda, $scope.listaSemanas[i]);
+                        }
+ 
+                    });
+
+            } else {
+                
+                $http.post(serviceBase + "api/Encomendas/PesquisaRelatorioEncomendas/?pesqParam=", $scope.paramsPesquisa)
+                    .success(function (data, status, headers, config) {
+                        //guardar tabelas da query nas variaveis da scope
+                        $scope.listaSemanas = null;
+                        $scope.tabelas.tipoEncEntregas = data.tabelaTipoEncomenda;
+                        $scope.tabelas.totalEncomendas = data.totaisTabela;
+                       
+                        //adicionar cores nas celulas
+                        $scope.adicionarCor($scope.tabelas);              
+
+                        //criar totais das tabelas
+                        $scope.criarTotais($scope.setoresEncomenda, $scope.tabelas);
+
+                    });
+            }
+            
+            
             //guarda os valores da pesquisa noutra variavel para apresentar no inicio do relatório, sem que seja alterado quando alteramos os valores na form
             $scope.dados.semana = $scope.paramsPesquisa.semanaEntrega;
             $scope.dados.serie = $scope.paramsPesquisa.serie.numSerie;
@@ -152,6 +191,17 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
         /**
          * Funções para expandir colunas da tabela
          * */
+        $scope.expandirCapacidade = function () {
+            if ($scope.capacidade === true) {
+                $scope.capacidade = false;
+                $scope.capacidade = false;
+                $scope.capacidadeCols = 5;
+            } else if ($scope.capacidade === false) {
+                $scope.capacidade = true;
+                $scope.capacidadeCols = 2
+            }
+        }
+
         $scope.expandirEntrega = function () {
             if ($scope.entrega === true) {
                 $scope.entrega = false;
@@ -173,13 +223,43 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
             }
         }
 
+        $scope.expandirPorConcluir = function () {
+            if ($scope.porConcluir === true) {
+                $scope.porConcluir = false;
+                $scope.porConcluirCols = 5;
+            } else if ($scope.porConcluir === false) {
+                $scope.porConcluir = true;
+                $scope.porConcluirCols = 2;
+            }
+        }
+
         $scope.expandirProduzido = function () {
             if ($scope.produzido === true) {
                 $scope.produzido = false;
-                $scope.produzidoCols = 4;
+                $scope.produzidoCols = 5;
             } else if ($scope.produzido === false) {
                 $scope.produzido = true;
-                $scope.produzidoCols = 1;
+                $scope.produzidoCols = 2;
+            }
+        }
+
+        $scope.expandirAtrasado = function () {
+            if ($scope.atrasado === true) {
+                $scope.atrasado = false;
+                $scope.atrasadoCols = 4;
+            } else if ($scope.atrasado === false) {
+                $scope.atrasado = true;
+                $scope.atrasadoCols = 1;
+            }
+        }
+
+        $scope.expandirCapacidadeTipo = function () {
+            if ($scope.capacidadeTipo === true) {
+                $scope.capacidadeTipo = false;
+                $scope.capacidadeTipoCols = 5;
+            } else if ($scope.capacidadeTipo === false) {
+                $scope.capacidadeTipo = true;
+                $scope.capacidadeTipoCols = 2
             }
         }
 
@@ -203,18 +283,303 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
             }
         }
 
-        $scope.expandirProduzidoTipo = function () {
-            if ($scope.produzidoTipo === true) {
-                $scope.produzidoTipo = false;
-                $scope.produzidoTipoCols = 4;
-            } else if ($scope.produzidoTipo === false) {
-                $scope.produzidoTipo = true;
-                $scope.produzidoTipoCols = 1;
+        $scope.expandirPorConcluirTipo = function () {
+            if ($scope.porConcluirTipo === true) {
+                $scope.porConcluirTipo = false;
+                $scope.porConcluirTipoCols = 5;
+            } else if ($scope.porConcluirTipo === false) {
+                $scope.porConcluirTipo = true;
+                $scope.porConcluirTipoCols = 2;
             }
         }
 
 
-        //sempre que se seleciona uma serie/ano diferente ele verifica qual a última semana do ano, para definir um limite na form do ano
+        $scope.expandirProduzidoTipo = function () {
+            if ($scope.produzidoTipo === true) {
+                $scope.produzidoTipo = false;
+                $scope.produzidoTipoCols = 5;
+            } else if ($scope.produzidoTipo === false) {
+                $scope.produzidoTipo = true;
+                $scope.produzidoTipoCols = 2;
+            }
+        }
+
+        $scope.expandirAtrasadoTipo = function () {
+            if ($scope.atrasadoTipo === true) {
+                $scope.atrasadoTipo = false;
+                $scope.atrasadoTipoCols = 4;
+            } else if ($scope.atrasadoTipo === false) {
+                $scope.atrasadoTipo = true;
+                $scope.atrasadoTipoCols = 1;
+            }
+        }
+
+        /**
+         * função para expandir semana
+         * @param {any} i - numero da semana do array
+         */
+        $scope.expandirSemana = function (i) {
+            if ($scope.listaSemanas[i].show == true) {
+                $scope.listaSemanas[i].show = false
+            } else {
+                $scope.listaSemanas[i].show = true
+            }
+        }
+
+
+        /**
+         * Função para calcular totais por setor/semana e definir cores
+         * @param {any} objSetor, variavel com objeto do setor que se vai calcular os totais
+         * @param {any} objTipo, variavel com o objeto com os totais e tipos de encomenda
+         */
+        $scope.criarTotais = function (objSetor, objTipo) {
+            for (let i = 0; i < objSetor.length; i++) {
+                //em cada setor cria as variaveis para gravar os totais de encomendas para entrega e já produzidas.
+                objSetor[i].totalPrix = 0;
+                objSetor[i].totalWis = 0;
+                objSetor[i].totalResto = 0;
+                objSetor[i].total = 0;
+                objSetor[i].totalConcluidoPrix = 0;
+                objSetor[i].totalConcluidoWis = 0;
+                objSetor[i].totalConcluidoResto = 0;
+                objSetor[i].totalConcluido = 0;
+                objSetor[i].totalProdPrix = 0;
+                objSetor[i].totalProdWis = 0;
+                objSetor[i].totalProdResto = 0;
+                objSetor[i].totalProd = 0;
+                objSetor[i].totalAtrasadoPrix = 0;
+                objSetor[i].totalAtrasadoWis = 0;
+                objSetor[i].totalAtrasadoResto = 0;
+                objSetor[i].totalAtrasado = 0;
+                objSetor[i].totalPrixCor = $scope.corVerde;
+                objSetor[i].totalWisCor = $scope.corVerde;
+                objSetor[i].totalRestoCor = $scope.corVerde;
+                objSetor[i].totalProdPrixCor = "";
+                objSetor[i].totalProdWisCor = "";
+                objSetor[i].totalProdRestoCor = "";
+                objSetor[i].totalCor = "";
+                objSetor[i].totalProdCor = "";
+
+                for (let x = 0; x < objTipo.tipoEncEntregas.length; x++) {
+                    if (objSetor[i].setorId == objTipo.tipoEncEntregas[x].setorEncomenda_IdSetorEncomenda) {
+                        //calcula e preenche as variaveis criadas
+                        objSetor[i].totalPrix += objTipo.tipoEncEntregas[x].totalPrix;
+                        objSetor[i].totalWis += objTipo.tipoEncEntregas[x].totalWis;
+                        objSetor[i].totalResto += objTipo.tipoEncEntregas[x].totalResto;
+                        objSetor[i].totalConcluidoPrix += objTipo.tipoEncEntregas[x].totalConcluidoPrix;
+                        objSetor[i].totalConcluidoWis += objTipo.tipoEncEntregas[x].totalConcluidoWis;
+                        objSetor[i].totalConcluidoResto += objTipo.tipoEncEntregas[x].totalConcluidoResto;
+                        objSetor[i].totalProdPrix += objTipo.tipoEncEntregas[x].totalProdPrix;
+                        objSetor[i].totalProdWis += objTipo.tipoEncEntregas[x].totalProdWis;
+                        objSetor[i].totalProdResto += objTipo.tipoEncEntregas[x].totalProdResto;
+                        objSetor[i].totalAtrasadoPrix += objTipo.tipoEncEntregas[x].totalAtrasadoPrix;
+                        objSetor[i].totalAtrasadoWis += objTipo.tipoEncEntregas[x].totalAtrasadoWis;
+                        objSetor[i].totalAtrasadoResto += objTipo.tipoEncEntregas[x].totalAtrasadoResto;
+                        $scope.corPorSemana(objSetor[i], objTipo.tipoEncEntregas[x]);
+                    }
+                }
+
+                // calcula total
+                objSetor[i].total = objSetor[i].totalPrix + objSetor[i].totalWis + objSetor[i].totalResto;
+                objSetor[i].totalConcluido = objSetor[i].totalConcluidoPrix + objSetor[i].totalConcluidoWis + objSetor[i].totalConcluidoResto;
+                objSetor[i].totalProd = objSetor[i].totalProdPrix + objSetor[i].totalProdWis + objSetor[i].totalProdResto;
+                objSetor[i].totalAtrasado = objSetor[i].totalAtrasadoPrix + objSetor[i].totalAtrasadoWis + objSetor[i].totalAtrasadoResto;
+
+
+                // Atribui cores as celulas dos totais onde já se ultrapassou ou se está no limite da produção máxima do tipo de encomenda.
+                if (objSetor[i].totalPrixCor == $scope.corVermelho || objSetor[i].totalWisCor == $scope.corVermelho || objSetor[i].totalRestoCor == $scope.corVermelho) {
+                    objSetor[i].totalCor = $scope.corVermelho;
+                } else if (objSetor[i].totalPrixCor == $scope.corAmarelo || objSetor[i].totalWisCor == $scope.corAmarelo || objSetor[i].totalRestoCor == $scope.corAmarelo) {
+                    objSetor[i].totalCor = $scope.corAmarelo;
+                } else {
+                    objSetor[i].totalCor = $scope.corVerde;
+                }
+
+                if (objSetor[i].totalProdPrixCor == $scope.corAzul || objSetor[i].totalProdWisCor == $scope.corAzul || objSetor[i].totalProdRestoCor == $scope.corAzul) {
+                    objSetor[i].totalProdCor = $scope.corAzul;
+                } 
+
+            }
+
+        }
+
+
+        /**
+         * Função para atribuir cores as celulas onde já se ultrapassou ou se já está no limite da produção máxima do tipo de encomenda por setor.
+         * @param {any} corTotal, objeto setor
+         * @param {any} corCampo, objeto tipo de encomenda
+         */
+        $scope.corPorSemana = function (corTotal, corCampo) {
+            //verifica todos os campos de uma semana, para decidir a cor da celula
+            if (corTotal.totalPrixCor != $scope.corVermelho) {
+                if (corCampo.totalPrixCor == $scope.corVermelho) {
+                    corTotal.totalPrixCor = $scope.corVermelho;
+                } else if (corCampo.totalPrixCor == $scope.corAmarelo) {
+                    corTotal.totalPrixCor = $scope.corAmarelo;
+                }
+            }
+
+            if (corTotal.totalWisCor != $scope.corVermelho) {
+                if (corCampo.totalWisCor == $scope.corVermelho) {
+                    corTotal.totalWisCor = $scope.corVermelho;
+                } else if (corCampo.totalWisCor == $scope.corAmarelo) {
+                    corTotal.totalWisCor = $scope.corAmarelo;
+                }
+            }
+
+            if (corTotal.totalRestoCor != $scope.corVermelho) {
+                if (corCampo.totalRestoCor == $scope.corVermelho) {
+                    corTotal.totalRestoCor = $scope.corVermelho;
+                } else if (corCampo.totalRestoCor == $scope.corAmarelo) {
+                    corTotal.totalRestoCor = $scope.corAmarelo;
+                }
+            }
+
+
+            //se na coluna tiver alguma cor, altera o total da mesma para a mesma cor
+            if (corTotal.totalProdPrixCor != $scope.corAzul && corCampo.totalProdPrixCor == $scope.corAzul) {
+                corTotal.totalProdPrixCor = $scope.corAzul;
+            }
+
+            if (corTotal.totalProdWisCor != $scope.corAzul && corCampo.totalProdWisCor == $scope.corAzul) {
+                corTotal.totalProdWisCor = $scope.corAzul;
+            }
+
+            if (corTotal.totalProdRestoCor != $scope.corAzul && corCampo.totalProdRestoCor == $scope.corAzul) {
+                corTotal.totalProdRestoCor = $scope.corAzul;
+            }
+        }
+
+
+        /**
+         * Função para atribuir cores às celulas onde o numero de encomendas já ultrapassou ou está perto do limite de produção
+         * @param {any} obj, objeto que com as tabelas e totais
+         */
+        $scope.adicionarCor = function (obj) {
+            //percorre todo o tipo de encomendas
+            for (let x = 0; x < obj.tipoEncEntregas.length; x++) {
+                //atribui a cor a coluna da semana para as encomendas, através da função cor
+                obj.tipoEncEntregas[x].totalPrixCor = $scope.cor(obj.tipoEncEntregas[x].capacidadePrix, obj.tipoEncEntregas[x].totalPrix);
+                obj.tipoEncEntregas[x].totalWisCor = $scope.cor(obj.tipoEncEntregas[x].capacidadeWis, obj.tipoEncEntregas[x].totalWis);
+                obj.tipoEncEntregas[x].totalRestoCor = $scope.cor(obj.tipoEncEntregas[x].capacidadeResto, obj.tipoEncEntregas[x].totalResto);
+
+                //caso algum das colunas tenha alguma das cores de maior importância, altera a cor da celula de total dessa semana
+                if (obj.tipoEncEntregas[x].totalPrixCor == $scope.corVermelho || obj.tipoEncEntregas[x].totalWisCor == $scope.corVermelho || obj.tipoEncEntregas[x].totalRestoCor == $scope.corVermelho) {
+                    obj.tipoEncEntregas[x].totalCor = $scope.corVermelho;
+                } else if (obj.tipoEncEntregas[x].totalPrixCor == $scope.corAmarelo || obj.tipoEncEntregas[x].totalWisCor == $scope.corAmarelo || obj.tipoEncEntregas[x].totalRestoCor == $scope.corAmarelo) {
+                    obj.tipoEncEntregas[x].totalCor = $scope.corAmarelo;
+                } else {
+                    obj.tipoEncEntregas[x].totalCor = $scope.corVerde;
+                }
+
+                //atribui a cor a coluna da semana para o produção, através da função cor
+                obj.tipoEncEntregas[x].totalProdPrixCor = $scope.corProduzido(obj.tipoEncEntregas[x].capacidadePrix, obj.tipoEncEntregas[x].totalProdPrix);
+                obj.tipoEncEntregas[x].totalProdWisCor = $scope.corProduzido(obj.tipoEncEntregas[x].capacidadeWis, obj.tipoEncEntregas[x].totalProdWis);
+                obj.tipoEncEntregas[x].totalProdRestoCor = $scope.corProduzido(obj.tipoEncEntregas[x].capacidadeResto, obj.tipoEncEntregas[x].totalProdResto);
+
+                //caso algum das colunas tenha ultrapassado o máximo de produção da semana, altera a cor da celula do total dessa semana, para a mesma cor 
+                if (obj.tipoEncEntregas[x].totalProdPrixCor == $scope.corAzul || obj.tipoEncEntregas[x].totalProdWisCor == $scope.corAzul || obj.tipoEncEntregas[x].totalProdRestoCor == $scope.corAzul) {
+                    obj.tipoEncEntregas[x].totalProdCor = $scope.corAzul;
+                } else {
+                    obj.tipoEncEntregas[x].totalProdCor = null;
+                }
+
+                //altera a cor do total das colunas das encomendas, com a cor com o maior grau de importancia presente nessa coluna
+                if (obj.tipoEncEntregas[x].totalCor == $scope.corVermelho) {
+                    obj.totalC = $scope.corVermelho;
+                    if (obj.tipoEncEntregas[x].totalPrixCor == $scope.corVermelho) {
+                        obj.totalPrixC = $scope.corVermelho;
+                    } else if (obj.tipoEncEntregas[x].totalPrixCor == $scope.corAmarelo) {
+                        obj.totalPrixC = $scope.corAmarelo;
+                    }
+                    if (obj.tipoEncEntregas[x].totalWisCor == $scope.corVermelho) {
+                        obj.totalWisC = $scope.corVermelho;
+                    } else if (obj.tipoEncEntregas[x].totalWisCor == $scope.corAmarelo) {
+                        obj.totalWisC = $scope.corAmarelo;
+                    }
+                    if (obj.tipoEncEntregas[x].totalRestoCor == $scope.corVermelho) {
+                        obj.totalRestoC = $scope.corVermelho;
+                    } else if (obj.tipoEncEntregas[x].totalRestoCor == $scope.corAmarelo) {
+                        obj.totalRestoC = $scope.corAmarelo;
+                    }
+                } else if (obj.tipoEncEntregas[x].totalCor == $scope.corAmarelo && obj.totalC != $scope.corVermelho) {
+                    obj.totalC = $scope.corAmarelo;
+                    if (obj.tipoEncEntregas[x].totalPrixCor == $scope.corAmarelo) {
+                        obj.totalPrixC = $scope.corAmarelo;
+                    }
+                    if (obj.tipoEncEntregas[x].totalWisCor == $scope.corAmarelo) {
+                        obj.totalWisC = $scope.corAmarelo;
+                    }
+                    if (obj.tipoEncEntregas[x].totalRestoCor == $scope.corAmarelo) {
+                        obj.totalRestoC = $scope.corAmarelo;
+                    }
+                }
+
+                //altera a cor do total das colunas da produção, com a cor azul caso esteja presente nessa coluna
+                if (obj.tipoEncEntregas[x].totalProdCor == $scope.corAzul) {
+                    obj.totalProdC = $scope.corAzul;
+                    if (obj.tipoEncEntregas[x].totalProdPrixCor == $scope.corAzul) {
+                        obj.totalProdPrixC = $scope.corAzul;
+                    }
+                    if (obj.tipoEncEntregas[x].totalProdWisCor == $scope.corAzul) {
+                        obj.totalProdWisC = $scope.corAzul;
+                    }
+                    if (obj.tipoEncEntregas[x].totalProdRestoCor == $scope.corAzul) {
+                        obj.totalProdRestoC = $scope.corAzul;
+                    }
+                }
+            }
+        }
+
+
+        /**
+         * Função para verificar se o numero de encomendas já ultrapassou ou está perto do limite de produção
+         * @param {any} cap, capacidade máxima de produção do tipo de encomenda
+         * @param {any} total, número de de encomendas
+         */
+        $scope.cor = function (cap, total) {
+            var temp;
+            if (cap == 0) {
+                temp = 0
+            } else {
+                temp = total / cap;
+            }
+
+            if (temp >= 1 || total > cap) {
+                return $scope.corVermelho;
+            } else if (temp >= 0.9) {
+                return $scope.corAmarelo;
+            } else {
+                return $scope.corVerde;
+            }
+        }
+
+        /**
+         * Função para verificar se já ultrapassamos o máximo de produção
+         * @param {any} cap, capacidade máxima de produção do tipo de encomenda
+         * @param {any} total, total já produzido na semana
+         */
+        $scope.corProduzido = function (cap, total) {
+            if (total > cap) {
+                return $scope.corAzul;
+            } 
+            return null;
+        }
+
+        /**
+         * Sempre que um setor é expandido, coloca a variavel show como false
+         * */
+        /*$scope.$watch('setoresEncomenda', function (isOpen, t, scope) {
+            for (let i = 0; i < $scope.listaSemanas.length; i++) {
+                scope.listaSemanas[i].show = false;
+            }
+        }, true);*/
+
+        
+
+        /**
+         * sempre que se seleciona uma serie/ano diferente ele verifica qual a última semana do ano, para definir um limite na form do ano
+         * */
         $scope.change = function () {
             $scope.dados.uSemana = $scope.maxSemana(parseInt($scope.paramsPesquisa.serie.numSerie));
 
