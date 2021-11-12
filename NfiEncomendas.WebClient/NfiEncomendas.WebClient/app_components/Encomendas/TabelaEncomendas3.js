@@ -30,6 +30,7 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
         $scope.dados.serie = "";
         $scope.dados.uSemana = "";
         $scope.dados.emProducaoCols = 2;
+        $scope.dados.semanaAtual = new Date().getWeekNumber();
         $scope.totais = {};
 
 

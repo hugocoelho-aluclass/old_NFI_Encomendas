@@ -355,7 +355,7 @@
                                     <th>Total</th>
                                 </tr>
                             </thead>
-                            <tbody bindonce ng-repeat="listaSemana in listaSemanas">
+                            <tbody bindonce ng-repeat="listaSemana in listaSemanas" ng-init="semanaIndex=$index">
                                 <tr bindonce ng-repeat="tipo in listaSemana.tipoEncEntregas" ng-hide="!listaSemana.show" ng-if="tipo.setorEncomenda_IdSetorEncomenda == setor.setorId">
                                     <td></td>
                                     <td>{{tipo.numTipoEncomenda}}</td>
@@ -419,11 +419,11 @@
                                     <td ng-hide="produzidoTipo" ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalProdRestoCor }">{{listaSemana.setoresEncomenda[setorIndex].totalProdResto}}</td>
                                     <td ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalProdCor }">{{listaSemana.setoresEncomenda[setorIndex].totalProdPrix + listaSemana.setoresEncomenda[setorIndex].totalProdWis + listaSemana.setoresEncomenda[setorIndex].totalProdResto}}</td>
                                     <td></td>
-                                    <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix}}</td>
-                                    <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis}}</td>
-                                    <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
-                                    <td>{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
-                                   
+                                    <td ng-hide="atrasadoTipo"><span ng-if="semanaIndex == 0">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix}}</span></td>
+                                    <td ng-hide="atrasadoTipo"><span ng-if="semanaIndex == 0">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis}}</span></td>
+                                    <td ng-hide="atrasadoTipo"><span ng-if="semanaIndex == 0">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</span></td>
+                                    <td><span ng-if="semanaIndex == 0">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</span></td>
+
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -514,7 +514,7 @@
                                     <th>Total</th>
                                 </tr>
                             </thead>
-                            <tbody bindonce ng-repeat="listaSemana in listaSemanas">
+                            <tbody bindonce ng-repeat="listaSemana in listaSemanas"  ng-init="semanaIndex=$index">
                                 <tr bindonce ng-hide="!listaSemana.show || $index == 0">
                                     <th></th>
                                     <th>Num.</th>
@@ -612,10 +612,10 @@
                                     <td ng-hide="produzido" ng-style="{ 'background-color' : listaSemana.totalProdRestoC }">{{listaSemana.totaisTabela.totalProdResto}}</td>
                                     <td ng-style="{ 'background-color' : listaSemana.totalProdC }">{{listaSemana.totaisTabela.totalProdPrix + listaSemana.totaisTabela.totalProdWis + listaSemana.totaisTabela.totalProdResto}}</td>
                                     <td></td>
-                                    <td ng-hide="atrasado">{{listaSemana.totaisTabela.totalAtrasadoPrix}}</td>
-                                    <td ng-hide="atrasado">{{listaSemana.totaisTabela.totalAtrasadoWis}}</td>
-                                    <td ng-hide="atrasado">{{listaSemana.totaisTabela.totalAtrasadoResto}}</td>
-                                    <td>{{listaSemana.totaisTabela.totalAtrasadoPrix + listaSemana.totaisTabela.totalAtrasadoWis + listaSemana.totaisTabela.totalAtrasadoResto}}</td>
+                                    <td ng-hide="atrasado"><span ng-if="semanaIndex == 0">{{listaSemana.totaisTabela.totalAtrasadoPrix}}</span></td>
+                                    <td ng-hide="atrasado"><span ng-if="semanaIndex == 0">{{listaSemana.totaisTabela.totalAtrasadoWis}}</span></td>
+                                    <td ng-hide="atrasado"><span ng-if="semanaIndex == 0">{{listaSemana.totaisTabela.totalAtrasadoResto}}</span></td>
+                                    <td><span ng-if="semanaIndex == 0">{{listaSemana.totaisTabela.totalAtrasadoPrix + listaSemana.totaisTabela.totalAtrasadoWis + listaSemana.totaisTabela.totalAtrasadoResto}}</span></td>
 
                                 </tr>
                             </tbody>
