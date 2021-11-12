@@ -25,11 +25,13 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
         };
 
         //array para guardar variaveis, como a semana, a serie(ano) e a ultima semana do ano
-        $scope.dados = [];
+        $scope.dados = {};
         $scope.dados.semana = "";
         $scope.dados.serie = "";
         $scope.dados.uSemana = "";
         $scope.dados.emProducaoCols = 2;
+        $scope.totais = {};
+
 
         /**
          * Iniciar variaveis para esconder e dimensionara tabelas
@@ -139,7 +141,11 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
                             $scope.adicionarCor($scope.listaSemanas[i]);
                             $scope.criarTotais($scope.listaSemanas[i].setoresEncomenda, $scope.listaSemanas[i]);
                         }
- 
+
+                        $scope.setorTotais();
+                        $scope.semanasTotais();
+
+                        console.log($scope);
                     });
 
             } else {
@@ -564,6 +570,58 @@ app.controller('tabela3EncomendasCtrl', ['$scope', '$rootScope', '$filter', '$ht
                 return $scope.corAzul;
             } 
             return null;
+        }
+
+        /**
+         * Função para calcular total de cada setor mediante as semanas escolhidas
+         * */
+        $scope.setorTotais = function () {
+            for (let i = 0; i < $scope.setoresEncomenda.length; i++) {
+                $scope.setoresEncomenda[i].totalPrix = $scope.setoresEncomenda[i].totalWis = $scope.setoresEncomenda[i].totalResto = 0;
+                $scope.setoresEncomenda[i].totalConcluidoPrix = $scope.setoresEncomenda[i].totalConcluidoWis = $scope.setoresEncomenda[i].totalConcluidoResto = 0;
+                $scope.setoresEncomenda[i].totalProdPrix = $scope.setoresEncomenda[i].totalProdWis = $scope.setoresEncomenda[i].totalProdResto = 0;
+                for (let x = 0; x < $scope.listaSemanas.length; x++) {
+
+                    $scope.setoresEncomenda[i].totalPrix += $scope.listaSemanas[x].setoresEncomenda[i].totalPrix;
+                    $scope.setoresEncomenda[i].totalWis += $scope.listaSemanas[x].setoresEncomenda[i].totalWis;
+                    $scope.setoresEncomenda[i].totalResto += $scope.listaSemanas[x].setoresEncomenda[i].totalResto;
+
+                    $scope.setoresEncomenda[i].totalConcluidoPrix += $scope.listaSemanas[x].setoresEncomenda[i].totalConcluidoPrix;
+                    $scope.setoresEncomenda[i].totalConcluidoWis += $scope.listaSemanas[x].setoresEncomenda[i].totalConcluidoWis;
+                    $scope.setoresEncomenda[i].totalConcluidoResto += $scope.listaSemanas[x].setoresEncomenda[i].totalConcluidoResto;
+
+                    $scope.setoresEncomenda[i].totalProdPrix += $scope.listaSemanas[x].setoresEncomenda[i].totalProdPrix;
+                    $scope.setoresEncomenda[i].totalProdWis += $scope.listaSemanas[x].setoresEncomenda[i].totalProdWis;
+                    $scope.setoresEncomenda[i].totalProdResto += $scope.listaSemanas[x].setoresEncomenda[i].totalProdResto;
+
+                }
+               
+            }
+           
+        }
+
+
+        /**
+         * 
+         * */
+        $scope.semanasTotais = function () {
+            $scope.totais.totalPrix = $scope.totais.totalWis = $scope.totais.totalResto = 0;
+            $scope.totais.totalConcluidoPrix = $scope.totais.totalConcluidoWis = $scope.totais.totalConcluidoResto = 0;
+            $scope.totais.totalProdPrix = $scope.totais.totalProdWis = $scope.totais.totalProdResto = 0;
+            for (let i = 0; i < $scope.listaSemanas.length; i++) {
+                $scope.totais.totalPrix += $scope.listaSemanas[i].totaisTabela.totalPrix;
+                $scope.totais.totalWis += $scope.listaSemanas[i].totaisTabela.totalWis;
+                $scope.totais.totalResto += $scope.listaSemanas[i].totaisTabela.totalResto;
+
+                $scope.totais.totalConcluidoPrix += $scope.listaSemanas[i].totaisTabela.totalConcluidoPrix;
+                $scope.totais.totalConcluidoWis += $scope.listaSemanas[i].totaisTabela.totalConcluidoWis;
+                $scope.totais.totalConcluidoResto += $scope.listaSemanas[i].totaisTabela.totalConcluidoResto;
+
+                $scope.totais.totalProdPrix += $scope.listaSemanas[i].totaisTabela.totalProdPrix;
+                $scope.totais.totalProdWis += $scope.listaSemanas[i].totaisTabela.totalProdWis;
+                $scope.totais.totalProdResto += $scope.listaSemanas[i].totaisTabela.totalProdResto;
+
+            }
         }
 
         /**

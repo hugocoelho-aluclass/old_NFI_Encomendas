@@ -11,10 +11,9 @@ app.controller('TipoEncomendaEditCtrl', ['$scope', '$http', '$stateParams', '$st
      
         $scope.select = {};
         $http.get(serviceBase + "api/setoresEncomenda/TabelaSetores")
-            .success(function (data, status, headers, config) {          
+            .success(function (data, status, headers, config) {
                 $scope.dadosExtra.setoresEncomenda = data;
                 setSetorEncomendaId();
-                console.log($scope);
             });
 
 
@@ -24,7 +23,7 @@ app.controller('TipoEncomendaEditCtrl', ['$scope', '$http', '$stateParams', '$st
             }
         });
 
-        $scope.refreshAddresses = function (address) { };
+        //$scope.refreshAddresses = function (address) { };
 
         $scope.$watch("select.setorId", function (v) {
             if (v === undefined) return;
@@ -35,12 +34,11 @@ app.controller('TipoEncomendaEditCtrl', ['$scope', '$http', '$stateParams', '$st
         function carregartipoEncomenda(id) {
             $http.get(serviceBase + "api/TipoEncomendas/EditTipoEncomenda/" + id)
                 .success(function (data, status, headers, config) {
-                    if (data.tipoEncomenda.numTipoEncomenda != $stateParams.id) {
-                        //$state.go("app.tipoEncomendas.edit", { id: data.tipoEncomenda.numtipoEncomenda });
-                    }
-                    $scope.dados = data;
                     $scope.tipoEncomenda = data.tipoEncomenda;
                     //$scope.select.setorId = $scope.tipoEncomenda.setorId;
+                    if (data.tipoEncomenda.numTipoEncomenda != $stateParams.id) {
+                        $scope.tipoEncomenda.capacidadePrix = $scope.tipoEncomenda.capacidadeWis = $scope.tipoEncomenda.capacidadeResto = 0;
+                    }
                     setSetorEncomendaId();
                 });
 
@@ -62,5 +60,6 @@ app.controller('TipoEncomendaEditCtrl', ['$scope', '$http', '$stateParams', '$st
             const findSetorEncomenda = $scope.dadosExtra.setoresEncomenda.find(x => x.id === $scope.tipoEncomenda.setorId);
             if (findSetorEncomenda) $scope.select.setorId = findSetorEncomenda;
         }
+
 
     }]);

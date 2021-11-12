@@ -63,7 +63,9 @@ tr.estado-2, tr.estado-e2 {
     padding-right: 2px;
 }
 
-#tableEncomendas>tbody>tr>td {
+
+
+#tableEncomendas > tbody > tr > td {
     padding-top: 2px;
     padding-bottom: 2px;
     padding-left: 2px;
@@ -71,11 +73,19 @@ tr.estado-2, tr.estado-e2 {
     font-size: 12px;
 }
 
-#tableEncomendas>tbody>tr>td>a {
-    font-size: 10px;
+#tabelaTotais > tfoot > tr {
+    border-top: 3pt solid black;
+
 }
 
-.table>thead>tr>th {
+#tabelaTotais>tfoot>tr>td {
+    font-size: 13px;
+    font-weight: 900;
+    padding: 0px 3px;
+
+}
+
+.table > thead > tr > th {
     padding-top: 4px;
     padding-bottom: 4px;
 }

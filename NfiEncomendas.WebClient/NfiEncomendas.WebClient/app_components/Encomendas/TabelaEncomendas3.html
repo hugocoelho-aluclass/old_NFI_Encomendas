@@ -307,7 +307,7 @@
             <accordion ng-if="listaSemanas">
                 <accordion-group heading="{{setor.setorNome}}" ng-repeat="setor in setoresEncomenda" ng-init="setorIndex=$index" is-open="setor.open">
                     <div class="table-responsive" ng-show="true">
-                        <table class="table table-striped b-t b-light padding-0" data-filter="#filter" data-page-size="50">
+                        <table id="tabelaTotais" class="table table-striped b-t b-light padding-0" data-filter="#filter" data-page-size="50">
                             <thead>
                                 <tr>
                                     <th colspan="3"></th>
@@ -423,15 +423,52 @@
                                     <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis}}</td>
                                     <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
                                     <td>{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
-
+                                   
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total {{setor.setorNome}}:</td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td ng-hide="entregaTipo">{{setor.totalPrix}}</td>
+                                    <td ng-hide="entregaTipo">{{setor.totalWis}}</td>
+                                    <td ng-hide="entregaTipo">{{setor.totalResto}}</td>
+                                    <td>{{setor.totalPrix + setor.totalWis + setor.totalResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluidoTipo">{{setor.totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluidoTipo">{{setor.totalConcluidoWis}}</td>
+                                    <td ng-hide="concluidoTipo">{{setor.totalConcluidoResto}}</td>
+                                    <td>{{setor.totalConcluidoPrix + setor.totalConcluidoWis + setor.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluirTipo">{{setor.totalPrix-setor.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluirTipo">{{setor.totalWis-setor.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluirTipo">{{setor.totalResto-setor.totalConcluidoResto}}</td>
+                                    <td>{{(setor.totalPrix-setor.totalConcluidoPrix) + (setor.totalWis-setor.totalConcluidoWis) + (setor.totalResto-setor.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzidoTipo" ">{{setor.totalProdPrix}}</td>
+                                    <td ng-hide="produzidoTipo">{{setor.totalProdWis}}</td>
+                                    <td ng-hide="produzidoTipo">{{setor.totalProdResto}}</td>
+                                    <td>{{setor.totalProdPrix + setor.totalProdWis + setor.totalProdResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix}}</td>
+                                    <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis}}</td>
+                                    <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
+                                    <td>{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
+
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </accordion-group>
                 <accordion-group heading="Todos os Setores">
                     <div class="table-responsive" ng-show="true">
-                        <table class="table table-striped b-t b-light padding-0">
+                        <table id="tabelaTotais" class="table table-striped b-t b-light padding-0">
                             <thead>
                                 <tr>
                                     <th colspan="3"></th>
@@ -582,7 +619,43 @@
 
                                 </tr>
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total semanas:</td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td ng-hide="entrega">{{totais.totalPrix}}</td>
+                                    <td ng-hide="entrega">{{totais.totalWis}}</td>
+                                    <td ng-hide="entrega">{{totais.totalResto}}</td>
+                                    <td>{{totais.totalPrix + totais.totalWis + totais.totalResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluido">{{totais.totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluido">{{totais.totalConcluidoWis}}</td>
+                                    <td ng-hide="concluido">{{totais.totalConcluidoResto}}</td>
+                                    <td>{{totais.totalConcluidoPrix + totais.totalConcluidoWis + totais.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluir">{{totais.totalPrix-totais.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluir">{{totais.totalWis-totais.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluir">{{totais.totalResto-totais.totalConcluidoResto}}</td>
+                                    <td>{{(totais.totalPrix-totais.totalConcluidoPrix) + (totais.totalWis-totais.totalConcluidoWis) + (totais.totalResto-totais.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzido" ">{{totais.totalProdPrix}}</td>
+                                    <td ng-hide="produzido">{{totais.totalProdWis}}</td>
+                                    <td ng-hide="produzido">{{setotaistor.totalProdResto}}</td>
+                                    <td>{{totais.totalProdPrix + totais.totalProdWis + totais.totalProdResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasado">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix}}</td>
+                                    <td ng-hide="atrasado">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis}}</td>
+                                    <td ng-hide="atrasado">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
+                                    <td>{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
 
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </accordion-group>
