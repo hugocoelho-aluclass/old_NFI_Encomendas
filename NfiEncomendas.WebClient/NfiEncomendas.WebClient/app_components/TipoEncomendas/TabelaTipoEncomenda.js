@@ -11,7 +11,7 @@ function ($scope, $filter, $http, ngTableParams, blockUI) {
     $http.get(serviceBase + "api/TipoEncomendas/TabelaTipoEncomenda")
         .success(function (data, status, headers, config) {
             $scope.dados = data;
-            //console.log(data);
+            console.log(data);
             data = $scope.dados;
             //   blockUI.stop();
             $scope.tableParams = new ngTableParams({
@@ -30,8 +30,8 @@ function ($scope, $filter, $http, ngTableParams, blockUI) {
                 getData: function ($defer, params) {
                     // use build-in angular filter
                     var filteredData = params.filter() ?
-                             $filter('filter')(data, params.filter()) : data;
-
+                        $filter('filter')(data, params.filter()) : data;
+                    console.log(params);
                     var orderedData = params.sorting() ?
                             $filter('orderBy')(filteredData, params.orderBy()) :
                             data;

@@ -53,6 +53,8 @@ function ($scope, $rootScope, $filter, $state,$http, toaster, SavGlobalService) 
     $scope.dataEntrada = "2015-01-01";
     $scope.DataEntradaOpened = false;
 
+    $scope.showRef = false;
+
 
     $scope.DataEntradaOpen = function ($event) {
         $event.preventDefault();
@@ -67,6 +69,7 @@ function ($scope, $rootScope, $filter, $state,$http, toaster, SavGlobalService) 
     $scope.paramsPesquisa.tipoAvaria = [];
     $scope.paramsPesquisa.produtos = [];
     $scope.paramsPesquisa.setores = [];
+    $scope.paramsPesquisa.problemas = [];
 
 
     $scope.paramsPesquisa.dataEntradaDesdeBool = true;
@@ -110,6 +113,7 @@ function ($scope, $rootScope, $filter, $state,$http, toaster, SavGlobalService) 
         $scope.produtosLista = data.produtoSav;
         $scope.tipoAvariaLista = data.tipoAvaria;
         $scope.setoresLista = data.setores;
+        $scope.problemasLista = data.problemas
 
         $scope.submit();
 
@@ -127,6 +131,13 @@ function ($scope, $rootScope, $filter, $state,$http, toaster, SavGlobalService) 
         });
     }
 
+    $scope.expandirRef = function () {
+        if ($scope.showRef == false) {
+            $scope.showRef = true;
+        } else {
+            $scope.showRef = false;
+        }
+    }
 
     $scope.linkPdf = function () {
         //var link = serviceBase + "api/Savs/PesquisaSavRes/&" + $.param($scope.paramsPesquisa);

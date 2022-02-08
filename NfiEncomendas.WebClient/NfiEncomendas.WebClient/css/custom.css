@@ -34,6 +34,10 @@ tr.estado-3, tr.estado-e3 {
     background-color: yellow;
 }
 
+tr.estado-2.paramFalta {
+    background-color: rgba(85, 32, 190, 0.3);
+}
+
 tr.estado-2, tr.estado-e2 {
     background-color: lightgreen;
 }

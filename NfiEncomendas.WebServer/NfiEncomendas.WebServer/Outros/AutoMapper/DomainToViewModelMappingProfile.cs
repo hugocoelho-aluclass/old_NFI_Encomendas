@@ -64,6 +64,13 @@ namespace NfiEncomendas.WebServer.Outros.AutoMapper
             .ForMember(x => x.Nome, o => o.MapFrom(u => u.NomeDepartamentoSav))
             .ForMember(x => x.Id, o => o.MapFrom(u => u.NumDepartamentoSav));
 
+            Mapper.CreateMap<Models.Problemas, NfiEncomendas.WebServer.Areas.POS.ViewModels.IdNome>()
+            .ForMember(x => x.Nome, o => o.MapFrom(u => u.Nome))
+            .ForMember(x => x.Id, o => o.MapFrom(u => u.IdProblema));
+
+            Mapper.CreateMap<Models.TipoEncomendas, NfiEncomendas.WebServer.Areas.POS.ViewModels.IdNome>()
+            .ForMember(x => x.Nome, o => o.MapFrom(u => u.NomeTipoEncomenda))
+            .ForMember(x => x.Id, o => o.MapFrom(u => u.IdTipoEncomenda));
 
             Mapper.CreateMap<Models.DepartamentoSav, NfiEncomendas.WebServer.Areas.POS.ViewModels.IdNomePreSelect>()
             .ForMember(x => x.Nome, o => o.MapFrom(u => u.NomeDepartamentoSav))
@@ -82,6 +89,8 @@ namespace NfiEncomendas.WebServer.Outros.AutoMapper
             .ForMember(x => x.DataRespostaAoCliente, o => o.MapFrom(u => u.DataRespostaAoCliente.HasValue ? u.DataRespostaAoCliente.Value.Date : u.DataRespostaAoCliente))
             .ForMember(x => x.Recolha, o => o.MapFrom(u => u.Recolha))
             .ForMember(x => x.SetorId, o => o.MapFrom(u => u.Setor.IdSetor))
+            .ForMember(x => x.IdProblema, o => o.MapFrom(u => u.Problema.IdProblema))
+            .ForMember(x => x.IdTipoEncomenda, o => o.MapFrom(u => u.TipoEncomenda.IdTipoEncomenda))
             .ForMember(x => x.Recolha, o => o.NullSubstitute(new Models.Recolhas()));
 
 
@@ -91,6 +100,7 @@ namespace NfiEncomendas.WebServer.Outros.AutoMapper
             .ForMember(x => x.NomeDepartamento, o => o.MapFrom(u => u.Departamento.NomeDepartamentoSav))
             .ForMember(x => x.NomeProduto, o => o.MapFrom(u => u.Produto.NomeProdutoSav))
             .ForMember(x => x.NomeTipoAvaria, o => o.MapFrom(u => u.TipoAvaria.InfoExtra ? (u.TipoAvaria.NomeTipoAvaria + " - " + u.TipoAvariaExtra) : u.TipoAvaria.NomeTipoAvaria))
+            .ForMember(x => x.NomeProblema, o => o.MapFrom(u => u.Problema.Nome))
             .ForMember(x => x.NomeEstado, o => o.MapFrom(u => u.Estado.NomeEstadoSav))
             .ForMember(x => x.CssEstado, o => o.MapFrom(u => u.Estado != null ? u.Estado.SubEstado.ToString() : ""))
             .ForMember(x => x.DataEntrada, o => o.MapFrom(u => u.DataSav.ToString("yyyy-MM-dd")))

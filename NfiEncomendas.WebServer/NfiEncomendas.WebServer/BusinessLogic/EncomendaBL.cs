@@ -939,7 +939,7 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             return res;
         }
 
-        public NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioTotais TotalEncomendas(int semana, int ano)
+        public NfiEncomendas.WebServer.Areas.POS.ViewModels.Relatorios.RelatorioTotais TotalEncomendas(int semana, int ano)
         {
            
             DateTime idata = FirstDateOfWeek(ano, semana);
@@ -949,11 +949,11 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             var f = fdata.ToString("yyyy-MM-dd HH:mm:ss.fff");
             var sql = "select * from RelatorioTotais(" + semana + ", " + ano + ", '" + i + "', '" + f + "')";
 
-            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioTotais>(sql).First();
+            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Relatorios.RelatorioTotais>(sql).First();
             return total;
         }
 
-        public List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioTipoEncomenda> TotaisTipoEncomenda(int semana, int ano)
+        public List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Relatorios.RelatorioTipoEncomenda> TotaisTipoEncomenda(int semana, int ano)
         {
 
 
@@ -964,17 +964,17 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             var f = fdata.ToString("yyyy-MM-dd HH:mm:ss.fff");
             var sql = "select * from Relatorio(" + semana + ", " + ano + ", '" + i + "', '" + f + "')";
 
-            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioTipoEncomenda>(sql).ToList();
+            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Relatorios.RelatorioTipoEncomenda>(sql).ToList();
             return total;
         }
 
-        public List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda> RelatorioExcelTipoEncomenda(int semana, int serie, DateTime idata, DateTime fdata)
+        public List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Relatorios.RelatorioExcelTipoEncomenda> RelatorioExcelTipoEncomenda(int semana, int serie, DateTime idata, DateTime fdata)
         {
             var i = idata.ToString("yyyy-MM-dd HH:mm:ss.fff");
             var f = fdata.ToString("yyyy-MM-dd HH:mm:ss.fff");
             var sql = "select * from RelatorioExcel(" + semana + ", " + serie + ", '" + i + "', '" + f + "')";
 
-            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda>(sql).ToList();
+            var total = DbContext.Database.SqlQuery<NfiEncomendas.WebServer.Areas.POS.ViewModels.Relatorios.RelatorioExcelTipoEncomenda>(sql).ToList();
             return total;
         }
 

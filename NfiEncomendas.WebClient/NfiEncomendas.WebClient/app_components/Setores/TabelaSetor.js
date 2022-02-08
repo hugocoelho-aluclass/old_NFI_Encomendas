@@ -31,7 +31,7 @@ function ($scope, $filter, $http, ngTableParams, blockUI) {
                     // use build-in angular filter
                     var filteredData = params.filter() ?
                              $filter('filter')(data, params.filter()) : data;
-
+                    console.log(params);
                     var orderedData = params.sorting() ?
                             $filter('orderBy')(filteredData, params.orderBy()) :
                             data;

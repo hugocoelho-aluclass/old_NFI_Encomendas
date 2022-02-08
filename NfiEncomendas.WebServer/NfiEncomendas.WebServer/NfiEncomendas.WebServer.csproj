@@ -270,6 +270,7 @@
     <Compile Include="Areas\POS\Controllers\Pdf2Controller.cs" />
     <Compile Include="Areas\POS\Controllers\DepartamentosSavController.cs" />
     <Compile Include="Areas\POS\Controllers\EstadosRecolhaController.cs" />
+    <Compile Include="Areas\POS\Controllers\ProblemasController.cs" />
     <Compile Include="Areas\POS\Controllers\SavsController.cs" />
     <Compile Include="Areas\POS\Controllers\SeriesController.cs" />
     <Compile Include="Areas\POS\Controllers\SetoresEncomendaController.cs" />
@@ -279,6 +280,7 @@
     <Compile Include="Areas\POS\Controllers\SetoresController.cs" />
     <Compile Include="Areas\POS\Controllers\TipoAvariaController.cs" />
     <Compile Include="Areas\POS\Controllers\TipoEncomendasController.cs" />
+    <Compile Include="Areas\POS\Controllers\RelatoriosController.cs" />
     <Compile Include="Areas\POS\POSAreaRegistration.cs" />
     <Compile Include="Areas\POS\ViewModels\Clientes\Cliente.cs" />
     <Compile Include="Areas\POS\ViewModels\Admin\Operadores.cs" />
@@ -289,7 +291,9 @@
     <Compile Include="Areas\POS\ViewModels\DepartamentoSav.cs" />
     <Compile Include="Areas\POS\ViewModels\Estatisticas.cs" />
     <Compile Include="Areas\POS\ViewModels\NumNome.cs" />
+    <Compile Include="Areas\POS\ViewModels\Problemas\Problema.cs" />
     <Compile Include="Areas\POS\ViewModels\Recolhas\Recolhas.cs" />
+    <Compile Include="Areas\POS\ViewModels\Relatorios.cs" />
     <Compile Include="Areas\POS\ViewModels\SAVS\Savs.cs" />
     <Compile Include="Areas\POS\ViewModels\EstadosRecolha.cs" />
     <Compile Include="Areas\POS\ViewModels\SetoresEncomenda.cs" />
@@ -298,6 +302,7 @@
     <Compile Include="Areas\POS\ViewModels\ProdutoSav.cs" />
     <Compile Include="BusinessLogic\EstatisticasBL.cs" />
     <Compile Include="BusinessLogic\PermissoesBL.cs" />
+    <Compile Include="BusinessLogic\ProblemaBL.cs" />
     <Compile Include="BusinessLogic\RecolhaBL.cs" />
     <Compile Include="BusinessLogic\EstadoSavBL.cs" />
     <Compile Include="BusinessLogic\DepartamentoSavsBL.cs" />
@@ -479,10 +484,19 @@
     <Compile Include="Migrations\202110270744588_addCapacidadeTipoEncomenda.Designer.cs">
       <DependentUpon>202110270744588_addCapacidadeTipoEncomenda.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202111180835185_addProblemas.cs" />
+    <Compile Include="Migrations\202111180835185_addProblemas.Designer.cs">
+      <DependentUpon>202111180835185_addProblemas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202202071657097_addTipoEncomendaToSav.cs" />
+    <Compile Include="Migrations\202202071657097_addTipoEncomendaToSav.Designer.cs">
+      <DependentUpon>202202071657097_addTipoEncomendaToSav.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Anexos.cs" />
     <Compile Include="Models\EncomendasCache.cs" />
     <Compile Include="Models\EstadoSav.cs" />
     <Compile Include="Models\DepartamentoSav.cs" />
+    <Compile Include="Models\Problemas.cs" />
     <Compile Include="Models\SetorEncomendas.cs" />
     <Compile Include="Models\Setor.cs" />
     <Compile Include="Models\Recolhas.cs" />
@@ -735,6 +749,8 @@
     <Folder Include="Areas\POS\Views\AdminOperadores\" />
     <Folder Include="Areas\POS\Views\EncomendasPdf\" />
     <Folder Include="Areas\POS\Views\Pdf2\" />
+    <Folder Include="Areas\POS\Views\Problemas\" />
+    <Folder Include="Areas\POS\Views\Relatorios\" />
     <Folder Include="Areas\POS\Views\Shared\" />
     <Folder Include="Exports\Pdfs\" />
     <Folder Include="Exports\Relatorios\" />
@@ -973,6 +989,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202110270744588_addCapacidadeTipoEncomenda.resx">
       <DependentUpon>202110270744588_addCapacidadeTipoEncomenda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111180835185_addProblemas.resx">
+      <DependentUpon>202111180835185_addProblemas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202202071657097_addTipoEncomendaToSav.resx">
+      <DependentUpon>202202071657097_addTipoEncomendaToSav.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

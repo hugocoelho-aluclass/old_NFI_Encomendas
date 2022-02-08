@@ -41,7 +41,7 @@ function ($scope, $rootScope, $http, $stateParams, $state, toaster, $timeout, sa
         //console.log("asd");
     };
 
-    //console.log($stateParams.id);
+    
     $scope.DataPedidoOpen = function ($event) {
         $event.preventDefault();
         $event.stopPropagation();
@@ -290,6 +290,12 @@ function ($scope, $rootScope, $http, $stateParams, $state, toaster, $timeout, sa
     });
 
 
+    $scope.$watch("select.problema", function (v) {
+        if (v !== undefined && v.id != $scope.sav.numCliente) {
+            $scope.sav.idProblema = v.id;
+        }
+    });
+
 
     $scope.cancel = function () {
         $state.go("app.savs.tabela");
@@ -332,7 +338,11 @@ function ($scope, $rootScope, $http, $stateParams, $state, toaster, $timeout, sa
         $http.get(serviceBase + "api/Savs/EditSav/?serie=" + serie + "&numDoc=" + num)
             .success(function (data, status, headers, config) {
                 $scope.dados = data;
+                /*console.log("sav", data.sav);
+                console.log("problemas", $scope.dados.problemas);*/
                 $scope.sav = data.sav;
+                /*console.log("produtos", data.produtoSav);*/
+                console.log("dados", data);
                 
                 if ($scope.sav.numCliente != "0") {
                     $scope.dados.clientes.forEach(function (s) {
@@ -376,6 +386,13 @@ function ($scope, $rootScope, $http, $stateParams, $state, toaster, $timeout, sa
                 $scope.dados.series.forEach(function (s) {
                     if (s.numSerie == $scope.sav.nomeSerie) {
                         $scope.select.serie = s;
+                        return false;
+                    }
+                });
+
+                $scope.dados.problemas.forEach(function (s) {
+                    if (s.id == $scope.sav.idProblema) {
+                        $scope.select.problema = s;
                         return false;
                     }
                 });
@@ -467,7 +484,7 @@ function ($scope, $rootScope, $http, $stateParams, $state, toaster, $timeout, sa
         //importantStuff.document.write($("#imgLoader").html());
 
         $http.get(serviceBase + "api/Anexos/GetAnexo/" +anexo.id, { responseType: 'arraybuffer' })
-         .success(function (data) {
+            .success(function (data) {
              var myBlob = new Blob(["example"], { type: 'text/html' })
              var blobURL = (window.URL || window.webkitURL).createObjectURL(new Blob([data], { type: 'application/octet-binary' }));
              var anchor = document.createElement("a");

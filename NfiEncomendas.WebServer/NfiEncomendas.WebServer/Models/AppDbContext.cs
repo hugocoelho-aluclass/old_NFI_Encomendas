@@ -30,6 +30,8 @@ namespace NfiEncomendas.WebServer.Models
         public virtual DbSet<Setor> Setores { get; set; }
         public virtual DbSet<SetorEncomendas> SetoresEncomendas { get; set; }
 
+        public virtual DbSet<Problemas> Problemas { get; set; }
+
 
         //public virtual DbSet<EncomendasCompras> EncomendasCompras { get; set; }
 

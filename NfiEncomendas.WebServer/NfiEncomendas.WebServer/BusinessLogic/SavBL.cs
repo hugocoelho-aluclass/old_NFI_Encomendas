@@ -61,8 +61,10 @@ namespace NfiEncomendas.WebServer.BusinessLogic
                 .Include("Anexos")
                 .Include("Recolha")
                 .Include("Setor")
+                .Include("Problema")
+                .Include("TipoEncomenda")
                 .Where(x => x.Id == id).FirstOrDefault();
-
+            
             bool nova = res == null;
             if (res == null)
             {
@@ -92,7 +94,8 @@ namespace NfiEncomendas.WebServer.BusinessLogic
                 .Include("Recolha")
                 .Include("Recolha.EstadoRecolha")
                 .Include("Setor")
-
+                .Include("Problema")
+                .Include("TipoEncomenda")
                 .Where(x => x.SerieDoc.NumSerie == serie && x.NumDoc == numDoc).FirstOrDefault();
             bool nova = res == null;
             if (res == null)
@@ -139,6 +142,7 @@ namespace NfiEncomendas.WebServer.BusinessLogic
                 _sr.EditadoPor = DbContext.Operadores.First(x => x.UtilizadorId == sessionObj.OperadorObject.UtilizadorId);
                 _sr.EditadoData = DateTime.Now;
                 Mapper.Map<Models.Savs, Models.Savs>(sav, _sr);
+                
 
                 if (_sr.Anexos == null) _sr.Anexos = new List<Models.Anexos>();
                 _sr.Anexos.Clear();
@@ -152,6 +156,7 @@ namespace NfiEncomendas.WebServer.BusinessLogic
                     _sr.SerieDoc.UltimoDocSav = _sr.NumDoc;
                     DbContext.Savs.Add(_sr);
                 }
+                _sr.Problema = sav.Problema;
 
                 DbContext.SaveChanges();
             }
@@ -189,7 +194,7 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             CheckSerie();
 
 
-            string[] allIncludes = new string[] { "Cliente", "SerieDoc", "Produto", "TipoAvaria", "Departamento", "CriadoPor", "Estado" };
+            string[] allIncludes = new string[] { "Cliente", "SerieDoc", "Produto", "TipoAvaria", "Departamento", "CriadoPor", "Estado", "Problema" };
             if (pesqParams.Recolha || true) { allIncludes = allIncludes.Concat<string>(new string[] { "Recolha.EstadoRecolha" }).ToArray(); }
 
             var encsQuery = this.DbContext.Savs.AsQueryable();
@@ -244,6 +249,12 @@ namespace NfiEncomendas.WebServer.BusinessLogic
             {
                 int[] ids = pesqParams.TipoAvaria.Select(x => x.Id).ToArray();
                 encs = encs.Where(x => ids.Any(z => z == x.TipoAvaria.NumTipoAvaria));
+            }
+
+            if (pesqParams.Problemas.Any())
+            {
+                int[] ids = pesqParams.Problemas.Select(x => x.Id).ToArray();
+                encs = encs.Where(x => ids.Any(z => z == x.Problema.IdProblema));
             }
 
 

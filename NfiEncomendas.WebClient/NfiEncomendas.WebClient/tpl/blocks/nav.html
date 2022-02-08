@@ -1,146 +1,158 @@
 ﻿<!-- list -->
 
-    <ul class="nav no-print">
-        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-            <span></span>
+<ul class="nav no-print">
+    <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+        <span></span>
+    </li>
+    <li ui-sref-active="active">
+        <a ui-sref="app.dashboard-v1">
+            <i class="glyphicon glyphicon-home icon  text-info-dker"></i>
+            <span>Inicio</span>
+        </a>
+    </li>
+    <li class="hidden-folded padder m-t text-muted text-xs">
+        <span>Encomendas</span>
+    </li>
+    <li ui-sref-active="active">
+        <a ui-sref="app.encomendas.tabela">
+            <i class="glyphicon glyphicon-tasks icon  text-info-dker"></i>
+            <span>Encomendas</span>
+        </a>
+    </li>
+    <li ui-sref-active="">
+        <a ui-sref="app.encomendas.tabela2">
+
+            <i class="glyphicon glyphicon-envelope icon  text-info-dker "></i>
+            <span>Encomendas 2</span>
+        </a>
+    </li>
+    <li ui-sref-active="">
+        <a ui-sref="app.encomendas.tabelaProducao">
+
+            <i class="glyphicon glyphicon-envelope icon  text-info-dker "></i>
+            <span>Enc. Produção</span>
+        </a>
+    </li>
+    <li ui-sref-active="">
+        <a ui-sref="app.encomendas.tabelaAdmin">
+            <i class="glyphicon glyphicon-envelope icon  text-info-dker"></i>
+            <span>Enc. Admin</span>
+        </a>
+    </li>
+    <ng-container ng-if="_utilizador.comercial === false">
+        <li class="hidden-folded padder m-t text-muted text-xs">
+            <span>SAVS</span>
         </li>
+
         <li ui-sref-active="active">
-            <a ui-sref="app.dashboard-v1">
-                <i class="glyphicon glyphicon-home icon  text-info-dker"></i>
-                <span>Inicio</span>
+            <a ui-sref="app.savs.tabela">
+                <i class="glyphicon glyphicon-paperclip icon  text-info-dker"></i>
+                <span>SAVS</span>
             </a>
         </li>
-        <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-            <span>Encomendas</span>
+        <li ui-sref-active="active">
+            <a ui-sref="app.problemas.tabela">
+                <i class="glyphicon glyphicon-paperclip icon  text-info-dker"></i>
+                <span>Problemas</span>
+            </a>
         </li>
         <li ui-sref-active="active">
-            <a ui-sref="app.encomendas.tabela">
-                <i class="glyphicon glyphicon-tasks icon  text-info-dker"></i>
+            <a ui-sref="app.recolhas.tabela" disabled>
+                <i class="glyphicon glyphicon-paperclip icon  text-info-dker"></i>
+                <span>Recolha</span>
+            </a>
+        </li>
+
+
+        <li class="hidden-folded padder m-t text-muted text-xs">
+            <span>Relatórios</span>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.relatorios.relatorioEncomenda">
+                <i class="glyphicon glyphicon-list icon  text-info-dker"></i>
                 <span>Encomendas</span>
             </a>
         </li>
-        <li ui-sref-active="">
-            <a ui-sref="app.encomendas.tabela2">
-
-                <i class="glyphicon glyphicon-envelope icon  text-info-dker "></i>
-                <span>Encomendas 2</span>
-            </a>
-        </li>
-        <li ui-sref-active="">
-            <a ui-sref="app.encomendas.tabelaProducao">
-
-                <i class="glyphicon glyphicon-envelope icon  text-info-dker "></i>
-                <span>Enc. Produção</span>
-            </a>
-        </li>
-        <li ui-sref-active="">
-            <a ui-sref="app.encomendas.tabelaAdmin">
-                <i class="glyphicon glyphicon-envelope icon  text-info-dker"></i>
-                <span>Enc. Admin</span>
-            </a>
-        </li>
-        <ng-container ng-if="_utilizador.comercial === false">
-            <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
+        <li ui-sref-active="active">
+            <a ui-sref="app.relatorios.relatorioSav">
+                <i class="glyphicon glyphicon-list icon  text-info-dker"></i>
                 <span>SAVS</span>
-            </li>
-            <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-            <li ui-sref-active="active">
-                <a ui-sref="app.savs.tabela">
-                    <i class="glyphicon glyphicon-paperclip icon  text-info-dker"></i>
-                    <span>SAVS</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.recolhas.tabela" disabled>
-                    <i class="glyphicon glyphicon-paperclip icon  text-info-dker"></i>
-                    <span>Recolha</span>
-                </a>
-            </li>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.estatisticas.estatisticasGeral">
+                <i class="glyphicon glyphicon-stats icon  text-info-dker"></i>
+                <span>Estatisticas</span>
+            </a>
+        </li>
 
 
-            <li class="hidden-folded padder m-t m-b-sm text-muted text-xs"></li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.estatisticas.estatisticasGeral">
-                    <i class="glyphicon glyphicon-stats icon  text-info-dker"></i>
-                    <span>Estatisticas</span>
-                </a>
-            </li>
+        <li class="hidden-folded padder m-t text-muted text-xs">
+            <span>Tabelas</span>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.clientes.tabela">
+                <span>Clientes</span>
+            </a>
+        </li>
+
+        <li ui-sref-active="active">
+            <a ui-sref="app.tipoEncomendas.tabela">
+                <span>Tipo Encomenda</span>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.setoresEncomenda.tabela">
+                <span>Setores Encom.</span>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.setores.tabela">
+                <span>Setores SAV</span>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.estadoSav.tabela">
+                <span>Estados SAV</span>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.tipoAvarias.tabela">
+                <span>Tipos Avarias SAV</span>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.produtoSavs.tabela">
+                <span>Produtos SAV</span>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.departamentoSavs.tabela">
+                <span>Departamentos SAV</span>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.series.tabela">
+                <span>Series</span>
+            </a>
+        </li>
+        <li ui-sref-active="active">
+            <a ui-sref="app.estadosRecolha.tabela">
+                <span>Estados Recolha</span>
+            </a>
+        </li>
 
 
-            <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Tabelas</span>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.clientes.tabela">
-                    <span>Clientes</span>
-                </a>
-            </li>
+        <li ng-if="_utilizador.admin" class="hidden-folded padder m-t text-muted text-xs">
+            <span>Administração</span>
+        </li>
+        <li ng-if="_utilizador.admin" ui-sref-active="active " class="">
+            <a ui-sref="app.admin.gestaoOperadores">
+                <i class="glyphicon glyphicon-user icon  text-info-dker"></i>
+                <span>Utilizadores</span>
+            </a>
+        </li>
+    </ng-container>
 
-            <li ui-sref-active="active">
-                <a ui-sref="app.tipoEncomendas.tabela">
-                    <span>Tipo Encomenda</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.setoresEncomenda.tabela">
-                    <span>Setores Encom.</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.setores.tabela">
-                    <span>Setores SAV</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.estadoSav.tabela">
-                    <span>Estados SAV</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.tipoAvarias.tabela">
-                    <span>Tipos Avarias SAV</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.produtoSavs.tabela">
-                    <span>Produtos SAV</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.departamentoSavs.tabela">
-                    <span>Departamentos SAV</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.series.tabela">
-                    <span>Series</span>
-                </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="app.estadosRecolha.tabela">
-                    <span>Estados Recolha</span>
-                </a>
-            </li>
-            <li class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Relatórios</span>
-            </li>
-            <li  ui-sref-active="active">
-                <a ui-sref="app.encomendas.tabela3">
-                    <i class="glyphicon glyphicon-list icon  text-info-dker"></i>
-                    <span>Encomendas</span>
-                </a>
-            </li>
-
-            <li ng-if="_utilizador.admin" class="hidden-folded padder m-t m-b-sm text-muted text-xs">
-                <span>Administração</span>
-            </li>
-            <li ng-if="_utilizador.admin" ui-sref-active="active " class="">
-                <a ui-sref="app.admin.gestaoOperadores">
-                    <i class="glyphicon glyphicon-user icon  text-info-dker"></i>
-                    <span>Utilizadores</span>
-                </a>
-            </li>
-        </ng-container> 
-
-    </ul>
+</ul>
 <!-- / list -->

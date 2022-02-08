@@ -3,6 +3,7 @@ using NfiEncomendas.WebServer.Areas.POS.ViewModels;
 using NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs;
 using NfiEncomendas.WebServer.BusinessLogic;
 using NfiEncomendas.WebServer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -65,6 +66,12 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
                 new SetorBL(savBl.DbContext).SetorLista());
 
 
+            res.Problemas = Mapper.Map<IEnumerable<Models.Problemas>, IEnumerable<IdNome>>(
+                new ProblemaBL(savBl.DbContext).ProblemasLista());
+
+            res.TiposEncomenda = Mapper.Map<IEnumerable<Models.TipoEncomendas>, IEnumerable<IdNome>>(
+                new TipoEncomendasBL(savBl.DbContext).TipoEncomendasLista());
+
             res.Series = (from s in (new SeriesBL(savBl.DbContext)).SeriesLista()
                           select new ViewModels.Savs.Serie
                           {
@@ -118,6 +125,38 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
                           }).ToList();
             res.EstadosRecolha = Mapper.Map<IEnumerable<Models.EstadoRecolha>, IEnumerable<IdNomeText>>(
                     new EstadoRecolhaBL(savBl.DbContext).EstadoRecolhaLista());
+
+            res.Problemas = Mapper.Map<IEnumerable<Models.Problemas>, IEnumerable<IdNome>>(
+                new ProblemaBL(savBl.DbContext).ProblemasLista());
+
+            res.TiposEncomenda = Mapper.Map<IEnumerable<Models.TipoEncomendas>, IEnumerable<IdNome>>(
+                new TipoEncomendasBL(savBl.DbContext).TipoEncomendasLista());
+
+            /*res.Problemas = (from s in (new ProblemaBL(savBl.DbContext)).ProblemasLista()
+                          select new ViewModels.Problemas.Problemas
+                          {
+                              IdProblema = s.IdProblema,
+                              Nome = s.Nome,
+                              Descricao = s.Descricao,
+                              DescricaoCausa = s.DescricaoCausa,
+                              Acompanhamento = s.Acompanhamento,
+                              AcaoImplementar = s.AcaoImplementar,
+                              DataCriacao = s.DataCriacao,
+                              Eficacia = s.Eficacia,
+                              AvaliacaoEficacia =s.AvaliacaoEficacia,
+                              Fechado = s.Fechado,
+                              DataAvaliacao = s.DataAvaliacao,
+                              IdAnterior = s.IdAnterior,
+                              idDepartamento = s.Departamento.IdDepartamentoSav,
+                              numDepartamento = s.Departamento.NumDepartamentoSav,
+                              nomeDepartamento = s.Departamento.NomeDepartamentoSav,
+                          }).ToList();*/
+            /*       //res.Sav.IdProblema = 4;
+                   int t = 3;
+                   Console.WriteLine(res.Sav.IdProblema.GetType());
+                   Console.WriteLine(t.GetType());
+                   Console.WriteLine(t.GetType() == res.Sav.IdProblema.GetType());
+                   res.Sav.IdProblema = t;*/
             return res;
         }
 
@@ -170,6 +209,34 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
 
             res.Setores = Mapper.Map<IEnumerable<Models.Setor>, IEnumerable<IdNome>>(
                 new SetorBL(seriesBl.DbContext).SetorLista());
+
+            res.Problemas = Mapper.Map<IEnumerable<Models.Problemas>, IEnumerable<IdNome>>(
+                new ProblemaBL(seriesBl.DbContext).ProblemasLista());
+
+            res.TiposEncomenda = Mapper.Map<IEnumerable<Models.TipoEncomendas>, IEnumerable<IdNome>>(
+                new TipoEncomendasBL(seriesBl.DbContext).TipoEncomendasLista());
+
+            /*var teste = from c in (new ProblemaBL()).ProblemasListaFechados()
+                      select new ViewModels.Problemas.Problema
+                      {
+
+                          IdProblema = c.IdProblema,
+                          Nome = c.Nome,
+                          Descricao = c.Descricao,
+                          DescricaoCausa = c.DescricaoCausa,
+                          Acompanhamento = c.Acompanhamento != null ? c.Acompanhamento : "",
+                          AcaoImplementar = c.AcaoImplementar != null ? c.AcaoImplementar : "",
+                          DataCriacao = c.DataCriacao,
+                          Eficacia = c.Eficacia,
+                          AvaliacaoEficacia = c.AvaliacaoEficacia != null ? c.AvaliacaoEficacia : "",
+                          Fechado = c.Fechado,
+                          IdAnterior = c.IdAnterior,
+                          idDepartamento = c.Departamento.IdDepartamentoSav,
+                          numDepartamento = c.Departamento.NumDepartamentoSav,
+                          nomeDepartamento = c.Departamento.NomeDepartamentoSav
+
+                      };
+            List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Problemas.Problema> test2 = teste.OrderBy(x => x.IdProblema).ToList();*/
 
             res.Series = (from s in (new SeriesBL(seriesBl.DbContext)).SeriesLista()
                           select new ViewModels.Savs.Serie

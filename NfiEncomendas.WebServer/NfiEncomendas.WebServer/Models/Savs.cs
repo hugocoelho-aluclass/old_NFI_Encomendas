@@ -64,6 +64,12 @@ namespace NfiEncomendas.WebServer.Models
 
         public Setor Setor { get; set; }
 
+        public bool Garantia { get; set; }
+
+        public virtual Problemas Problema { get; set; }
+
+        public virtual TipoEncomendas TipoEncomenda { get; set; }
+
         public Savs()
         {
         }

@@ -168,3 +168,5 @@ C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\bin\NPOI.xml
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\bin\NPOI.OOXML.xml
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Release\NfiEncomendas.WebServer.Migrations.addAnoEDataProduzido.resources
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Release\NfiEncomendas.WebServer.Migrations.addCapacidadeTipoEncomenda.resources
+C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Release\NfiEncomendas.WebServer.Migrations.addProblemas.resources
+C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Release\NfiEncomendas.WebServer.Migrations.addTipoEncomendaToSav.resources

@@ -1,0 +1,18 @@
+﻿
+<div class="modal-header">
+    <h2 class="modal-title">Confirmação</h2>
+</div>
+<div class="modal-body" ng-if="ModalProblema.eficacia != 2">
+    <p>Ao atribuir uma eficácia ao problema <b>Id: {{ModalProblema.idProblema}} - "{{ModalProblema.nome}}"</b>, irá fechar o mesmo, não sendo possível fazer mais alterações.</p> 
+    <p>Tem a certeza que pretende definir o problema <b>Id: {{ModalProblema.idProblema}} - "{{ModalProblema.nome}}"</b> como <b>"{{eficacia[ModalProblema.eficacia]}}"</b>?</p>
+</div>
+
+<div class="modal-body" ng-if="ModalProblema.eficacia == 2">
+    <p>Ao atribuir ao problema <b>Id: {{ModalProblema.idProblema}} - "{{ModalProblema.nome}}"</b> como <b>"{{eficacia[ModalProblema.eficacia]}}"</b>, irá fechar o mesmo, gerando um problema com um novo Id.</p>
+    <p>Tem a certeza que pretende definir o problema <b>Id: {{ModalProblema.idProblema}} - "{{ModalProblema.nome}}"</b> como <b>"{{eficacia[ModalProblema.eficacia]}}"</b>?</p>
+</div>
+
+<div class="modal-footer">
+    <button class="btn btn-default" ng-click="cancel()">Cancelar</button>
+    <button class="btn btn-info" ng-click="submit()">Guardar</button>
+</div>

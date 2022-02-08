@@ -154,7 +154,6 @@ C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Debug\Nfi
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Debug\NfiEncomendas.WebServer.pdb
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\bin\NfiEncomendas.WebServer.dll.config
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Debug\NfiEncomendas.WebServer.csproj.App.config
-C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Debug\NfiEncomendas.WebServer.csproj.AssemblyReference.cache
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\bin\BouncyCastle.Crypto.dll
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\bin\ICSharpCode.SharpZipLib.dll
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\bin\NPOI.dll
@@ -168,3 +167,6 @@ C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\bin\NPOI.xml
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\bin\NPOI.OOXML.xml
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Debug\NfiEncomendas.WebServer.Migrations.addAnoEDataProduzido.resources
 C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Debug\NfiEncomendas.WebServer.Migrations.addCapacidadeTipoEncomenda.resources
+C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Debug\NfiEncomendas.WebServer.Migrations.addProblemas.resources
+C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Debug\NfiEncomendas.WebServer.csproj.AssemblyReference.cache
+C:\inetpub\wwwroot\NfiEncomendas.WebServer\NfiEncomendas.WebServer\obj\Debug\NfiEncomendas.WebServer.Migrations.addTipoEncomendaToSav.resources

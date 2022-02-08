@@ -19,11 +19,15 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
 
         public string TipoAvariaExtra { get; set; }
 
+        public int IdProblema { get; set; }
+
+        public int IdTipoEncomenda { get; set; }
+
         public string DescricaoSav { get; set; }
         public string Causa { get; set; }
         public string AcaoImplementar { get; set; }
 
-
+        
         public int EstadoSavNum { get; set; }
         public DateTime? DataEstado { get; set; }
 
@@ -58,6 +62,9 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
         public string CustosDescricao { get; set; }
 
         public bool TemRecolha { get; set; }
+
+        public bool Garantia { get; set; }
+
 
 
         public Recolhas.Recolha Recolha { get; set; } = new Recolhas.Recolha();
@@ -116,6 +123,12 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
         public ViewModels.Recolhas.Recolha Recolha { get; set; }
         public int SetorId { get; set; }
 
+        public bool Garantia { get; set; }
+
+        public int IdProblema { get; set; }
+
+        public int IdTipoEncomenda { get; set; }
+
 
         public Savs()
         {
@@ -133,6 +146,8 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
             BusinessLogic.SeriesBL serieBl = new BusinessLogic.SeriesBL(db);
             BusinessLogic.RecolhaBL recolhaBl = new BusinessLogic.RecolhaBL(db);
             BusinessLogic.SetorBL setorBl = new BusinessLogic.SetorBL(db);
+            BusinessLogic.ProblemaBL probBl = new BusinessLogic.ProblemaBL(db);
+            BusinessLogic.TipoEncomendasBL tipoEncBl = new BusinessLogic.TipoEncomendasBL(db);
 
             if (this.NovaSav) this.Id = -1;
 
@@ -144,7 +159,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
             {
                 res.Cliente = clBl.LerCliente(this.NumCliente);
             }
-            if (res.Produto == null || res.Produto.NumProdutoSav != this.ProdutoNum)
+            if ((res.Produto == null || res.Produto.NumProdutoSav != this.ProdutoNum) && this.ProdutoNum != 0)
             {
                 res.Produto = prodBl.LerProdutoSav(this.ProdutoNum);
             }
@@ -152,7 +167,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
             {
                 res.TipoAvaria = tencBl.LerTipoAvaria(this.TipoAvariaNum);
             }
-            if (res.Departamento == null || res.Departamento.NumDepartamentoSav != this.TipoAvariaNum)
+            if (res.Departamento == null || res.Departamento.NumDepartamentoSav != this.DepartamentoNum)
             {
                 res.Departamento = depBl.LerDepartamentoSav(this.DepartamentoNum);
             }
@@ -169,7 +184,16 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
             {
                 res.Setor = setorBl.LerSetor(this.SetorId);
             }
+            if ((res.Problema == null || res.Problema.IdProblema != this.IdProblema) && this.IdProblema != 0)
+            {
+                res.Problema = probBl.LerProblema(this.IdProblema);
+            }
 
+            if ((res.TipoEncomenda == null || res.TipoEncomenda.IdTipoEncomenda != this.IdTipoEncomenda) && this.IdTipoEncomenda != 0)
+            {
+                res.TipoEncomenda = tipoEncBl.LerTipoEncomenda(this.IdTipoEncomenda);
+            }
+            
 
             res.TemRecolha = this.TemRecolha;
             if (this.Recolha != null && this.Recolha.Id != 0)
@@ -229,9 +253,17 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
         public IEnumerable<IdNome> ProdutoSav { get; set; }
         public IEnumerable<IdNome> Setores { get; set; }
 
+        public IEnumerable<IdNome> Problemas { get; set; }
+
+        public IEnumerable<IdNome> TiposEncomenda {get; set;}
+
         public List<Serie> Series { get; set; }
 
         public IEnumerable<IdNomeText> EstadosRecolha { get; set; }
+
+
+        //public List<Problemas.Problemas> Problemas { get; set; }
+  
 
         public PagEditSav()
         {
@@ -249,6 +281,9 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
         public IEnumerable<IdNome> TipoAvaria { get; set; }
         public IEnumerable<IdNome> ProdutoSav { get; set; }
         public IEnumerable<IdNome> Setores { get; set; }
+        public IEnumerable<IdNome> Problemas { get; set; }
+
+        public IEnumerable<IdNome> TiposEncomenda { get; set; }
 
 
         public List<Serie> Series { get; set; }
@@ -299,6 +334,10 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
         public List<IdNome> TipoAvaria { get; set; } = new List<IdNome>();
         public List<IdNome> Setor { get; set; } = new List<IdNome>();
 
+        public List<IdNome> Problemas { get; set; } = new List<IdNome>();
+
+        public List<IdNome> TiposEncomenda { get; set; } = new List<IdNome>();
+
 
         public int OrdemPesquisa { get; set; } = 0;
 
@@ -309,6 +348,8 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
         public int SemanaEntregaDesdeValue { get; set; }
 
         public bool Recolha { get; set; } = false;
+
+        //public List<Problemas.Problemas> Problemas { get; set; } = new List<Problemas.Problemas>();
 
 
         public PagSavPesquisaParam()
@@ -348,6 +389,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
         public string NomeProduto { get; set; }
 
         public string NomeTipoAvaria { get; set; }
+        public string NomeProblema { get; set; }
         public string NomeEstado { get; set; }
         public bool EstadoResolvido { get; set; }
         public string CssEstado { get; set; }
@@ -386,7 +428,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.ViewModels.Savs
 
         public string CustomEnum { get; set; }
 
-
+        public bool Garantia { get; set; }
         public bool TemRecolha { get; set; }
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public ViewModels.Recolhas.RecolhaLinha Recolha { get; set; }

@@ -1,0 +1,666 @@
+﻿<div class="" ng-controller="relatorioEncomendaCtrl" ng-if="_utilizador != undefined">
+    <div class="" ng-if="show">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-pills pull-right">
+                    <li><a href="" ng-click="downloadExcel()"><i class="fa fa-download m-r-xs" aria-hidden="true"></i> Relatório Produção Semanal</a></li>
+                </ul>
+                Relatório de Encomendas Semanal
+            </div>
+            <div class="panel-body">
+                <form name="form" role="form" class="form-horizontal" ng-submit="submit()">
+                    <div class="col-sm-6">
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label text-right">Serie/Ano</label>
+                            <div class="col-sm-2">
+                                <!-- <input type="text" ng-model="paramsPesquisa.serie" class="form-control" close-text="Close" />-->
+                                <select name="nomeSerie" class="form-control m-b" ng-model="paramsPesquisa.serie"
+                                        ng-options="serie.numSerie for serie in series track by serie.numSerie" ng-change="change()"></select>
+                            </div>
+                            <label class="col-sm-2 control-label text-right">Semana Entrega</label>
+                            <div class="col-sm-1 no-padding-l">
+                                <input class="form-control" name="semana" type="number" style="padding-left: 6px" ng-model="paramsPesquisa.semanaEntrega" min="1" max="{{dados.uSemana}}" close-text="Close" required />
+                            </div>
+                            <div class="col-sm-1 nopadding">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" value="true" ng-model="paramsPesquisa.semanaEntregaAteBool">Até
+                                </label>
+                            </div>
+                            <div class="col-sm-1 no-padding-l">
+                                <input class="form-control" name="semana" type="number" style="padding-left: 6px" ng-model="paramsPesquisa.ateSemanaEntrega" min="1" max="{{dados.uSemana}}" ng-disabled="!paramsPesquisa.semanaEntregaAteBool" close-text="Close" required />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="col-sm-3 control-label text-right"></label>
+                                <div class="col-sm-8">
+                                    <button type="submit" class="btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-search"></i>Pesquisar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-sm-12" ng-if="tabelas.tipoEncEntregas">
+
+            <div class="panel-heading">
+                <h3>Semana {{dados.semana}}/{{dados.serie}}</h3>
+                <br />
+            </div>
+            <accordion ng-if="tabelas.tipoEncEntregas">
+                <accordion-group heading="{{setor.setorNome}}" ng-repeat="setor in setoresEncomenda" ng-if="setor.total > 0 || setor.totalConcluido > 0 || setor.totalProd > 0 || setor.totalAtrasado > 0">
+                    <div class="table-responsive" ng-show="true">
+                        <table class="table table-striped b-t b-light padding-0" data-filter="#filter" data-page-size="50">
+                            <thead>
+                                <tr>
+                                    <th colspan="3"></th>
+                                    <th colspan="{{capacidadeTipoCols}}" class="text-center" style="background-color: whitesmoke">CAPACIDADE MÁX.<a href="" ng-click="expandirCapacidadeTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!capacidadeTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="capacidadeTipo"></i></a></th>
+                                    <th colspan="{{entregaTipoCols}}" class="text-center">ENCOMENDAS<a href="" ng-click="expandirEntregaTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!entregaTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="entregaTipo"></i></a></th>
+                                    <th colspan="{{concluidoTipoCols}}" class="text-center" style="background-color: whitesmoke">ENC. PRODUZIDAS<a href="" ng-click="expandirConcluidoTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!concluidoTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="concluidoTipo"></i></a></th>
+                                    <th colspan="{{porConcluirTipoCols}}" class="text-center">ENC. POR PRODUZIR<a href="" ng-click="expandirPorConcluirTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!porConcluirTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="porConcluirTipo"></i></a></th>
+                                    <th colspan="{{produzidoTipoCols}}" class="text-center" style="background-color: whitesmoke">PRODUZIDO SETOR<a href="" ng-click="expandirProduzidoTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!produzidoTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="produzidoTipo"></i></a></th>
+                                    <th colspan="{{atrasadoTipoCols}}" class="text-center">ENC. ATRASADAS<a href="" ng-click="expandirAtrasadoTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!atrasadoTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="atrasadoTipo"></i></a></th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Num.</th>
+                                    <th>Tipo Encomenda</th>
+                                    <th ng-hide="capacidadeTipo">Priximbattable</th>
+                                    <th ng-hide="capacidadeTipo">Wis Mar NFI</th>
+                                    <th ng-hide="capacidadeTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="entregaTipo">Priximbattable</th>
+                                    <th ng-hide="entregaTipo">Wis Mar NFI</th>
+                                    <th ng-hide="entregaTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="concluidoTipo">Priximbattable</th>
+                                    <th ng-hide="concluidoTipo">Wis Mar NFI</th>
+                                    <th ng-hide="concluidoTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="porConcluirTipo">Priximbattable</th>
+                                    <th ng-hide="porConcluirTipo">Wis Mar NFI</th>
+                                    <th ng-hide="porConcluirTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="produzidoTipo">Priximbattable</th>
+                                    <th ng-hide="produzidoTipo">Wis Mar NFI</th>
+                                    <th ng-hide="produzidoTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="atrasadoTipo">Priximbattable</th>
+                                    <th ng-hide="atrasadoTipo">Wis Mar NFI</th>
+                                    <th ng-hide="atrasadoTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr bindonce ng-repeat="tipoEncEntregas in tabelas.tipoEncEntregas" ng-if="tipoEncEntregas.setorEncomenda_IdSetorEncomenda == setor.setorId">
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.numTipoEncomenda"></td>
+                                    <td bo-text="tipoEncEntregas.nomeTipoEncomenda"></td>
+                                    <td bo-text="tipoEncEntregas.capacidadePrix" ng-hide="capacidadeTipo"></td>
+                                    <td bo-text="tipoEncEntregas.capacidadeWis" ng-hide="capacidadeTipo"></td>
+                                    <td bo-text="tipoEncEntregas.capacidadeResto" ng-hide="capacidadeTipo"></td>
+                                    <td>{{tipoEncEntregas.capacidadePrix + tipoEncEntregas.capacidadeWis + tipoEncEntregas.capacidadeResto}}</td>
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.totalPrix" ng-hide="entregaTipo" ng-style="{ 'background-color' : tipoEncEntregas.totalPrixCor }"></td>
+                                    <td bo-text="tipoEncEntregas.totalWis" ng-hide="entregaTipo" ng-style="{ 'background-color' : tipoEncEntregas.totalWisCor }"></td>
+                                    <td bo-text="tipoEncEntregas.totalResto" ng-hide="entregaTipo" ng-style="{ 'background-color' : tipoEncEntregas.totalRestoCor }"></td>
+                                    <td ng-style="{ 'background-color' : tipoEncEntregas.totalCor }">{{tipoEncEntregas.totalPrix + tipoEncEntregas.totalWis + tipoEncEntregas.totalResto}}</td>
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.totalConcluidoPrix" ng-hide="concluidoTipo"></td>
+                                    <td bo-text="tipoEncEntregas.totalConcluidoWis" ng-hide="concluidoTipo"></td>
+                                    <td bo-text="tipoEncEntregas.totalConcluidoResto" ng-hide="concluidoTipo"></td>
+                                    <td>{{tipoEncEntregas.totalConcluidoPrix + tipoEncEntregas.totalConcluidoWis + tipoEncEntregas.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluirTipo">{{tipoEncEntregas.totalPrix-tipoEncEntregas.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluirTipo">{{tipoEncEntregas.totalWis-tipoEncEntregas.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluirTipo">{{tipoEncEntregas.totalResto-tipoEncEntregas.totalConcluidoResto}}</td>
+                                    <td>{{(tipoEncEntregas.totalPrix-tipoEncEntregas.totalConcluidoPrix) + (tipoEncEntregas.totalWis-tipoEncEntregas.totalConcluidoWis) + (tipoEncEntregas.totalResto-tipoEncEntregas.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.totalProdPrix" ng-hide="produzidoTipo" ng-style="{ 'background-color' : tipoEncEntregas.totalProdPrixCor }"></td>
+                                    <td bo-text="tipoEncEntregas.totalProdWis" ng-hide="produzidoTipo" ng-style="{ 'background-color' : tipoEncEntregas.totalProdWisCor }"></td>
+                                    <td bo-text="tipoEncEntregas.totalProdResto" ng-hide="produzidoTipo" ng-style="{ 'background-color' : tipoEncEntregas.totalProdRestoCor }"></td>
+                                    <td ng-style="{ 'background-color' : tipoEncEntregas.totalProdCor }">{{tipoEncEntregas.totalProdPrix + tipoEncEntregas.totalProdWis + tipoEncEntregas.totalProdResto}}</td>
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.totalAtrasadoPrix" ng-hide="atrasadoTipo"></td>
+                                    <td bo-text="tipoEncEntregas.totalAtrasadoWis" ng-hide="atrasadoTipo"></td>
+                                    <td bo-text="tipoEncEntregas.totalAtrasadoResto" ng-hide="atrasadoTipo"></td>
+                                    <td>{{tipoEncEntregas.totalAtrasadoPrix + tipoEncEntregas.totalAtrasadoWis + tipoEncEntregas.totalAtrasadoResto}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr class="font-bold">
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total</td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td ng-hide="entregaTipo">{{setor.totalPrix}}</td>
+                                    <td ng-hide="entregaTipo">{{setor.totalWis}}</td>
+                                    <td ng-hide="entregaTipo">{{setor.totalResto}}</td>
+                                    <td>{{setor.total}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluidoTipo">{{setor.totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluidoTipo">{{setor.totalConcluidoWis}}</td>
+                                    <td ng-hide="concluidoTipo">{{setor.totalConcluidoResto}}</td>
+                                    <td>{{setor.totalConcluido}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluirTipo">{{setor.totalPrix-setor.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluirTipo">{{setor.totalWis-setor.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluirTipo">{{setor.totalResto-setor.totalConcluidoResto}}</td>
+                                    <td>{{setor.total-setor.totalConcluido}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzidoTipo">{{setor.totalProdPrix}}</td>
+                                    <td ng-hide="produzidoTipo">{{setor.totalProdWis}}</td>
+                                    <td ng-hide="produzidoTipo">{{setor.totalProdResto}}</td>
+                                    <td>{{setor.totalProd}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasadoTipo">{{setor.totalAtrasadoPrix}}</td>
+                                    <td ng-hide="atrasadoTipo">{{setor.totalAtrasadoWis}}</td>
+                                    <td ng-hide="atrasadoTipo">{{setor.totalAtrasadoResto}}</td>
+                                    <td>{{setor.totalAtrasado}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </accordion-group>
+                <accordion-group heading="Todos os Setores" is-open="true">
+                    <div class="table-responsive" ng-show="true">
+                        <table class="table table-striped b-t b-light padding-0" data-filter="#filter" data-page-size="50">
+                            <thead>
+                                <tr>
+                                    <th colspan="3"></th>
+                                    <th colspan="{{capacidadeCols}}" class="text-center" style="background-color: whitesmoke">CAPACIDADE MÁX.<a href="" ng-click="expandirCapacidade()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!capacidade"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="capacidade"></i></a></th>
+                                    <th colspan="{{entregaCols}}" class="text-center">ENCOMENDAS<a href="" ng-click="expandirEntrega()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!entrega"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="entrega"></i></a></th>
+                                    <th colspan="{{concluidoCols}}" class="text-center" style="background-color: whitesmoke">ENC. PRODUZIDAS<a href="" ng-click="expandirConcluido()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!concluido"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="concluido"></i></a></th>
+                                    <th colspan="{{porConcluirCols}}" class="text-center">ENC. POR PRODUZIR<a href="" ng-click="expandirPorConcluir()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!porConcluir"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="porConcluir"></i></a></th>
+                                    <th colspan="{{produzidoCols}}" class="text-center" style="background-color: whitesmoke">PRODUZIDO SETOR<a href="" ng-click="expandirProduzido()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!produzido"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="produzido"></i></a></th>
+                                    <th colspan="{{atrasadoCols}}" class="text-center">ENC. ATRASADAS<a href="" ng-click="expandirAtrasado()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!atrasado"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="atrasado"></i></a></th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Num.</th>
+                                    <th>Tipo Encomenda</th>
+                                    <th ng-hide="capacidade">Priximbattable</th>
+                                    <th ng-hide="capacidade">Wis Mar NFI</th>
+                                    <th ng-hide="capacidade">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="entrega">Priximbattable</th>
+                                    <th ng-hide="entrega">Wis Mar NFI</th>
+                                    <th ng-hide="entrega">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="concluido">Priximbattable</th>
+                                    <th ng-hide="concluido">Wis Mar NFI</th>
+                                    <th ng-hide="concluido">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="porConcluir">Priximbattable</th>
+                                    <th ng-hide="porConcluir">Wis Mar NFI</th>
+                                    <th ng-hide="porConcluir">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="produzido">Priximbattable</th>
+                                    <th ng-hide="produzido">Wis Mar NFI</th>
+                                    <th ng-hide="produzido">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="atrasado">Priximbattable</th>
+                                    <th ng-hide="atrasado">Wis Mar NFI</th>
+                                    <th ng-hide="atrasado">Restantes Clientes</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr bindonce ng-repeat="tipoEncEntregas in tabelas.tipoEncEntregas">
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.numTipoEncomenda"></td>
+                                    <td bo-text="tipoEncEntregas.nomeTipoEncomenda"></td>
+                                    <td bo-text="tipoEncEntregas.capacidadePrix" ng-hide="capacidade"></td>
+                                    <td bo-text="tipoEncEntregas.capacidadeWis" ng-hide="capacidade"></td>
+                                    <td bo-text="tipoEncEntregas.capacidadeResto" ng-hide="capacidade"></td>
+                                    <td>{{tipoEncEntregas.capacidadePrix + tipoEncEntregas.capacidadeWis + tipoEncEntregas.capacidadeResto}}</td>
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.totalPrix" ng-hide="entrega" ng-style="{ 'background-color' : tipoEncEntregas.totalPrixCor }"></td>
+                                    <td bo-text="tipoEncEntregas.totalWis" ng-hide="entrega" ng-style="{ 'background-color' : tipoEncEntregas.totalWisCor }"></td>
+                                    <td bo-text="tipoEncEntregas.totalResto" ng-hide="entrega" ng-style="{ 'background-color' : tipoEncEntregas.totalRestoCor }"></td>
+                                    <td ng-style="{ 'background-color' : tipoEncEntregas.totalCor }">{{tipoEncEntregas.totalPrix + tipoEncEntregas.totalWis + tipoEncEntregas.totalResto}}</td>
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.totalConcluidoPrix" ng-hide="concluido"></td>
+                                    <td bo-text="tipoEncEntregas.totalConcluidoWis" ng-hide="concluido"></td>
+                                    <td bo-text="tipoEncEntregas.totalConcluidoResto" ng-hide="concluido"></td>
+                                    <td>{{tipoEncEntregas.totalConcluidoPrix + tipoEncEntregas.totalConcluidoWis + tipoEncEntregas.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluir">{{tipoEncEntregas.totalPrix-tipoEncEntregas.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluir">{{tipoEncEntregas.totalConcluidoWis-tipoEncEntregas.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluir">{{tipoEncEntregas.totalResto-tipoEncEntregas.totalConcluidoResto}}</td>
+                                    <td>{{(tipoEncEntregas.totalPrix-tipoEncEntregas.totalConcluidoPrix) + (tipoEncEntregas.totalConcluidoWis-tipoEncEntregas.totalConcluidoWis) + (tipoEncEntregas.totalResto-tipoEncEntregas.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.totalProdPrix" ng-hide="produzido" ng-style="{ 'background-color' : tipoEncEntregas.totalProdPrixCor }"></td>
+                                    <td bo-text="tipoEncEntregas.totalProdWis" ng-hide="produzido" ng-style="{ 'background-color' : tipoEncEntregas.totalProdWisCor }"></td>
+                                    <td bo-text="tipoEncEntregas.totalProdResto" ng-hide="produzido" ng-style="{ 'background-color' : tipoEncEntregas.totalProdRestoCor }"></td>
+                                    <td ng-style="{ 'background-color' : tipoEncEntregas.totalProdCor }">{{tipoEncEntregas.totalProdPrix + tipoEncEntregas.totalProdWis + tipoEncEntregas.totalProdResto}}</td>
+                                    <td></td>
+                                    <td bo-text="tipoEncEntregas.totalAtrasadoPrix" ng-hide="atrasado"></td>
+                                    <td bo-text="tipoEncEntregas.totalAtrasadoWis" ng-hide="atrasado"></td>
+                                    <td bo-text="tipoEncEntregas.totalAtrasadoResto" ng-hide="atrasado"></td>
+                                    <td>{{tipoEncEntregas.totalAtrasadoPrix + tipoEncEntregas.totalAtrasadoWis + tipoEncEntregas.totalAtrasadoResto}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr class="font-bold">
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total</td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td ng-hide="entrega">{{tabelas.totalEncomendas.totalPrix}}</td>
+                                    <td ng-hide="entrega">{{tabelas.totalEncomendas.totalWis}}</td>
+                                    <td ng-hide="entrega">{{tabelas.totalEncomendas.totalResto}}</td>
+                                    <td>{{tabelas.totalEncomendas.totalPrix + tabelas.totalEncomendas.totalWis + tabelas.totalEncomendas.totalResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluido">{{tabelas.totalEncomendas.totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluido">{{tabelas.totalEncomendas.totalConcluidoWis}}</td>
+                                    <td ng-hide="concluido">{{tabelas.totalEncomendas.totalConcluidoResto}}</td>
+                                    <td>{{tabelas.totalEncomendas.totalConcluidoPrix + tabelas.totalEncomendas.totalConcluidoWis + tabelas.totalEncomendas.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluir">{{tabelas.totalEncomendas.totalPrix-tabelas.totalEncomendas.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluir">{{tabelas.totalEncomendas.totalWis-tabelas.totalEncomendas.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluir">{{tabelas.totalEncomendas.totalResto-tabelas.totalEncomendas.totalConcluidoResto}}</td>
+                                    <td>{{(tabelas.totalEncomendas.totalPrix-tabelas.totalEncomendas.totalConcluidoPrix) + (tabelas.totalEncomendas.totalWis-tabelas.totalEncomendas.totalConcluidoWis) + (tabelas.totalEncomendas.totalResto-tabelas.totalEncomendas.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzido">{{tabelas.totalEncomendas.totalProdPrix}}</td>
+                                    <td ng-hide="produzido">{{tabelas.totalEncomendas.totalProdWis}}</td>
+                                    <td ng-hide="produzido">{{tabelas.totalEncomendas.totalProdResto}}</td>
+                                    <td>{{tabelas.totalEncomendas.totalProdPrix + tabelas.totalEncomendas.totalProdWis + tabelas.totalEncomendas.totalProdResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasado">{{tabelas.totalEncomendas.totalAtrasadoPrix}}</td>
+                                    <td ng-hide="atrasado">{{tabelas.totalEncomendas.totalAtrasadoWis}}</td>
+                                    <td ng-hide="atrasado">{{tabelas.totalEncomendas.totalAtrasadoResto}}</td>
+                                    <td>{{tabelas.totalEncomendas.totalAtrasadoPrix + tabelas.totalEncomendas.totalAtrasadoWis + tabelas.totalEncomendas.totalAtrasadoResto}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </accordion-group>
+            </accordion>
+
+
+        </div>
+
+        <div class="col-sm-12" ng-if="listaSemanas">
+            <accordion ng-if="listaSemanas">
+                <accordion-group heading="{{setor.setorNome}}" ng-repeat="setor in setoresEncomenda" ng-init="setorIndex=$index" is-open="setor.open">
+                    <div class="table-responsive" ng-show="true">
+                        <table id="tabelaTotais" class="table table-striped b-t b-light padding-0" data-filter="#filter" data-page-size="50">
+                            <thead>
+                                <tr>
+                                    <th colspan="3"></th>
+                                    <th colspan="{{capacidadeTipoCols}}" class="text-center" style="background-color: whitesmoke">CAPACIDADE MÁX.<a href="" ng-click="expandirCapacidadeTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!capacidadeTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="capacidadeTipo"></i></a></th>
+                                    <th colspan="{{entregaTipoCols}}" class="text-center">ENCOMENDAS<a href="" ng-click="expandirEntregaTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!entregaTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="entregaTipo"></i></a></th>
+                                    <th colspan="{{concluidoTipoCols}}" class="text-center" style="background-color: whitesmoke">ENC. PRODUZIDAS<a href="" ng-click="expandirConcluidoTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!concluidoTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="concluidoTipo"></i></a></th>
+                                    <th colspan="{{porConcluirTipoCols}}" class="text-center">ENC. POR PRODUZIR<a href="" ng-click="expandirPorConcluirTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!porConcluirTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="porConcluirTipo"></i></a></th>
+                                    <th colspan="{{produzidoTipoCols}}" class="text-center" style="background-color: whitesmoke">PRODUZIDO SETOR<a href="" ng-click="expandirProduzidoTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!produzidoTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="produzidoTipo"></i></a></th>
+                                    <th colspan="{{atrasadoTipoCols}}" class="text-center">ENC. ATRASADAS<a href="" ng-click="expandirAtrasadoTipo()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!atrasadoTipo"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="atrasadoTipo"></i></a></th>
+                                </tr>
+                            </thead>
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Num.</th>
+                                    <th>Tipo Encomenda</th>
+                                    <th ng-hide="capacidadeTipo">Priximbattable</th>
+                                    <th ng-hide="capacidadeTipo">Wis Mar NFI</th>
+                                    <th ng-hide="capacidadeTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="entregaTipo">Priximbattable</th>
+                                    <th ng-hide="entregaTipo">Wis Mar NFI</th>
+                                    <th ng-hide="entregaTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="concluidoTipo">Priximbattable</th>
+                                    <th ng-hide="concluidoTipo">Wis Mar NFI</th>
+                                    <th ng-hide="concluidoTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="porConcluirTipo">Priximbattable</th>
+                                    <th ng-hide="porConcluirTipo">Wis Mar NFI</th>
+                                    <th ng-hide="porConcluirTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="produzidoTipo">Priximbattable</th>
+                                    <th ng-hide="produzidoTipo">Wis Mar NFI</th>
+                                    <th ng-hide="produzidoTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="atrasadoTipo">Priximbattable</th>
+                                    <th ng-hide="atrasadoTipo">Wis Mar NFI</th>
+                                    <th ng-hide="atrasadoTipo">Restantes Clientes</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody bindonce ng-repeat="listaSemana in listaSemanas" ng-init="semanaIndex=$index">
+                                <tr bindonce ng-repeat="tipo in listaSemana.tipoEncEntregas" ng-hide="!listaSemana.show" ng-if="tipo.setorEncomenda_IdSetorEncomenda == setor.setorId">
+                                    <td></td>
+                                    <td>{{tipo.numTipoEncomenda}}</td>
+                                    <td>{{tipo.nomeTipoEncomenda}}</td>
+                                    <td ng-hide="capacidadeTipo">{{tipo.capacidadePrix}}</td>
+                                    <td ng-hide="capacidadeTipo">{{tipo.capacidadeWis}}</td>
+                                    <td ng-hide="capacidadeTipo">{{tipo.capacidadeResto}}</td>
+                                    <td>{{tipo.capacidadePrix + tipo.capacidadeWis + tipo.capacidadeResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="entregaTipo" ng-style="{ 'background-color' : tipo.totalPrixCor }">{{tipo.totalPrix}}</td>
+                                    <td ng-hide="entregaTipo" ng-style="{ 'background-color' : tipo.totalWisCor }">{{tipo.totalWis}}</td>
+                                    <td ng-hide="entregaTipo" ng-style="{ 'background-color' : tipo.totalRestoCor }">{{tipo.totalResto}}</td>
+                                    <td ng-style="{ 'background-color' : tipo.totalCor }">{{tipo.totalPrix + tipo.totalWis + tipo.totalResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluidoTipo">{{tipo.totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluidoTipo">{{tipo.totalConcluidoWis}}</td>
+                                    <td ng-hide="concluidoTipo">{{tipo.totalConcluidoResto}}</td>
+                                    <td>{{tipo.totalConcluidoPrix + tipo.totalConcluidoWis + tipo.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluirTipo">{{tipo.totalPrix-tipo.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluirTipo">{{tipo.totalWis-tipo.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluirTipo">{{tipo.totalResto-tipo.totalConcluidoResto}}</td>
+                                    <td>{{(tipo.totalPrix-tipo.totalConcluidoPrix) + (tipo.totalWis-tipo.totalConcluidoWis) + (tipo.totalResto-tipo.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzidoTipo" ng-style="{ 'background-color' : tipo.totalProdPrixCor }">{{tipo.totalProdPrix}}</td>
+                                    <td ng-hide="produzidoTipo" ng-style="{ 'background-color' : tipo.totalProdWisCor }">{{tipo.totalProdWis}}</td>
+                                    <td ng-hide="produzidoTipo" ng-style="{ 'background-color' : tipo.totalProdRestoCor }">{{tipo.totalProdResto}}</td>
+                                    <td ng-style="{ 'background-color' : tipo.totalProdCor }">{{tipo.totalProdPrix + tipo.totalProdWis + tipo.totalProdResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasadoTipo">{{tipo.totalAtrasadoPrix}}</td>
+                                    <td ng-hide="atrasadoTipo">{{tipo.totalAtrasadoWis}}</td>
+                                    <td ng-hide="atrasadoTipo">{{tipo.totalAtrasadoResto}}</td>
+                                    <td>{{tipo.totalAtrasadoPrix + tipo.totalAtrasadoWis + tipo.totalAtrasadoResto}}</td>
+                                </tr>
+                                <tr class="font-bold" style="color: black; border-bottom: 2pt solid DarkGrey">
+                                    <td><a href="" ng-click="expandirSemana($index)"><i class="fa fa-plus-square m-r-xs" ng-hide="listaSemana.show"></i><i class="fa fa-minus-square m-r-xs" ng-hide="!listaSemana.show"></i></a></td>
+                                    <td>{{listaSemana.semana}}/{{listaSemana.ano}}</td>
+                                    <td>Total: </td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td ng-hide="entregaTipo" ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalPrixCor }">{{listaSemana.setoresEncomenda[setorIndex].totalPrix}}</td>
+                                    <td ng-hide="entregaTipo" ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalWisCor }">{{listaSemana.setoresEncomenda[setorIndex].totalWis}}</td>
+                                    <td ng-hide="entregaTipo" ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalRestoCor }">{{listaSemana.setoresEncomenda[setorIndex].totalResto}}</td>
+                                    <td ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalCor }">{{listaSemana.setoresEncomenda[setorIndex].totalPrix + listaSemana.setoresEncomenda[setorIndex].totalWis + listaSemana.setoresEncomenda[setorIndex].totalResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluidoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluidoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalConcluidoWis}}</td>
+                                    <td ng-hide="concluidoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalConcluidoResto}}</td>
+                                    <td>{{listaSemana.setoresEncomenda[setorIndex].totalConcluidoPrix + listaSemana.setoresEncomenda[setorIndex].totalConcluidoWis + listaSemana.setoresEncomenda[setorIndex].totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluirTipo">{{listaSemana.setoresEncomenda[setorIndex].totalPrix-listaSemana.setoresEncomenda[setorIndex].totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluirTipo">{{listaSemana.setoresEncomenda[setorIndex].totalWis-listaSemana.setoresEncomenda[setorIndex].totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluirTipo">{{listaSemana.setoresEncomenda[setorIndex].totalResto-listaSemana.setoresEncomenda[setorIndex].totalConcluidoResto}}</td>
+                                    <td>{{(listaSemana.setoresEncomenda[setorIndex].totalPrix-listaSemana.setoresEncomenda[setorIndex].totalConcluidoPrix) + (listaSemana.setoresEncomenda[setorIndex].totalWis-listaSemana.setoresEncomenda[setorIndex].totalConcluidoWis) + (listaSemana.setoresEncomenda[setorIndex].totalResto-listaSemana.setoresEncomenda[setorIndex].totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzidoTipo" ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalProdPrixCor }">{{listaSemana.setoresEncomenda[setorIndex].totalProdPrix}}</td>
+                                    <td ng-hide="produzidoTipo" ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalProdWisCor }">{{listaSemana.setoresEncomenda[setorIndex].totalProdWis}}</td>
+                                    <td ng-hide="produzidoTipo" ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalProdRestoCor }">{{listaSemana.setoresEncomenda[setorIndex].totalProdResto}}</td>
+                                    <td ng-style="{ 'background-color' : listaSemana.setoresEncomenda[setorIndex].totalProdCor }">{{listaSemana.setoresEncomenda[setorIndex].totalProdPrix + listaSemana.setoresEncomenda[setorIndex].totalProdWis + listaSemana.setoresEncomenda[setorIndex].totalProdResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasadoTipo"><span ng-if="semanaIndex == 0">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix}}</span></td>
+                                    <td ng-hide="atrasadoTipo"><span ng-if="semanaIndex == 0">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis}}</span></td>
+                                    <td ng-hide="atrasadoTipo"><span ng-if="semanaIndex == 0">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</span></td>
+                                    <td><span ng-if="semanaIndex == 0">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</span></td>
+
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total {{setor.setorNome}}:</td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td ng-hide="capacidadeTipo"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td ng-hide="entregaTipo">{{setor.totalPrix}}</td>
+                                    <td ng-hide="entregaTipo">{{setor.totalWis}}</td>
+                                    <td ng-hide="entregaTipo">{{setor.totalResto}}</td>
+                                    <td>{{setor.totalPrix + setor.totalWis + setor.totalResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluidoTipo">{{setor.totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluidoTipo">{{setor.totalConcluidoWis}}</td>
+                                    <td ng-hide="concluidoTipo">{{setor.totalConcluidoResto}}</td>
+                                    <td>{{setor.totalConcluidoPrix + setor.totalConcluidoWis + setor.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluirTipo">{{setor.totalPrix-setor.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluirTipo">{{setor.totalWis-setor.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluirTipo">{{setor.totalResto-setor.totalConcluidoResto}}</td>
+                                    <td>{{(setor.totalPrix-setor.totalConcluidoPrix) + (setor.totalWis-setor.totalConcluidoWis) + (setor.totalResto-setor.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzidoTipo" ">{{setor.totalProdPrix}}</td>
+                                    <td ng-hide="produzidoTipo">{{setor.totalProdWis}}</td>
+                                    <td ng-hide="produzidoTipo">{{setor.totalProdResto}}</td>
+                                    <td>{{setor.totalProdPrix + setor.totalProdWis + setor.totalProdResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix}}</td>
+                                    <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis}}</td>
+                                    <td ng-hide="atrasadoTipo">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
+                                    <td>{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </accordion-group>
+                <accordion-group heading="Todos os Setores">
+                    <div class="table-responsive" ng-show="true">
+                        <table id="tabelaTotais" class="table table-striped b-t b-light padding-0">
+                            <thead>
+                                <tr>
+                                    <th colspan="3"></th>
+                                    <th colspan="{{capacidadeCols}}" class="text-center" style="background-color: whitesmoke">CAPACIDADE MÁX.<a href="" ng-click="expandirCapacidade()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!capacidade"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="capacidade"></i></a></th>
+                                    <th colspan="{{entregaCols}}" class="text-center">ENCOMENDAS<a href="" ng-click="expandirEntrega()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!entrega"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="entrega"></i></a></th>
+                                    <th colspan="{{concluidoCols}}" class="text-center" style="background-color: whitesmoke">ENC. PRODUZIDAS<a href="" ng-click="expandirConcluido()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!concluido"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="concluido"></i></a></th>
+                                    <th colspan="{{porConcluirCols}}" class="text-center">ENC. POR PRODUZIR<a href="" ng-click="expandirPorConcluir()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!porConcluir"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="porConcluir"></i></a></th>
+                                    <th colspan="{{produzidoCols}}" class="text-center" style="background-color: whitesmoke">PRODUZIDO SETOR<a href="" ng-click="expandirProduzido()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!produzido"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="produzido"></i></a></th>
+                                    <th colspan="{{atrasadoCols}}" class="text-center">ENC. ATRASADAS<a href="" ng-click="expandirAtrasado()"><i class="fa fa-plus-square m-r-xs pull-right" ng-hide="!atrasado"></i><i class="fa fa-minus-square m-r-xs pull-right" ng-hide="atrasado"></i></a></th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th>Num.</th>
+                                    <th>Tipo Encomenda</th>
+                                    <th ng-hide="capacidade">Priximbattable</th>
+                                    <th ng-hide="capacidade">Wis Mar NFI</th>
+                                    <th ng-hide="capacidade">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="entrega">Priximbattable</th>
+                                    <th ng-hide="entrega">Wis Mar NFI</th>
+                                    <th ng-hide="entrega">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="concluido">Priximbattable</th>
+                                    <th ng-hide="concluido">Wis Mar NFI</th>
+                                    <th ng-hide="concluido">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="porConcluir">Priximbattable</th>
+                                    <th ng-hide="porConcluir">Wis Mar NFI</th>
+                                    <th ng-hide="porConcluir">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="produzido">Priximbattable</th>
+                                    <th ng-hide="produzido">Wis Mar NFI</th>
+                                    <th ng-hide="produzido">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="atrasado">Priximbattable</th>
+                                    <th ng-hide="atrasado">Wis Mar NFI</th>
+                                    <th ng-hide="atrasado">Restantes Clientes</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody bindonce ng-repeat="listaSemana in listaSemanas"  ng-init="semanaIndex=$index">
+                                <tr bindonce ng-hide="!listaSemana.show || $index == 0">
+                                    <th></th>
+                                    <th>Num.</th>
+                                    <th>Tipo Encomenda</th>
+                                    <th ng-hide="capacidade">Priximbattable</th>
+                                    <th ng-hide="capacidade">Wis Mar NFI</th>
+                                    <th ng-hide="capacidade">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="entrega">Priximbattable</th>
+                                    <th ng-hide="entrega">Wis Mar NFI</th>
+                                    <th ng-hide="entrega">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="concluido">Priximbattable</th>
+                                    <th ng-hide="concluido">Wis Mar NFI</th>
+                                    <th ng-hide="concluido">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="porConcluir">Priximbattable</th>
+                                    <th ng-hide="porConcluir">Wis Mar NFI</th>
+                                    <th ng-hide="porConcluir">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="produzido">Priximbattable</th>
+                                    <th ng-hide="produzido">Wis Mar NFI</th>
+                                    <th ng-hide="produzido">Restantes Clientes</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                    <th ng-hide="atrasado">Priximbattable</th>
+                                    <th ng-hide="atrasado">Wis Mar NFI</th>
+                                    <th ng-hide="atrasado">Restantes Clientes</th>
+                                    <th>Total</th>
+                                </tr>
+                                <tr bindonce ng-repeat="tipo in listaSemana.tipoEncEntregas" ng-hide="!listaSemana.show">
+                                    <td></td>
+                                    <td>{{tipo.numTipoEncomenda}}</td>
+                                    <td>{{tipo.nomeTipoEncomenda}}</td>
+                                    <td ng-hide="capacidade">{{tipo.capacidadePrix}}</td>
+                                    <td ng-hide="capacidade">{{tipo.capacidadeWis}}</td>
+                                    <td ng-hide="capacidade">{{tipo.capacidadeResto}}</td>
+                                    <td>{{tipo.capacidadePrix + tipo.capacidadeWis + tipo.capacidadeResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="entrega" ng-style="{ 'background-color' : tipo.totalPrixCor }">{{tipo.totalPrix}}</td>
+                                    <td ng-hide="entrega" ng-style="{ 'background-color' : tipo.totalWisCor }">{{tipo.totalWis}}</td>
+                                    <td ng-hide="entrega" ng-style="{ 'background-color' : tipo.totalRestoCor }">{{tipo.totalResto}}</td>
+                                    <td ng-style="{ 'background-color' : tipo.totalCor }">{{tipo.totalPrix + tipo.totalWis + tipo.totalResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluido">{{tipo.totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluido">{{tipo.totalConcluidoWis}}</td>
+                                    <td ng-hide="concluido">{{tipo.totalConcluidoResto}}</td>
+                                    <td>{{tipo.totalConcluidoPrix + tipo.totalConcluidoWis + tipo.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluir">{{tipo.totalPrix-tipo.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluir">{{tipo.totalWis-tipo.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluir">{{tipo.totalResto-tipo.totalConcluidoResto}}</td>
+                                    <td>{{(tipo.totalPrix-tipo.totalConcluidoPrix) + (tipo.totalWis-tipo.totalConcluidoWis) + (tipo.totalResto-tipo.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzido" ng-style="{ 'background-color' : tipo.totalProdPrixCor }">{{tipo.totalProdPrix}}</td>
+                                    <td ng-hide="produzido" ng-style="{ 'background-color' : tipo.totalProdWisCor }">{{tipo.totalProdWis}}</td>
+                                    <td ng-hide="produzido" ng-style="{ 'background-color' : tipo.totalProdRestoCor }">{{tipo.totalProdResto}}</td>
+                                    <td ng-style="{ 'background-color' : tipo.totalProdCor }">{{tipo.totalProdPrix + tipo.totalProdWis + tipo.totalProdResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasado">{{tipo.totalAtrasadoPrix}}</td>
+                                    <td ng-hide="atrasado">{{tipo.totalAtrasadoWis}}</td>
+                                    <td ng-hide="atrasado">{{tipo.totalAtrasadoResto}}</td>
+                                    <td>{{tipo.totalAtrasadoPrix + tipo.totalAtrasadoWis + tipo.totalAtrasadoResto}}</td>
+                                </tr>
+                                <tr class="font-bold" style="color: black; border-bottom: 2pt solid DarkGrey">
+                                    <td><a href="" ng-click="expandirSemana($index)"><i class="fa fa-plus-square m-r-xs" ng-hide="listaSemana.show"></i><i class="fa fa-minus-square m-r-xs" ng-hide="!listaSemana.show"></i></a></td>
+                                    <td>{{listaSemana.semana}}/{{listaSemana.ano}}</td>
+                                    <td>Total</td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td ng-hide="entrega" ng-style="{ 'background-color' : listaSemana.totalPrixC }">{{listaSemana.totaisTabela.totalPrix}}</td>
+                                    <td ng-hide="entrega" ng-style="{ 'background-color' : listaSemana.totalWisC }">{{listaSemana.totaisTabela.totalWis}}</td>
+                                    <td ng-hide="entrega" ng-style="{ 'background-color' : listaSemana.totalRestoC }">{{listaSemana.totaisTabela.totalResto}}</td>
+                                    <td ng-style="{ 'background-color' : listaSemana.totalC }">{{listaSemana.totaisTabela.totalPrix + listaSemana.totaisTabela.totalWis + listaSemana.totaisTabela.totalResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluido">{{listaSemana.totaisTabela.totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluido">{{listaSemana.totaisTabela.totalConcluidoWis}}</td>
+                                    <td ng-hide="concluido">{{listaSemana.totaisTabela.totalConcluidoResto}}</td>
+                                    <td>{{listaSemana.totaisTabela.totalConcluidoPrix + listaSemana.totaisTabela.totalConcluidoWis + listaSemana.totaisTabela.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluir">{{listaSemana.totaisTabela.totalPrix-listaSemana.totaisTabela.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluir">{{listaSemana.totaisTabela.totalWis-listaSemana.totaisTabela.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluir">{{listaSemana.totaisTabela.totalResto-listaSemana.totaisTabela.totalConcluidoResto}}</td>
+                                    <td>{{(listaSemana.totaisTabela.totalPrix-listaSemana.totaisTabela.totalConcluidoPrix) + (listaSemana.totaisTabela.totalWis-listaSemana.totaisTabela.totalConcluidoWis) + (listaSemana.totaisTabela.totalResto-listaSemana.totaisTabela.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzido" ng-style="{ 'background-color' : listaSemana.totalProdPrixC }">{{listaSemana.totaisTabela.totalProdPrix}}</td>
+                                    <td ng-hide="produzido" ng-style="{ 'background-color' : listaSemana.totalProdWisC }">{{listaSemana.totaisTabela.totalProdWis}}</td>
+                                    <td ng-hide="produzido" ng-style="{ 'background-color' : listaSemana.totalProdRestoC }">{{listaSemana.totaisTabela.totalProdResto}}</td>
+                                    <td ng-style="{ 'background-color' : listaSemana.totalProdC }">{{listaSemana.totaisTabela.totalProdPrix + listaSemana.totaisTabela.totalProdWis + listaSemana.totaisTabela.totalProdResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasado"><span ng-if="semanaIndex == 0">{{listaSemana.totaisTabela.totalAtrasadoPrix}}</span></td>
+                                    <td ng-hide="atrasado"><span ng-if="semanaIndex == 0">{{listaSemana.totaisTabela.totalAtrasadoWis}}</span></td>
+                                    <td ng-hide="atrasado"><span ng-if="semanaIndex == 0">{{listaSemana.totaisTabela.totalAtrasadoResto}}</span></td>
+                                    <td><span ng-if="semanaIndex == 0">{{listaSemana.totaisTabela.totalAtrasadoPrix + listaSemana.totaisTabela.totalAtrasadoWis + listaSemana.totaisTabela.totalAtrasadoResto}}</span></td>
+
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Total semanas:</td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td ng-hide="capacidade"></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td ng-hide="entrega">{{totais.totalPrix}}</td>
+                                    <td ng-hide="entrega">{{totais.totalWis}}</td>
+                                    <td ng-hide="entrega">{{totais.totalResto}}</td>
+                                    <td>{{totais.totalPrix + totais.totalWis + totais.totalResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="concluido">{{totais.totalConcluidoPrix}}</td>
+                                    <td ng-hide="concluido">{{totais.totalConcluidoWis}}</td>
+                                    <td ng-hide="concluido">{{totais.totalConcluidoResto}}</td>
+                                    <td>{{totais.totalConcluidoPrix + totais.totalConcluidoWis + totais.totalConcluidoResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="porConcluir">{{totais.totalPrix-totais.totalConcluidoPrix}}</td>
+                                    <td ng-hide="porConcluir">{{totais.totalWis-totais.totalConcluidoWis}}</td>
+                                    <td ng-hide="porConcluir">{{totais.totalResto-totais.totalConcluidoResto}}</td>
+                                    <td>{{(totais.totalPrix-totais.totalConcluidoPrix) + (totais.totalWis-totais.totalConcluidoWis) + (totais.totalResto-totais.totalConcluidoResto)}}</td>
+                                    <td></td>
+                                    <td ng-hide="produzido" ">{{totais.totalProdPrix}}</td>
+                                    <td ng-hide="produzido">{{totais.totalProdWis}}</td>
+                                    <td ng-hide="produzido">{{setotaistor.totalProdResto}}</td>
+                                    <td>{{totais.totalProdPrix + totais.totalProdWis + totais.totalProdResto}}</td>
+                                    <td></td>
+                                    <td ng-hide="atrasado">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix}}</td>
+                                    <td ng-hide="atrasado">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis}}</td>
+                                    <td ng-hide="atrasado">{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
+                                    <td>{{listaSemana.setoresEncomenda[setorIndex].totalAtrasadoPrix + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoWis + listaSemana.setoresEncomenda[setorIndex].totalAtrasadoResto}}</td>
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </accordion-group>
+            </accordion>
+
+
+        </div>
+    </div>

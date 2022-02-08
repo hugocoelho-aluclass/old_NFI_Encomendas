@@ -73,7 +73,7 @@ angular.module('app')
                         }
                     })
                     .state('app.clientes.edit', {
-                        url: '/edit/:id',
+                        url: '/edit/:id/:desc',
                         templateUrl: 'app_components/Clientes/EditCliente.html',
                         resolve: {
                             deps: ['$ocLazyLoad',
@@ -134,25 +134,25 @@ angular.module('app')
                         url: '/setores',
                         template: '<div ui-view class=""></div>'
                     })
-                        .state('app.setores.tabela', {
-                            url: '/tabela',
-                            templateUrl: 'app_components/Setores/TabelaSetor.html',
-                            resolve: {
-                                deps: ['$ocLazyLoad',
-                                    function ($ocLazyLoad) {
-                                        return $ocLazyLoad.load(['app_components/Setores/TabelaSetor.js']);
-                                    }]
-                            }
-                        })
+                    .state('app.setores.tabela', {
+                        url: '/tabela',
+                        templateUrl: 'app_components/Setores/TabelaSetor.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['app_components/Setores/TabelaSetor.js']);
+                                }]
+                        }
+                    })
                     .state('app.setores.edit', {
-                            url: '/edit/:id',
-                            templateUrl: 'app_components/Setores/EditSetor.html',
-                            resolve: {
-                                deps: ['$ocLazyLoad',
-                                    function ($ocLazyLoad) {
-                                        return $ocLazyLoad.load(['app_components/Setores/EditSetor.js']);
-                                    }]
-                            }
+                        url: '/edit/:id',
+                        templateUrl: 'app_components/Setores/EditSetor.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['app_components/Setores/EditSetor.js']);
+                                }]
+                        }
                     })
                     .state('app.setoresEncomenda', {
                         url: '/setoresEncomenda',
@@ -299,16 +299,6 @@ angular.module('app')
                                 }]
                         }
                     })
-                    .state('app.encomendas.tabela3', {
-                        url: '/tabela3',
-                        templateUrl: 'app_components/encomendas/TabelaEncomendas3.html',
-                        resolve: {
-                            deps: ['$ocLazyLoad',
-                                function ($ocLazyLoad) {
-                                    return $ocLazyLoad.load(['app_components/encomendas/TabelaEncomendas3.js']);
-                                }]
-                        }
-                    })
                     .state('app.encomendas.tabelaProducao', {
                         url: '/tabelaProd',
                         templateUrl: 'app_components/encomendas/TabelaEncomendasProd.html',
@@ -384,6 +374,70 @@ angular.module('app')
                             deps: ['$ocLazyLoad',
                                 function ($ocLazyLoad) {
                                     return $ocLazyLoad.load(['app_components/Estatisticas/EstatisticasGerais.js']);
+                                }]
+                        }
+                    })
+                    .state('app.problemas', {
+                        url: '/problemas',
+                        template: '<div ui-view class=""></div>'
+                    })
+                    .state('app.problemas.tabela', {
+                        url: '/tabela',
+                        templateUrl: 'app_components/problemas/TabelaProblemas.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['app_components/problemas/TabelaProblemas.js']);
+                                }]
+                        }
+                    })
+
+                    .state('app.problemas.edit', {
+                        url: '/edit/:id',
+                        templateUrl: 'app_components/Problemas/EditProblemas.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['app_components/Problemas/EditProblemas.js']);
+                                }]
+                        }
+                        
+                    })
+
+
+                /*.state('app.problemas.edit2', {
+                    url: '/edit/:id/:desc/:causa',
+                    templateUrl: 'app_components/Problemas/EditProblemas.html',
+                    resolve: {
+                        deps: ['$ocLazyLoad',
+                            function ($ocLazyLoad) {
+                                return $ocLazyLoad.load(['app_components/Problemas/EditProblemas.js']);
+                            }]
+                    }
+                })*/
+
+                    .state('app.relatorios', {
+                        url: '/relatorios',
+                        template: '<div ui-view class=""></div>'
+                    })
+                    .state('app.relatorios.relatorioEncomenda', {
+                        url: '/relatorioEncomenda',
+                        templateUrl: 'app_components/Relatorios/RelatorioEncomenda.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['app_components/Relatorios/RelatorioEncomenda.js']);
+                                }]
+                        }
+                    })
+
+                    .state('app.relatorios.relatorioSav', {
+                        url: '/relatorioSav',
+                        templateUrl: 'app_components/Relatorios/RelatorioSav.html',
+                        resolve: {
+                            deps: ['$ocLazyLoad',
+                                function ($ocLazyLoad) {
+                                    return $ocLazyLoad.load(['app_components/Relatorios/RelatorioSav.js']);
                                 }]
                         }
                     })

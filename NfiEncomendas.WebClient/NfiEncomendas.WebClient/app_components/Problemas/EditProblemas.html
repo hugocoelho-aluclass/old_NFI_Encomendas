@@ -1,0 +1,134 @@
+﻿
+<div class="" ng-controller="EditProblemasCtrl">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li><a href="" class="" ui-sref="app.problemas.edit({id:0})"><i class="glyphicon glyphicon-plus"></i>Novo</a></li>
+                <li><a href="" class="" ui-sref="app.problemas.edit({id: idAnt})"><i class="fa fa-arrow-left"></i></a></li>
+                <li><a href="" class="" ui-sref="app.problemas.edit({id: idProx})"><i class="fa fa-arrow-right"></i></a></li>
+            </ul>
+            Editar Problema
+
+        </div>
+
+    </div>
+
+
+    <form name="editProblemaForm" class="form-validation form-min" ng-submit="confirmarProb(problema)">
+        <fieldset ng-disabled="_utilizador.comercial">
+
+            <div class="form-horizontal form-problemas">
+                <div class="col-sm-12" style="background-color: white; padding: 0px;">
+                    <div class="panel panel-default ">
+                        <div class="panel-heading font-bold">Problema</div>
+                        <div class="panel-body col-md-6 ">
+                            <div class="form-group  ">
+                                <label class="col-md-4 control-label no-padding-r">ID Problema</label>
+                                <div class=" col-md-2  no-padding-r">
+                                    <input ng-model="problema.idProblema" ui-jq="TouchSpin" ng-blur="editFocus(false)" type="text" class="form-control " name="idProblema"
+                                           ng-change="atualizaIdProblema()" ng-focus="editFocus(true)" data-min='0' data-max="9999999"
+                                           data-verticalbuttons="true" data-verticalupclass="fa fa-caret-up" data-verticaldownclass="fa fa-caret-down"
+                                           ng-keydown="preventSubmit()">
+                                </div>
+                                <label class="col-md-5 control-label no-padding-r" ng-if="dataCriacao && dataCriacao!='0001-01-01'">Criado a {{ dataCriacao }}</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label no-padding-r">Nome</label>
+                                <div class=" col-md-7  no-padding-r">
+                                    <input ng-model="problema.nome" type="text" class="form-control" name="nome" ng-disabled="problema.fechado" required />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label no-padding-r">Descrição</label>
+                                <div class=" col-md-7  no-padding-r">
+                                    <textarea class="form-control" name="descricao" placeholder="" ng-model="problema.descricao" ng-disabled="problema.fechado" rows="4" required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label no-padding-r">Descrição Causa</label>
+                                <div class=" col-md-7  no-padding-r">
+                                    <textarea class="form-control" name="causa" placeholder="" ng-model="problema.descricaoCausa" ng-disabled="problema.fechado" rows="4" required></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group" style="margin-top: 10px">
+                                <div class="col-lg-4"></div>
+                                <div class="col-lg-8">
+                                    <button type="button" class="btn btn-default" ng-click="cancel()">Cancelar</button>
+                                    <button type="submit" class="btn btn-info" ng-disabled="editProblemaForm.$invalid">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body col-md-6">
+
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label no-padding-r">Responsável pela ação</label>
+                                <div class="col-md-6 col-md-offset-0">
+
+                                    <ui-select ng-model="select.departamento" name="departamento" theme="select2" ng-disabled="problema.fechado" style="min-width: 300px; padding-top: 4px;" ng-required="true">
+                                        <ui-select-match placeholder="Lista de Departamento">{{$select.selected.nomeDepartamento +' (' + $select.selected.idDepartamento  + ')'}}</ui-select-match>
+                                        <ui-select-choices repeat="dep in departamentos | propsFilter: {nomeDepartamento: $select.search}">
+                                            <div ng-bind-html="dep.nomeDepartamento + ' (' + dep.idDepartamento + ')' | highlight: $select.search"></div>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label no-padding-r">Ação a implementar</label>
+                                <div class=" col-md-7  no-padding-r">
+                                    <textarea class="form-control" name="acaoImplementar" placeholder="" ng-model="problema.acaoImplementar" ng-disabled="problema.fechado" rows="5"></textarea>
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label no-padding-r">Acompanhamento</label>
+                                <div class=" col-md-7  no-padding-r">
+                                    <textarea class="form-control" name="acompanhamento" placeholder="" ng-model="problema.acompanhamento" ng-disabled="problema.fechado" rows="2"></textarea>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label no-padding-r">Eficácia</label>
+                                <div class="col-md-3">
+                                    <select ng-model="problema.eficacia" class="form-control m-b" ng-disabled="problema.fechado" name="producao">
+                                        <option value="0">--</option>
+                                        <option value="1">Cancelado</option>
+                                        <option value="2">Não eficaz</option>
+                                        <option value="3">Parcialmente eficaz</option>
+                                        <option value="4">Eficaz</option>
+                                    </select>
+                                </div>
+                                <label class="col-lg-2 control-label"></label>
+                                <div class="col-lg-3">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" ng-model="problema.fechado" ng-disabled="true"> Fechado
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label no-padding-r">Avaliação Eficácia</label>
+                                <div class=" col-md-7  no-padding-r">
+                                    <textarea class="form-control" name="causa" placeholder="" ng-model="problema.avaliacaoEficacia" ng-disabled="problema.fechado" rows="2" ng-required="requireAvaliacao"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </fieldset>
+    </form>
+</div>
+
+

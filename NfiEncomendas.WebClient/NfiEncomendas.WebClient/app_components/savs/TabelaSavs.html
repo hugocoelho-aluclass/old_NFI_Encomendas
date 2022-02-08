@@ -213,6 +213,18 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-sm-3 control-label text-right">Problemas</label>
+                            <div class="col-sm-8">
+                                <ui-select multiple ng-model="paramsPesquisa.problemas" theme="bootstrap" ng-disabled="disabled">
+                                    <ui-select-match placeholder="Problema(s)">{{$item.nome}}</ui-select-match>
+                                    <ui-select-choices repeat="i in problemasLista | propsFilter: {nome: $select.search}">
+                                        <div ng-bind-html="i.nome | highlight: $select.search"></div>
+                                    </ui-select-choices>
+                                </ui-select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-sm-3 control-label text-right">Ordenar</label>
                             <div class="col-sm-8">
                                 <select class="form-control" ng-init="paramsPesquisa.ordemPesquisa = 0" ng-model="paramsPesquisa.ordemPesquisa">
@@ -256,6 +268,8 @@
                 </form>
             </div>
         </div>
+
+        {{pesqRes.savs[0].nomeProblema}}
         <div class="col-sm-12">
             <div class=" row">
                 <div class="panel panel-default  no-m-v">
@@ -264,7 +278,7 @@
                             <li><a ng-click="pdfPesquisa()" ng-if="false" class=""><i class="fa fa-file-pdf-o"></i>PDF</a></li>
                         </ul>
                         <br />
-                    </div>                    
+                    </div>
                     <div class="table-responsive" ng-show="true">
                         <table class="table b-t b-light padding-0" data-filter="#filter" data-page-size="50">
                             <thead>
@@ -273,12 +287,14 @@
                                     <th>Por</th>
                                     <th ng-if="pesqRes.agruparCliente == false">Cliente</th>
                                     <th ng-if="pesqRes.agruparDepartamento == false">Dep</th>
-                                    <th ng-if="pesqRes.agruparProduto == false" style="max-width:130px;">Produto</th>
-                                    <th style="max-width:30px;">Ref</th>
+                                    <th ng-if="pesqRes.agruparProduto == false" style="max-width:130px;">Produto <a href="" ng-click="expandirRef()"><i class="fa fa-plus-square m-r-xs" ng-hide="showRef"></i><i class="fa fa-minus-square m-r-xs" ng-hide="!showRef"></i></a></th>
+                                    <th style="max-width:30px;" ng-show="showRef==true">Ref</th>
                                     <th>Custos Produto</th>
                                     <th>Custos Transporte</th>
+                                    <th>Garantia</th>
                                     <th ng-if="pesqRes.agruparSemanaEntrega == false">S.E.</th>
                                     <th ng-if="pesqRes.agruparTipoAvaria == false">Tipo Avaria</th>
+                                    <th ng-if="pesqRes.agruparTipoAvaria == false">Problema</th>
                                     <th ng-if="pesqRes.agruparEstado == false">Estado</th>
                                     <th style="width:80px;">Dt Entrada</th>
                                     <th style="width:80px;">Dt Expedição</th>
@@ -289,22 +305,26 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr bindonce bo-class="'estado-' + sav.cssEstado" ng-repeat="sav in pesqRes.savs" ng-click="editSav(sav)">
+                                <tr bindonce bo-class="'estado-' + sav.cssEstado + ' ' + cor" ng-repeat="sav in pesqRes.savs" ng-click="editSav(sav)" ng-init="cor = !sav.nomeProblema || !sav.nomeTipoAvaria ? 'paramFalta' : ''">
                                     <td bo-hide="sav.separador==false" colspan="5" bo-html="'<strong>'+sav.separadorTexto + ':</strong>  ' + sav.separadorTexto2"></td>
                                     <td bo-hide="sav.separador==false" colspan="1" bo-text="sav.custos ? sav.custos : '-'"></td>
                                     <td bo-hide="sav.separador==false" colspan="1" bo-text="sav.custosTransporte ? sav.custosTransporte : '-'"></td>
-
                                     <td bo-hide="sav.separador==true" bo-text="sav.serieNum" style="font-weight:bold;"></td>
                                     <td bo-hide="sav.separador==true" bo-text="sav.quemColocou"></td>
                                     <td bo-hide="pesqRes.agruparCliente == true || sav.separador==true" bo-text="sav.nomeCliente"></td>
                                     <td bo-hide="pesqRes.agruparDepartamento == true ||sav.separador==true" bo-text="sav.nomeDepartamento"></td>
                                     <td bo-hide="pesqRes.agruparProduto == true ||sav.separador==true" bo-text="sav.nomeProduto"></td>
-                                    <td bo-hide="sav.separador==true" bo-text="sav.ref"></td>
+                                    <td ng-show="showRef==true" bo-hide="sav.separador==true" bo-text="sav.ref"></td>
                                     <td bo-hide="pesqRes.agruparSemanaEntrega == true || sav.separador==true" bo-text="sav.custos ? sav.custos : '-'"></td>
                                     <td bo-hide="pesqRes.agruparSemanaEntrega == true || sav.separador==true" bo-text="sav.custosTransporte ? sav.custosTransporte : '-'"></td>
-
+                                    <!--<td bo-hide="pesqRes.agruparSemanaEntrega == true || sav.separador==true" bo-text="sav.garantia ? sav.garantia : '-'"></td>-->
+                                    <td bo-hide="pesqRes.agruparSemanaEntrega == true || sav.separador==true">
+                                        <i style="font-size: 18px; color:black; margin-top:2px;" class="fa fa-square-o" bo-if="!sav.garantia"></i>
+                                        <i style="font-size: 18px;  margin-top:2px;" class="fa fa-check-square-o" bo-if="sav.garantia"></i>
+                                    </td>
                                     <td bo-hide="pesqRes.agruparSemanaEntrega == true || sav.separador==true" bo-text="sav.semanaEntrega"></td>
                                     <td bo-hide="pesqRes.agruparTipoAvaria == true ||  sav.separador==true" bo-text="sav.nomeTipoAvaria"></td>
+                                    <td bo-hide="pesqRes.agruparTipoAvaria == true ||  sav.separador==true" bo-text="sav.nomeProblema ? sav.nomeProblema : '-'"></td>
                                     <td bo-hide="pesqRes.agruparEstado == true ||  sav.separador==true" bo-text="sav.nomeEstado"></td>
                                     <td bo-hide="sav.separador==true" bo-text="sav.dataEntrada"></td>
                                     <td bo-hide="sav.separador==true" bo-text="sav.dataExpedicao"></td>
@@ -319,7 +339,8 @@
                                               popover="{{'Data Pedido Recolha:' +sav.recolha.dataPedidoRecolha + '
                                             Data Recolha:' +  sav.recolha.dataRecolha + '
                                             Data Chegada Prevista: ' + data.recolha.dataChegadaPrevista + '
-                                            Estado: '+ (sav.recolha.estadoRecolha || "") }}" popover-trigger="mouseenter"><h4>R</h4></span>
+                                            Estado: '+ (sav.recolha.estadoRecolha || "")
+                                        }}" popover-trigger="mouseenter"><h4>R</h4></span>
 
                                     </td>
                                     <td bo-hide="sav.separador==true">

@@ -463,16 +463,6 @@ angular.module('app')
                           }]
                       }
                   })
-                  .state('app.encomendas.tabela3', {
-                      url: '/tabela3',
-                      templateUrl: 'app_components/encomendas/TabelaEncomendas3.html',
-                      resolve: {
-                          deps: ['$ocLazyLoad',
-                              function ($ocLazyLoad) {
-                                  return $ocLazyLoad.load(['app_components/encomendas/TabelaEncomendas3.js']);
-                              }]
-                      }
-                  })
                 .state('app.encomendas.edit', {
                     url: '/edit/:serie/:num',
                     templateUrl: 'app_components/encomendas/EditEncomenda.html',
@@ -517,6 +507,30 @@ angular.module('app')
                             }]
                     }
                 })
+              .state('app.relatorios', {
+                  url: '/relatorios',
+                  template: '<div ui-view class=""></div>'
+              })
+              .state('app.relatorios.relatorioEncomenda', {
+                  url: '/relatorioEncomenda',
+                  templateUrl: 'app_components/Relatorios/RelatorioEncomenda.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                          function ($ocLazyLoad) {
+                              return $ocLazyLoad.load(['app_components/Relatorios/RelatorioEncomenda.js']);
+                          }]
+                  }
+              })
+              .state('app.relatorios.relatorioSav', {
+                  url: '/relatorioSav',
+                  templateUrl: 'app_components/Relatorios/RelatorioSav.html',
+                  resolve: {
+                      deps: ['$ocLazyLoad',
+                          function ($ocLazyLoad) {
+                              return $ocLazyLoad.load(['app_components/Relatorios/RelatorioSav.js']);
+                          }]
+                  }
+              })
        .state('app.csv', {
            url: '/csv',
            templateUrl: 'app_components/CSV/CSV.html',

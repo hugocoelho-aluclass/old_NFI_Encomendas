@@ -98,7 +98,7 @@ namespace NfiEncomendas.WebServer.BusinessLogic
                 }
                 else
                 {
-                    prox = ClientesListaAnulados().Any() && ClientesListaAnulados().Where(x => x.NumCliente > id).Any() ? ClientesListaAnulados().Where(x => x.NumCliente >= id).OrderBy(x => x.NumCliente).First().NumCliente : 999;
+                    prox = ClientesListaAnulados().Any() && ClientesListaAnulados().Where(x => x.NumCliente > id).Any() ? ClientesListaAnulados().Where(x => x.NumCliente > id).OrderBy(x => x.NumCliente).First().NumCliente : 999;
                 }
 
                 if (id == min)

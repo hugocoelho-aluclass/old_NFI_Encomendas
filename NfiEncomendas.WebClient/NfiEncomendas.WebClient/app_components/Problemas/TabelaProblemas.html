@@ -1,0 +1,31 @@
+﻿<div class="" ng-controller="problemasTabelaCtrl" ng-if="_utilizador != undefined">
+
+    <div class="panel panel-default no-m-v">
+        <div class="panel-heading">
+            <ul class="nav nav-pills pull-right">
+                <li><a ui-sref='app.problemas.edit({id:0})'><i class="glyphicon glyphicon-plus"></i>Novo</a></li>
+                <!--<li><a href="" ng-click="gerarPdf()"><i class="fa fa-file-pdf-o"></i>PDF</a></li>-->
+            </ul>
+            Tabela de Problemas
+        </div>
+        <div class="table-responsive">
+            <table ng-table="tableParams" show-filter="true" ng-class-odd="odd" ng-class-even="even" class="table table-striped ">
+                <tr ng-repeat="problema in $data">
+                    <td data-title="'Id'" sortable="'idProblema'" filter="{ 'idProblema': 'text' }" width="10%">
+                        {{problema.idProblema}}
+                    </td>
+                    <td data-title="'Nome'" sortable="'nome'" width="15%" filter="{ 'nome': 'text' }">{{problema.nome}}</td>
+                    <td data-title="'Descricao'" sortable="'descricao'" width="40%" filter="{ 'descricao': 'text' }">{{problema.descricao}}</td>
+                    <td data-title="'Responsavel'" sortable="'nomeDepartamento'" width="10%" filter="{ 'nomeDepartamento': 'text' }">{{problema.nomeDepartamento}}</td>
+                    <td data-title="'Eficacia'" sortable="'nomeEficacia'" width="10%" filter="{ 'nomeEficacia': 'text' }">{{problema.nomeEficacia}}</td>
+                    <td data-title="'Fechado'" sortable="'fechado'" width="10%" filter="{ 'fechado': 'text' }" style="text-align:center;">
+                        <input type="checkbox" disabled ng-model="problema.fechado">
+                    </td>
+                    <td data-title="''" width="15%">
+                        <a href="" class="btn m-b-xs btn-xs btn-info btn-addon" ui-sref="app.problemas.edit({id: problema.idProblema })">Editar</a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

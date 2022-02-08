@@ -27,7 +27,7 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
     public class NPOIController : ApiController
     {
         [HttpPost]
-        public HttpResponseMessage RelatorioProdSemanal(ViewModels.Encomendas.EncomendaPesquisaParamSemana pesqParams)
+        public HttpResponseMessage RelatorioProdSemanal(ViewModels.Relatorios.EncomendaPesquisaParamSemana pesqParams)
         {
             //instanciar objeto ebl, para poder consultar BD
             EncomendasBL ebl = new EncomendasBL();
@@ -41,8 +41,8 @@ namespace NfiEncomendas.WebServer.Areas.POS.Controllers
             Int32.TryParse(pesqParams.serie.NumSerie, out ano);
 
             //Obter lista de tipos de encomenda
-            List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda> lista = ebl.RelatorioExcelTipoEncomenda(pesqParams.semanaEntrega, ano, idata, fdata);
-            List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Encomendas.RelatorioExcelTipoEncomenda> listaOrdenada = lista.OrderBy(x => x.NumTipoEncomenda).ToList();
+            List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Relatorios.RelatorioExcelTipoEncomenda> lista = ebl.RelatorioExcelTipoEncomenda(pesqParams.semanaEntrega, ano, idata, fdata);
+            List<NfiEncomendas.WebServer.Areas.POS.ViewModels.Relatorios.RelatorioExcelTipoEncomenda> listaOrdenada = lista.OrderBy(x => x.NumTipoEncomenda).ToList();
 
             //Criar novo ficheiro xlsx
             IWorkbook workbook = new XSSFWorkbook();

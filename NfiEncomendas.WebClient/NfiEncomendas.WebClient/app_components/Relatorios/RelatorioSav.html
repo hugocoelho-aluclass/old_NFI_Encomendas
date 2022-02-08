@@ -1,0 +1,80 @@
+﻿<div class="" ng-controller="relatorioSavCtrl" ng-if="_utilizador != undefined">
+    <div class="" ng-if="show">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <ul class="nav nav-pills pull-right">
+                    <li><a href="" ng-click="downloadExcel()"><i class="fa fa-download m-r-xs" aria-hidden="true"></i> Relatório Produção Semanal</a></li>
+                </ul>
+                Relatório de SAV Semanal
+            </div>
+            <div class="panel-body">
+                <form name="form" role="form" class="form-horizontal" ng-submit="submit()">
+                    <div class="col-sm-6">
+
+                        <div class="form-group">
+                            <label class="col-sm-1 control-label text-right">Serie/Ano</label>
+                            <div class="col-sm-2">
+                                <!-- <input type="text" ng-model="paramsPesquisa.serie" class="form-control" close-text="Close" />-->
+                                <select name="nomeSerie" class="form-control m-b" ng-model="paramsPesquisa.serie"
+                                        ng-options="serie.numSerie for serie in series track by serie.numSerie" ng-change="change()"></select>
+                            </div>
+                            <label class="col-sm-2 control-label text-right">Semana Entrega</label>
+                            <div class="col-sm-1 no-padding-l">
+                                <input class="form-control" name="semana" type="number" style="padding-left: 6px" ng-model="paramsPesquisa.semanaEntrega" min="1" max="{{dados.uSemana}}" close-text="Close" required />
+                            </div>
+                            <div class="col-sm-1 nopadding">
+                                <label class="checkbox-inline">
+                                    <input type="checkbox" value="true" ng-model="paramsPesquisa.semanaEntregaAteBool">Até
+                                </label>
+                            </div>
+                            <div class="col-sm-1 no-padding-l">
+                                <input class="form-control" name="semana" type="number" style="padding-left: 6px" ng-model="paramsPesquisa.ateSemanaEntrega" min="1" max="{{dados.uSemana}}" ng-disabled="!paramsPesquisa.semanaEntregaAteBool" close-text="Close" required />
+                            </div>
+                            <div class="col-sm-4">
+                                <label class="col-sm-3 control-label text-right"></label>
+                                <div class="col-sm-8">
+                                    <button type="submit" class="btn m-b-xs btn-sm btn-primary btn-addon"><i class="fa fa-search"></i>Pesquisar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="table-responsive" ng-show="true">
+            <table class="table table-striped b-t b-light padding-0" data-filter="#filter" data-page-size="50">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Num.</th>
+                        <th>Produto SAV</th>
+                        <th>Total SAVS</th>
+                        <th>Em resolução</th>
+                        <th>Para envio</th>
+                        <th>Aguardar resposta cliente</th>
+                        <th>Recusado</th>
+                        <th>Fechado</th>
+                        <th>Em recolha</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr bindonce ng-repeat="produtoSav in tabelaSav">
+                        <td></td>
+                        <td>{{produtoSav.idProdutoSav}}</td>
+                        <td>{{produtoSav.nomeProdutoSav}}</td>
+                        <td>{{produtoSav.total}}</td>
+                        <td>{{produtoSav.totalResolucao}}</td>
+                        <td>{{produtoSav.totalEnvio}}</td>
+                        <td>{{produtoSav.totalAguardaResp}}</td>
+                        <td>{{produtoSav.totalRecusado}}</td>
+                        <td>{{produtoSav.totalFechado}}</td>
+                        <td>{{produtoSav.totalRecolha}}</td>
+                    </tr>
+                </tbody>
+
+            </table>
+
+        </div>
+    </div>
